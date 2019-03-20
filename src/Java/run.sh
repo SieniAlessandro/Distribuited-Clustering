@@ -1,1 +1,1 @@
- javac -cp ../../lib/jython.jar prova.java && java -cp ../../lib/jython.jar:. prova
+ javac -cp ../../lib/jython.jar prova.java && time java -cp ../../lib/jython.jar:. prova
