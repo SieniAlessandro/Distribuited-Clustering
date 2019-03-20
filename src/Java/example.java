@@ -1,12 +1,12 @@
 import org.python.util.PythonInterpreter;
 import org.python.core.*;
-public class prova {
+public class example {
 
     public static void main(String[] args) throws PyException {
         // Prints "Hello, World" to the terminal window.
         PythonInterpreter interp = new PythonInterpreter();
         System.out.println("Hello, World from Java");
-        interp.execfile("../python/script.py");
+        interp.execfile("../python/examplescript.py");
         PyFunction fun = (PyFunction)interp.get("fun", PyFunction.class);
         PyFunction fun2 = (PyFunction)interp.get("fun2", PyFunction.class);
 
