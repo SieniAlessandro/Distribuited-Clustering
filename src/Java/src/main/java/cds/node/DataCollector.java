@@ -1,3 +1,4 @@
+package cds.node;
 
 public class DataCollector {
 
