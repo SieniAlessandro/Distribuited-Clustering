@@ -3,61 +3,94 @@ package cds.sink;
 import cds.CommunicationModelHandler;
 import cds.Model;
 import cds.ModelReceiver;
-import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.DeliverCallback;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 public class SinkCommunicationModelHandler extends CommunicationModelHandler {
-    private final String NODE_TO_SINK_QUEUE_NAME = "MODELS_QUEUE";
-    private final String SINK_TO_NODE_EXCHANGE_NAME = "NEW_MODEL_QUEUE";
+
+    private int currentPoolSize;
+    private ArrayList<Boolean> isNew;
 
     public SinkCommunicationModelHandler(String hostname) {
         super(hostname);
+        currentPoolSize = 0;
+        isNew = new ArrayList<Boolean>();
     }
 
     @Override
     protected void initNodeToSink() {
         try {
-            connectionNodeSink = factory.newConnection();
+            Connection connectionNodeSink = factory.newConnection();
             channelNodeSink = connectionNodeSink.createChannel();
             channelNodeSink.queueDeclare(NODE_TO_SINK_QUEUE_NAME, false, false, false, null);
-            System.out.println("[INFO] Waiting for models...");
+            System.out.println("[INFO] Waiting for models");
 
             receiver = new ModelReceiver(this);
-            channelNodeSink.basicConsume(NODE_TO_SINK_QUEUE_NAME, receiver);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
+            channelNodeSink.basicConsume(NODE_TO_SINK_QUEUE_NAME, true, receiver);
+        } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     protected void initSinkToNode() {
-        try {
-            connectionSinkNode = factory.newConnection();
+        try (Connection connectionSinkNode = factory.newConnection()) {
             channelSinkNode = connectionSinkNode.createChannel();
-
+            System.out.println("[INFO] Declaring SINK_TO_NODE_EXCHANGE");
             channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout");
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (TimeoutException | IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
+    protected void initRPC() {
+        Thread rpcServer = new RPCServer(this, channelRPC, factory.getHost());
+        rpcServer.start();
+    }
+
+    @Override
     public void receiveModel(Model deliveredModel) {
-        // Start the merging of the models
+
+        if (areAllNew()) {
+            // Start the merging of the models
+        }
+    }
+
+    private boolean areAllNew() {
+        boolean and = true;
+        for (Boolean b : isNew)
+            and = and && b;
+        return and;
     }
 
     public void publishNewModel(Model model) {
         try {
+            System.out.println("[INFO] Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE" );
             channelSinkNode.basicPublish(SINK_TO_NODE_EXCHANGE_NAME, "", null, model.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    void increasePoolSize() {
+        isNew.add(false);
+        currentPoolSize++;
+        System.out.println("[INFO] Increasing pool size, current size: " + currentPoolSize);
+    }
+
+    String getPoolSize() {
+        return String.valueOf(currentPoolSize);
+    }
+
+    public static void main(String[] args) {
+        SinkCommunicationModelHandler sink = new SinkCommunicationModelHandler("localhost");
     }
 }

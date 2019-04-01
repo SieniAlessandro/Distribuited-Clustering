@@ -16,7 +16,7 @@ public class ModelReceiver implements Consumer {
     }
 
     public void handleConsumeOk(String s) {
-        System.out.println("[INFO] New Model received succefully: " + s );
+        System.out.println("[INFO] Starting consuming");
     }
 
     public void handleCancelOk(String s) {
@@ -42,7 +42,6 @@ public class ModelReceiver implements Consumer {
         System.out.println("[INFO] Envelope information: " + envelope.toString());
 
         Model deliveredModel = new Model(bytes);
-
         handler.receiveModel(deliveredModel);
     }
 }
