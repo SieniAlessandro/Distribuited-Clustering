@@ -3,12 +3,12 @@ package cds.node;
 public class DataCollector {
 
 	//Read Data variables
-	private final static int threshold = 10;
+	private final static int threshold = 20;
 	private final static int newValues = 5;
 	//Testing variables
 	private final static int numberOfThreads = 10; 
-	private final static int numberOfWrites = 10;
-	private final static int numberOfReads = (numberOfThreads*numberOfWrites-threshold)/newValues+1;
+	private final static int numberOfWrites = 100;
+	private final static int numberOfReads = (numberOfThreads*numberOfWrites-threshold)/newValues+((numberOfThreads*numberOfWrites-threshold)/newValues)%2;
 
 	public static void main(String[] args) {
 		RepositoryHandler repository = new RepositoryHandler(threshold, newValues);

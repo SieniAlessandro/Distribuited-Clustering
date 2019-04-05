@@ -10,7 +10,8 @@ public class DataGenerator implements Runnable{
 	private Random exponentialSeed = new Random(); //Used to generate a uniform distribution between 0 and 1
 	private double lambda = 0.5; //mean rate of arrival of a message
 	//Used for debug purposes
-	private int dataGenerated = 0;
+	//private int dataGenerated = 0;
+	//Used to have a fixed number of writes
 	private int numberOfWrites;
 	
 	public DataGenerator(RepositoryHandler repository, int numberOfWrites) {
@@ -20,9 +21,10 @@ public class DataGenerator implements Runnable{
 
 	public void run(){
 		Random gaussian = new Random();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < numberOfWrites; i++) {
 			double delay = getNextExponentialDelay();
 			System.out.println(Thread.currentThread().getName() + " should wait " + (long)delay);
+/*
 			try
 			{
 			    //Thread.sleep((long)delay*1000);
@@ -33,13 +35,13 @@ public class DataGenerator implements Runnable{
 				System.err.println(Thread.currentThread().getName() + " has been interrupted!");
 			    Thread.currentThread().interrupt();
 			}
-			Double sensedData = gaussian.nextGaussian();
-			dataGenerated++;
+*/			Double sensedData = gaussian.nextGaussian();
+			//dataGenerated++;
 			try {
 				//System.out.println(Thread.currentThread().getName() + " have generated " + dataGenerated + " values");
 				repository.write(sensedData);
 			} catch (InterruptedException e) {
-				System.out.println(e.getMessage());
+				System.err.println(e.getMessage());
 			}
 		}
 	}

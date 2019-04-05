@@ -13,8 +13,9 @@ public class RepositoryHandler {
 	private int oldNumberOfSamples;
 	private int newValues; //When we have a number of data higher than the threshold, ML called when there are a certain number of new values
 	//Util constants
-	private final String samplePath = "../data/collectedData";
-	private final String readySamplesPath = "../data/readyData";
+	private final String dataFolder = "../data/";
+	private final String samplePath = dataFolder + "collectedData.txt";
+	private final String readySamplesPath = dataFolder + "readyData.txt";
 	private static AtomicInteger numberOfSamples = new AtomicInteger(0);
 	
 	//Variable used to manage concurrency like in a FairLock
@@ -26,6 +27,21 @@ public class RepositoryHandler {
 		this.threshold = threshold;
 		this.newValues = newValues;
 		this.oldNumberOfSamples = 0;
+		
+		try {
+				File folder = new File(dataFolder);
+				if(!folder.exists())
+					folder.mkdir();
+				File cd = new File(samplePath);
+				File rd = new File(readySamplesPath);
+				if(!cd.exists())
+					cd.createNewFile();
+				if(!rd.exists())
+					rd.createNewFile();
+		}catch(IOException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
 	}
 	
 	public void lock() throws InterruptedException{
@@ -82,10 +98,14 @@ public class RepositoryHandler {
 			FileWriter fw = new FileWriter(samplePath, true);
 				)
 		{
-			System.out.println(Thread.currentThread().getName() + " inserted is data in the repository");
-			fw.append(sensedData.toString() + "\n");
+			System.out.println(Thread.currentThread().getName() + " inserted its data in the repository");
+			if(sensedData < 0)
+				fw.append(sensedData.toString() + ",0\n");
+			else
+				fw.append(sensedData.toString() + ",1\n");
 		}catch(IOException e) {
 			System.out.println(e.getMessage());
+			return;
 		}
 		
 		System.out.println("Number of data collected : " + numberOfSamples.get());
@@ -112,6 +132,9 @@ public class RepositoryHandler {
 					else
 						fw.append(readyData);
 					//Call the function to send the data 
+					//Runnable caller = new ModelCaller();
+					//new Thread(caller).start();
+					
 					numberOfReads--;
 					oldNumberOfSamples = instantNumberOfSamples;
 					
