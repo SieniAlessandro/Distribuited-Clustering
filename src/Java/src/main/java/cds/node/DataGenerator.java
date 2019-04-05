@@ -24,7 +24,7 @@ public class DataGenerator implements Runnable{
 		for (int i = 0; i < numberOfWrites; i++) {
 			double delay = getNextExponentialDelay();
 			System.out.println(Thread.currentThread().getName() + " should wait " + (long)delay);
-/*
+
 			try
 			{
 			    //Thread.sleep((long)delay*1000);
@@ -35,7 +35,7 @@ public class DataGenerator implements Runnable{
 				System.err.println(Thread.currentThread().getName() + " has been interrupted!");
 			    Thread.currentThread().interrupt();
 			}
-*/			Double sensedData = gaussian.nextGaussian();
+			Double sensedData = gaussian.nextGaussian();
 			//dataGenerated++;
 			try {
 				//System.out.println(Thread.currentThread().getName() + " have generated " + dataGenerated + " values");
