@@ -49,7 +49,7 @@ public class DataGenerator implements Runnable{
 	public double getNextExponentialDelay() {
 	    double result =  Math.log(1-exponentialSeed.nextDouble())/(-lambda);
 	    if(result < 0)
-	    	result = 0;
+	    	result = -result;
 	    return result;
 	}
 

@@ -10,9 +10,9 @@ public class ModelCaller implements Runnable{
 		try {
 			HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
 					  .header("content-type", "application/json")
-					  .body("{\n\t\"command\":\"Model\"\n}")
+					  .body("{\n\t\"command\":\"Debug\"\n}")
 					  .asString();
-			System.out.println(response);
+			System.out.println(response.getBody());
 			//check della risposta
 			//chiamta alla funzione di rabbitMQ se necessario
 		} catch (UnirestException e) {

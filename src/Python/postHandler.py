@@ -30,3 +30,5 @@ class postHandler:
         return str(cross_val_score(cv=5, estimator=custModel, X=xTest, y=yTest)),200
     def eval(self):
         return "Start Evaluating",200
+    def debug(self):
+        return "DEBUGGING PHASE",200

@@ -8,6 +8,8 @@ class Server(Resource):
             return postHandler().start()
         elif (request.json['command'] == "Eval"):
             return postHandler().eval()
+        elif (request.json['command'] == "Debug"):
+            return postHandler().debug()
         else:
             return "Command not available",404
 

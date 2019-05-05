@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.*;
 
 public class RepositoryHandler {
@@ -11,6 +12,7 @@ public class RepositoryHandler {
 	//Values for the Machine Learning
 	private int threshold; //The first time the ML will be called only if there are a number of values higher than a certain threshold
 	private int oldNumberOfSamples;
+
 	private int newValues; //When we have a number of data higher than the threshold, ML called when there are a certain number of new values
 	//Util constants
 	private final String dataFolder = "../data/";
@@ -22,12 +24,12 @@ public class RepositoryHandler {
 	private boolean isLocked = false;
 	private Thread lockingThread = null;
 	private List<String> waitingThreads = new ArrayList<>();
+	//private List<QueueObject> waitingThreads = new ArrayList<QueueObject>();
 	
 	public RepositoryHandler(int threshold, int newValues) {
 		this.threshold = threshold;
 		this.newValues = newValues;
 		this.oldNumberOfSamples = 0;
-		
 		try {
 				File folder = new File(dataFolder);
 				if(!folder.exists())
@@ -47,27 +49,36 @@ public class RepositoryHandler {
 	public void lock() throws InterruptedException{
 		//Qui bisogna metterci il monitor del thread o 
 		//un queueobject che lo rappresenta insomma, 
-		//però credo che vada bene così 
+		//però credo che vada bene così
 //		System.out.println("Sono nel lock!");
+		
 		String activeThread = Thread.currentThread().getName();
 //		System.out.println(activeThread);
+		
+//		QueueObject queueObject = new QueueObject();
 		
 		synchronized(this) {
 //			System.out.println("In the synchronized part");
 			waitingThreads.add(activeThread);
+//			waitingThreads.add(queueObject);
 			
+//			while(isLocked || waitingThreads.get(0) != queueObject) {
 			while(isLocked || waitingThreads.get(0) != activeThread) {
 //				System.out.println("In the synchronized part the while cicle!");				
 				synchronized(activeThread) {
+//				synchronized (queueObject) {
 					try {
 						activeThread.wait();
+//						queueObject.wait();
 					}catch(InterruptedException e){
+//						waitingThreads.remove(queueObject);
 						waitingThreads.remove(activeThread);
 						throw e;
 					}
 				}
 			}
 			waitingThreads.remove(activeThread);
+//			waitingThreads.remove(queueObject);
 			isLocked = true;
 			lockingThread = Thread.currentThread();
 //			System.out.println("I get the lock");
@@ -83,8 +94,11 @@ public class RepositoryHandler {
 		lockingThread = null;
 		if(waitingThreads.size() > 0) {
 			String sleepingThread = waitingThreads.get(0);
+//			QueueObject queueObject = waitingThreads.get(0);
 			synchronized (sleepingThread) {
 				sleepingThread.notify();
+//			synchronized (queueObject) {
+//				queueObject.notify();
 			}
 		}
 	}
@@ -114,14 +128,14 @@ public class RepositoryHandler {
 	}
 	
 	public void read(int numberOfReads) throws InterruptedException {
-		while(numberOfReads > 0){
+		while(numberOfReads > 0 || numberOfReads == -1){ //-1 for infinite number of reads
 		
 			this.lock();
 
 			int instantNumberOfSamples = numberOfSamples.get();
 			
 			if((oldNumberOfSamples == 0 && instantNumberOfSamples >= threshold) 
-					|| (oldNumberOfSamples > 0 && instantNumberOfSamples - oldNumberOfSamples >= newValues ) 
+					|| (oldNumberOfSamples > 0 && instantNumberOfSamples - oldNumberOfSamples >= newValues )
 			){
 				try(FileWriter fw = new FileWriter(readySamplesPath, true);
 						){
@@ -132,8 +146,8 @@ public class RepositoryHandler {
 					else
 						fw.append(readyData);
 					//Call the function to send the data 
-					//Runnable caller = new ModelCaller();
-					//new Thread(caller).start();
+					Runnable caller = new ModelCaller();
+					new Thread(caller).start();
 					
 					numberOfReads--;
 					oldNumberOfSamples = instantNumberOfSamples;
@@ -149,7 +163,7 @@ public class RepositoryHandler {
 					System.out.println(e.getMessage());
 				}
 			}
-			
+
 			this.unlock();
 		
 		}
