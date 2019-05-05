@@ -20,7 +20,9 @@ public class DataGenerator implements Runnable{
 	}
 
 	public void run(){
-		Random gaussian = new Random();
+		Random gaussianX = new Random();
+		Random gaussianY = new Random();
+		
 		for (int i = 0; i < numberOfWrites; i++) {
 			double delay = getNextExponentialDelay();
 			System.out.println(Thread.currentThread().getName() + " should wait " + (long)delay);
@@ -35,11 +37,12 @@ public class DataGenerator implements Runnable{
 				System.err.println(Thread.currentThread().getName() + " has been interrupted!");
 			    Thread.currentThread().interrupt();
 			}
-			Double sensedData = gaussian.nextGaussian();
+			Double sensedDataX = gaussianX.nextGaussian();
+			Double sensedDataY = gaussianY.nextGaussian();
 			//dataGenerated++;
 			try {
 				//System.out.println(Thread.currentThread().getName() + " have generated " + dataGenerated + " values");
-				repository.write(sensedData);
+				repository.write(sensedDataX, sensedDataY);
 			} catch (InterruptedException e) {
 				System.err.println(e.getMessage());
 			}

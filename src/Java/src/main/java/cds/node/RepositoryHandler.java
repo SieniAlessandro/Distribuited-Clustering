@@ -103,7 +103,7 @@ public class RepositoryHandler {
 		}
 	}
 	
-	public void write(Double sensedData) throws InterruptedException{
+	public void write(Double sensedDataX, Double sensedDataY) throws InterruptedException{
 		this.lock();
 		
 		numberOfSamples.incrementAndGet();
@@ -113,10 +113,7 @@ public class RepositoryHandler {
 				)
 		{
 			System.out.println(Thread.currentThread().getName() + " inserted its data in the repository");
-			if(sensedData < 0)
-				fw.append(sensedData.toString() + ",0\n");
-			else
-				fw.append(sensedData.toString() + ",1\n");
+			fw.append(sensedDataX.toString() + "," + sensedDataY.toString() + "\n");
 		}catch(IOException e) {
 			System.out.println(e.getMessage());
 			return;
