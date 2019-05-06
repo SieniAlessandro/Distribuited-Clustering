@@ -6,6 +6,7 @@ import cds.ModelReceiver;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Connection;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -73,6 +74,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     // Publish a model to the sink queue
     public void sendModelToSink(Model model) {
         try {
+            File modelFile = new File("../Local/CurrentModel");
             System.out.println("[INFO] Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE" );
             channelNodeSink.basicPublish("", NODE_TO_SINK_QUEUE_NAME, null, model.getBytes());
         } catch (IOException e) {
@@ -112,7 +114,6 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     // Function called when a new model arrives
     @Override
     public void receiveModel(Model deliveredModel) {
-
         // Provide the new model to the ML Module
     }
 
@@ -122,7 +123,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
 
         while(true) {
 
-            node.sendModelToSink(new Model());
+//            node.sendModelToSink();
             try {
                 Thread.sleep((long)Math.floor(Math.random()*200));
             } catch (InterruptedException e) {

@@ -3,12 +3,9 @@ package cds.sink;
 import cds.CommunicationModelHandler;
 import cds.Model;
 import cds.ModelReceiver;
-import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.DeliverCallback;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
@@ -57,9 +54,12 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
     @Override
     public void receiveModel(Model deliveredModel) {
+        deliveredModel.toFile();
 
         if (areAllNew()) {
             // Start the merging of the models
+            ModelMerger mm = new ModelMerger(this, isNew.size());
+            mm.start();
         }
     }
 
