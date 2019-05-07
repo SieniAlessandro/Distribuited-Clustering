@@ -1,13 +1,15 @@
 from flask import Flask,request, jsonify
 from flask_restful import Api,Resource,reqparse
-from postHandler import postHandler
+from FCM import FCM
+import skfuzzy as fuzz
+
 
 class Server(Resource):
     def post(self):
-        if(request.json['command'] == "Start"):
-            return postHandler().start()
-        elif (request.json['command'] == "Eval"):
-            return postHandler().eval()
+        if(request.json['command'] == "Update"):
+            return FCM().update()
+        elif (request.json['command'] == "Train"):
+            return postHandler().train()
         elif (request.json['command'] == "Debug"):
             return postHandler().debug()
         else:
