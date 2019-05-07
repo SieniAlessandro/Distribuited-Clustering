@@ -2,7 +2,7 @@ package cds;
 
 import java.io.*;
 
-public class Model {
+public class Model implements Serializable {
 
     private int nodeID;
     private String json;
@@ -28,7 +28,7 @@ public class Model {
         this.json = json;
     }
 
-    public Model(byte[] rawData) {
+    Model(byte[] rawData) {
         Object obj = null;
         try (ByteArrayInputStream bis = new ByteArrayInputStream(rawData);
              ObjectInputStream ois = new ObjectInputStream(bis)){
@@ -54,10 +54,9 @@ public class Model {
         return data;
     }
 
-    public void toFile() {
-        String pathname = "ModelNode" + nodeID + ".json";
-        try (FileOutputStream fileOut = new FileOutputStream(pathname)) {
-            fileOut.write(json.getBytes(), 0, json.length());
+    public void toFile(String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.write(json);
         } catch (IOException e) {
             e.printStackTrace();
         }

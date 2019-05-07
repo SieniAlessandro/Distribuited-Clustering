@@ -3,11 +3,16 @@ package cds.node;
 import cds.CommunicationModelHandler;
 import cds.Model;
 import cds.ModelReceiver;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Connection;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -20,6 +25,10 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     public NodeCommunicationModelHandler(String hostname) {
         super(hostname);
 
+    }
+
+    public int getNodeID() {
+        return nodeID;
     }
 
     @Override
@@ -72,14 +81,26 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     }
 
     // Publish a model to the sink queue
-    public void sendModelToSink(Model model) {
+    public void sendModelToSink() {
+//        Model model = readCurrentModel();
+        Model model = new Model(nodeID, "MODEL");
         try {
-            File modelFile = new File("../Local/CurrentModel");
             System.out.println("[INFO] Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE" );
             channelNodeSink.basicPublish("", NODE_TO_SINK_QUEUE_NAME, null, model.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Model readCurrentModel() {
+        Model model = null;
+        try {
+            String json = new String(Files.readAllBytes( Paths.get("local/CurrentModel") ));
+            model = new Model(nodeID, json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return model;
     }
 
     private String callRegistration(String message) throws IOException, InterruptedException {
@@ -114,16 +135,26 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     // Function called when a new model arrives
     @Override
     public void receiveModel(Model deliveredModel) {
-        // Provide the new model to the ML Module
+        // Notify the new model to the ML Module
+        deliveredModel.toFile("local/NewUpdatedModel.json");
+        Runnable notifier = () -> {
+            try {
+                HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
+                        .header("content-type", "application/json")
+                        .body("{\n\t\"command\":\"Update\"\n")
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+        };
+        notifier.run();
     }
 
 
     public static void main(String[] args) {
         NodeCommunicationModelHandler node = new NodeCommunicationModelHandler("localhost");
-
         while(true) {
-
-//            node.sendModelToSink();
+            node.sendModelToSink();
             try {
                 Thread.sleep((long)Math.floor(Math.random()*200));
             } catch (InterruptedException e) {
