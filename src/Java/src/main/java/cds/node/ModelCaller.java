@@ -10,7 +10,7 @@ public class ModelCaller implements Runnable{
 		try {
 			HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
 					  .header("content-type", "application/json")
-					  .body("{\n\t\"command\":\"Debug\"\n}")
+					  .body("{\n\t\"command\":\"Train\"\n}")
 					  .asString();
 			System.out.println(response.getBody());
 			//check della risposta
@@ -21,5 +21,5 @@ public class ModelCaller implements Runnable{
 		}
 		//muori
 	}
-	
+
 }

@@ -6,10 +6,8 @@ import skfuzzy as fuzz
 
 class Server(Resource):
     def post(self):
-        if(request.json['command'] == "Update"):
-            return FCM().update()
-        elif (request.json['command'] == "Train"):
-            return postHandler().train()
+        if(request.json['command'] == "Train"):
+            return FCM().train()
         elif (request.json['command'] == "Debug"):
             return postHandler().debug()
         else:
