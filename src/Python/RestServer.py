@@ -6,16 +6,15 @@ import skfuzzy as fuzz
 
 class Server(Resource):
     def post(self):
+        print("Gestione Post")
         if(request.json['command'] == "Train"):
             return FCM().train()
-        # elif (request.json['command'] == "Update"):
-            # with open("../data/sink/MergedModel.json","r") as f:
         elif (request.json['command'] == "Merge"):
             with open("../data/sink/MergedModel.json","w") as f:
-                f.write("ciao")
+                print(request.json['nodes'])
             return FCM().merge()
         else:
-            return "Command not available",404
+            return "Command not available",200
 app = Flask(__name__)
 api = Api(app)
 api.add_resource(Server, '/server')
