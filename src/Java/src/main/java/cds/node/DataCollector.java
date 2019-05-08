@@ -3,12 +3,11 @@ package cds.node;
 public class DataCollector {
 
 	//Read Data variables
-	private final static int threshold = 20;
-	private final static int newValues = 5;
+	private final static int threshold = 100;
+	private final static int newValues = 20;
 	//Testing variables
-	private final static int numberOfThreads = 10; 
-	private final static int numberOfWrites = 20;
-	private final static int numberOfReads = -1;//(numberOfThreads*numberOfWrites-threshold)/newValues;
+	private final static int numberOfThreads = 100; 
+	private final static int numberOfWrites = 5;
 
 	public static void main(String[] args) {
 		RepositoryHandler repository = new RepositoryHandler(threshold, newValues);
@@ -16,15 +15,7 @@ public class DataCollector {
 		for(int i = 0; i < numberOfThreads; i++) {
 			Runnable r = new DataGenerator(repository, numberOfWrites);
 			new Thread(r).start();
-		}
-		
-		try {
-			repository.read(numberOfReads);
-		}catch(InterruptedException e) {
-			System.out.println(e.getMessage());
-			System.out.println("Data Collector has been interrupted");
-		}
-		
+		}		
 	}
 
 }

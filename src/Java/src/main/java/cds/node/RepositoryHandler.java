@@ -61,16 +61,19 @@ public class RepositoryHandler {
 		
 		synchronized(this) {
 //			System.out.println("In the synchronized part");
+//			System.out.println(activeThread + " says: Is Locked? " + isLocked);
 			waitingThreads.add(activeThread);
 //			waitingThreads.add(queueObject);
 			
 //			while(isLocked || waitingThreads.get(0) != queueObject) {
 			while(isLocked || waitingThreads.get(0) != activeThread) {
+//				System.out.println(activeThread + " First of the queue: " + waitingThreads.get(0) + " isLocked? " + isLocked + " seconda condizione:" + !waitingThreads.get(0).equals(activeThread));
 //				System.out.println("In the synchronized part the while cicle!");				
 				synchronized(activeThread) {
 //				synchronized (queueObject) {
 					try {
 						activeThread.wait();
+//						System.out.println(activeThread + " MI SONO SVEGLIATO, isLocked è: " + this.isLocked);
 //						queueObject.wait();
 					}catch(InterruptedException e){
 //						waitingThreads.remove(queueObject);
@@ -88,27 +91,31 @@ public class RepositoryHandler {
 	}
 	
 	public void unlock() {
-//		System.out.println("Unlock attempt");
 		if(!isLocked || this.lockingThread != Thread.currentThread()) {
 			throw new IllegalMonitorStateException("Calling thread has not locked this lock");
 		}
-		isLocked = false;
+		this.isLocked = false;
+//		System.out.println("Unlocking this isLocked: " + this.isLocked);
+		while(isLocked) {}
 		lockingThread = null;
 		if(waitingThreads.size() > 0) {
 			String sleepingThread = waitingThreads.get(0);
 //			QueueObject queueObject = waitingThreads.get(0);
 			synchronized (sleepingThread) {
+//				System.out.println("Wake up " + sleepingThread);
 				sleepingThread.notify();
 //			synchronized (queueObject) {
 //				queueObject.notify();
 			}
 		}
+//		System.out.println("Unlock done");
 	}
 	
 	public void write(Double sensedDataX, Double sensedDataY) throws InterruptedException{
-		this.lock();
 		
-		numberOfSamples.incrementAndGet();
+		this.lock();
+				
+		int instantNumberOfSamples = numberOfSamples.incrementAndGet();
 		
 		try(
 			FileWriter fw = new FileWriter(samplePath, true);
@@ -123,49 +130,42 @@ public class RepositoryHandler {
 		
 		System.out.println("Number of data collected : " + numberOfSamples.get());
 		
+		if((oldNumberOfSamples == 0 && instantNumberOfSamples >= threshold) 
+				|| (oldNumberOfSamples > 0 && instantNumberOfSamples - oldNumberOfSamples >= newValues )
+		){
+			this.read();
+			oldNumberOfSamples = instantNumberOfSamples;
+		}
+		
 		this.unlock();
 	}
 	
-	public void read(int numberOfReads) throws InterruptedException {
-		while(numberOfReads > 0 || numberOfReads == -1){ //-1 for infinite number of reads
-		
-			this.lock();
-
-			int instantNumberOfSamples = numberOfSamples.get();
+	public void read() throws InterruptedException {
+		try(FileWriter fw = new FileWriter(readySamplesPath, true);
+				){
+	
+			String readyData = new String (Files.readAllBytes(Paths.get(samplePath)));
 			
-			if((oldNumberOfSamples == 0 && instantNumberOfSamples >= threshold) 
-					|| (oldNumberOfSamples > 0 && instantNumberOfSamples - oldNumberOfSamples >= newValues )
-			){
-				try(FileWriter fw = new FileWriter(readySamplesPath, true);
-						){
-					String readyData = new String (Files.readAllBytes(Paths.get(samplePath)));
-					System.out.println(readyData);
-					if(oldNumberOfSamples == 0)
-						fw.write(readyData);
-					else
-						fw.append(readyData);
-					//Call the function to send the data 
-					Runnable caller = new ModelCaller(this.communicationHandler);
-					new Thread(caller).start();
-					
-					if(numberOfReads != -1)
-						numberOfReads--;
-					oldNumberOfSamples = instantNumberOfSamples;
-					
-					//We flush the file with the sample not ready to reduce redundancy of the data
-					try(FileWriter fw2 = new FileWriter(samplePath);){
-						fw2.write("");
-					}catch(IOException ex) {
-						System.out.println(ex.getMessage());
-					}
-					
-				}catch(IOException e) {
-					System.out.println(e.getMessage());
-				}
+			System.out.println(readyData);
+			
+			if(oldNumberOfSamples == 0)
+				fw.write(readyData);
+			else
+				fw.append(readyData);
+			//Call the function to send the data
+			Runnable caller = new ModelCaller(this.communicationHandler);
+			new Thread(caller).start();
+			
+			//We flush the file with the sample not ready to reduce redundancy of the data
+			try(FileWriter fw2 = new FileWriter(samplePath);){
+				fw2.write("");
+			}catch(IOException ex) {
+				System.out.println(ex.getMessage());
 			}
-
-			this.unlock();
-		
+				
+		}catch(IOException e) {
+			System.out.println(e.getMessage());
 		}
+	
 	}
 }

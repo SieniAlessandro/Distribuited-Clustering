@@ -19,14 +19,24 @@ public class ModelCaller implements Runnable{
 					  .header("content-type", "application/json")
 					  .body("{\n\t\"command\":\"Train\"\n}")
 					  .asString();
-			System.out.println(response.getBody());
+			//System.out.println(response.getBody());
 			//check della risposta
 			//chiamta alla funzione di rabbitMQ se necessario
-			//if(response.getBody().equals("Model created")) {
-			//	System.out.println("Calling ch");
-				communicationHandler.sendModelToSink();
-				
-			//}
+			//if(response.getBody().equals("\"Model created\"\n")) {
+			switch (response.getStatus()) {
+			case 200:
+				//Model created
+				communicationHandler.sendModel();				
+				break;
+			
+			case 201: 
+				//Correct response from the rest server but model not updated
+				System.out.println("No need to send the new model");
+				break;
+			default:
+				System.err.println("REST SERVER BUG!!");
+				break;
+			}
 		} catch (UnirestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -8,7 +8,7 @@ public class DataGenerator implements Runnable{
 	private RepositoryHandler repository = null;
 	//Used to have an exponential distribution of the interarrivals of the data collected
 	private Random exponentialSeed = new Random(); //Used to generate a uniform distribution between 0 and 1
-	private double lambda = 0.5; //mean rate of arrival of a message
+	private double lambda = 0.3; //mean rate of arrival of a message
 	//Used for debug purposes
 	//private int dataGenerated = 0;
 	//Used to have a fixed number of writes
