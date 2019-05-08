@@ -20,7 +20,7 @@ import java.util.concurrent.TimeoutException;
 
 public class NodeCommunicationModelHandler extends CommunicationModelHandler {
 
-    private int nodeID;
+    private static int nodeID;
 
     public NodeCommunicationModelHandler(String hostname) {
         super(hostname);
@@ -81,8 +81,8 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     }
 
     // Publish a model to the sink queue
-    public void sendModelToSink() {
-//        Model model = readCurrentModel();
+    static public void sendModelToSink() {
+        //Model model = readCurrentModel();
         Model model = new Model(nodeID, "MODEL");
         try {
             System.out.println("[INFO] Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE" );
@@ -92,7 +92,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
         }
     }
 
-    private Model readCurrentModel() {
+    private static Model readCurrentModel() {
         Model model = null;
         try {
             String json = new String(Files.readAllBytes( Paths.get("local/CurrentModel") ));

@@ -2,6 +2,7 @@ package cds.node;
 
 import com.mashape.unirest.http.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import cds.node.NodeCommunicationModelHandler;
 
 public class ModelCaller implements Runnable{
 
@@ -15,11 +16,13 @@ public class ModelCaller implements Runnable{
 			System.out.println(response.getBody());
 			//check della risposta
 			//chiamta alla funzione di rabbitMQ se necessario
+			if(response.getBody().equals("Model created")) {
+				NodeCommunicationModelHandler.sendModelToSink();
+			}
 		} catch (UnirestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//muori
 	}
 
 }
