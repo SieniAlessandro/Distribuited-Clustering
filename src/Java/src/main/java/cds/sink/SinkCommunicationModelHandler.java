@@ -6,6 +6,8 @@ import cds.ModelReceiver;
 import com.rabbitmq.client.Connection;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
@@ -37,10 +39,11 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
     @Override
     protected void initSinkToNode() {
-        try (Connection connectionSinkNode = factory.newConnection()) {
+        try {
+            Connection connectionSinkNode = factory.newConnection();
             channelSinkNode = connectionSinkNode.createChannel();
-            System.out.println("[INFO] Declaring SINK_TO_NODE_EXCHANGE");
-            channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout");
+            channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout", true);
+            System.out.println("[INFO] Declaring SINK_TO_NODE_EXCHANGE, open? " + channelSinkNode.isOpen());
         } catch (TimeoutException | IOException e) {
             e.printStackTrace();
         }
@@ -54,8 +57,9 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
     @Override
     public void receiveModel(Model deliveredModel) {
+        System.out.println("MODELLO RICEVUTO");
         deliveredModel.toFile("src/data/sink/ModelNode" + deliveredModel.getNodeID() + ".json");
-        isNew.set(deliveredModel.getNodeID(), true);
+        isNew.set(deliveredModel.getNodeID()-1, true);
         
         if (areAllNew()) {
         	System.out.println("[DEBUG] call to merge");
@@ -65,21 +69,30 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
         }
     }
 
-    private boolean areAllNew() {
-        boolean and = true;
-        for (Boolean b : isNew)
-            and = and && b;
-        return and;
-    }
-
-    void publishUpdatedModel(Model model) {
+    @Override
+    public void sendModel() {
         try {
-            System.out.println("[INFO] Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE" );
+//            Model model = getMergedModel();
+            Model model = new Model(1, "CIAO");
+            System.out.println("[INFO] Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE, open? " +  channelSinkNode.isOpen() );
             channelSinkNode.basicPublish(SINK_TO_NODE_EXCHANGE_NAME, "", null, model.getBytes());
             isNew.forEach((e)->{e = false;});
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Model getMergedModel() throws IOException {
+        String json = "";
+        json = new String ( Files.readAllBytes( Paths.get("src/data/sink/MergedModel.json") ) );
+        return new Model(-1, json);
+    }
+
+    private boolean areAllNew() {
+        boolean and = true;
+        for (Boolean b : isNew)
+            and = and && b;
+        return and;
     }
 
     void increasePoolSize() {
@@ -92,7 +105,13 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
         return String.valueOf(currentPoolSize);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SinkCommunicationModelHandler sink = new SinkCommunicationModelHandler("localhost");
+
+        // Uncomment for testing
+//        Thread.sleep(10000);
+//        while(true) {
+//            sink.sendModel();
+//        }
     }
 }

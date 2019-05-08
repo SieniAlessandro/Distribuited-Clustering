@@ -9,7 +9,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Connection;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -64,15 +63,16 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
         try {
             Connection connectionSinkNode = factory.newConnection();
             channelSinkNode = connectionSinkNode.createChannel();
+
             System.out.println("[INFO] Declaring SINK_TO_NODE_EXCHANGE");
-            channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout");
+            channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout", true);
 
             String queueName = channelSinkNode.queueDeclare().getQueue();
             System.out.println("[DEBUG] Temporary queueName: " + queueName);
             channelSinkNode.queueBind(queueName, SINK_TO_NODE_EXCHANGE_NAME, "");
 
             receiver = new ModelReceiver(this);
-            // Start listening to new models
+            // Start listening to updated models
             System.out.println("[INFO] Starting consuming from " + queueName);
             channelSinkNode.basicConsume(queueName, receiver);
         } catch (TimeoutException | IOException e) {
@@ -80,9 +80,28 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
         }
     }
 
+    // Function called when a new model arrives
+    @Override
+    public void receiveModel(Model deliveredModel) {
+        // Notify the new model to the ML Module
+        System.out.println("MODELLO RICEVUTO DAL SINK");
+        deliveredModel.toFile("src/data/NewUpdatedModel.json");
+        Runnable notifier = () -> {
+            try {
+                HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
+                        .header("content-type", "application/json")
+                        .body("{\n\t\"command\":\"Update\"\n")
+                        .asString();
+            } catch (UnirestException e) {
+                e.printStackTrace();
+            }
+        };
+        notifier.run();
+    }
+
     // Publish a model to the sink queue
-    void sendModelToSink() {
-//        Model model = new Model(nodeID, "MODEL");
+    @Override
+    public void sendModel() {
         try {
             Model model = readCurrentModel();
             System.out.println("[INFO] Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE" );
@@ -92,7 +111,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
         }
     }
 
-    private static Model readCurrentModel() throws IOException {
+    private Model readCurrentModel() throws IOException {
         Model model = null;
         String json = new String(Files.readAllBytes( Paths.get("src/data/newModel.json") ));
         model = new Model(nodeID, json);
@@ -128,35 +147,17 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
         return result;
     }
 
-    // Function called when a new model arrives
-    @Override
-    public void receiveModel(Model deliveredModel) {
-        // Notify the new model to the ML Module
-        deliveredModel.toFile("src/data/NewUpdatedModel.json");
-        Runnable notifier = () -> {
+    // JUST FOR TESTING
+    public static void main(String[] args) {
+        NodeCommunicationModelHandler node = new NodeCommunicationModelHandler("localhost");
+        while(true) {
+//            node.sendModelToSink();
             try {
-                HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
-                        .header("content-type", "application/json")
-                        .body("{\n\t\"command\":\"Update\"\n")
-                        .asString();
-            } catch (UnirestException e) {
+                Thread.sleep((long)Math.floor(Math.random()*200));
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        };
-        notifier.run();
+        }
+
     }
-
-
-//    public static void main(String[] args) {
-//        NodeCommunicationModelHandler node = new NodeCommunicationModelHandler("localhost");
-//        while(true) {
-//            node.sendModelToSink();
-//            try {
-//                Thread.sleep((long)Math.floor(Math.random()*200));
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
 }

@@ -8,9 +8,11 @@ class Server(Resource):
     def post(self):
         if(request.json['command'] == "Train"):
             return FCM().train()
-        elif (request.json['command'] == "Update"):
+        # elif (request.json['command'] == "Update"):
+            # with open("../data/sink/MergedModel.json","r") as f:
+        elif (request.json['command'] == "Merge"):
             with open("../data/sink/MergedModel.json","w") as f:
-                f.write("Ciao")
+                f.write("ciao")
             return FCM().merge()
         else:
             return "Command not available",404

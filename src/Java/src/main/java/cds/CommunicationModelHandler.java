@@ -31,4 +31,6 @@ public abstract class CommunicationModelHandler {
     protected abstract void initRPC();
 
     public abstract void receiveModel(Model deliveredModel);
+
+    public abstract void sendModel();
 }
