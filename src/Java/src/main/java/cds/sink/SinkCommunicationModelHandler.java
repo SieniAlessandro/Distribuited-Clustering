@@ -43,7 +43,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             Connection connectionSinkNode = factory.newConnection();
             channelSinkNode = connectionSinkNode.createChannel();
             channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout", true);
-            System.out.println("[INFO] Declaring SINK_TO_NODE_EXCHANGE, open? " + channelSinkNode.isOpen());
+            System.out.println("[INFO] Declaring SINK_TO_NODE_EXCHANGE");
         } catch (TimeoutException | IOException e) {
             e.printStackTrace();
         }
