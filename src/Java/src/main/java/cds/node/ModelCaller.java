@@ -24,12 +24,12 @@ public class ModelCaller implements Runnable{
 			//chiamta alla funzione di rabbitMQ se necessario
 			//if(response.getBody().equals("\"Model created\"\n")) {
 			switch (response.getStatus()) {
-			case 200:
+			case 201:
 				//Model created
 				communicationHandler.sendModel();				
 				break;
 			
-			case 201: 
+			case 204: 
 				//Correct response from the rest server but model not updated
 				System.out.println("No need to send the new model");
 				break;
