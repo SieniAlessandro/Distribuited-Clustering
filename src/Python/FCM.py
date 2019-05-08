@@ -12,6 +12,7 @@ class FCM:
         df = pd.read_csv("../data/collectedData.txt",names=["X","Y"],header=None,dtype={"X":float,"Y":float})
         #Generating the numpy array from the dataframe in order to use it in the FCM
         values = np.array(df.values)
+        print(values)
         #Training the FCM with the array just obtained
         cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(values.T,2,2,error=ERROR_THRESHOLD,maxiter = 1000)
         #Creating the JSON with the information of the created model

@@ -12,7 +12,6 @@ class Server(Resource):
             return postHandler().debug()
         else:
             return "Command not available",404
-
 app = Flask(__name__)
 api = Api(app)
 api.add_resource(Server, '/server')
