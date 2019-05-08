@@ -81,7 +81,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     }
 
     // Publish a model to the sink queue
-    static void sendModelToSink() {
+    void sendModelToSink() {
 //        Model model = new Model(nodeID, "MODEL");
         try {
             Model model = readCurrentModel();
@@ -94,7 +94,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
 
     private static Model readCurrentModel() throws IOException {
         Model model = null;
-        String json = new String(Files.readAllBytes( Paths.get("local/CurrentModel") ));
+        String json = new String(Files.readAllBytes( Paths.get("src/data/newModel.json") ));
         model = new Model(nodeID, json);
         return model;
     }
@@ -132,7 +132,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void receiveModel(Model deliveredModel) {
         // Notify the new model to the ML Module
-        deliveredModel.toFile("local/NewUpdatedModel.json");
+        deliveredModel.toFile("src/data/NewUpdatedModel.json");
         Runnable notifier = () -> {
             try {
                 HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
@@ -147,16 +147,16 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     }
 
 
-    public static void main(String[] args) {
-        NodeCommunicationModelHandler node = new NodeCommunicationModelHandler("localhost");
-        while(true) {
-            node.sendModelToSink();
-            try {
-                Thread.sleep((long)Math.floor(Math.random()*200));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
+//    public static void main(String[] args) {
+//        NodeCommunicationModelHandler node = new NodeCommunicationModelHandler("localhost");
+//        while(true) {
+//            node.sendModelToSink();
+//            try {
+//                Thread.sleep((long)Math.floor(Math.random()*200));
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
 }

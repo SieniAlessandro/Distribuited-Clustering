@@ -6,12 +6,12 @@ import com.rabbitmq.client.ConnectionFactory;
 public abstract class CommunicationModelHandler {
 
     protected final String RPC_NODE_TO_SINK_QUEUE_NAME = "RPC_QUEUE";
-    protected static final String NODE_TO_SINK_QUEUE_NAME = "MODELS_QUEUE";
-    protected static final String SINK_TO_NODE_EXCHANGE_NAME = "NEW_MODEL_QUEUE";
+    protected final String NODE_TO_SINK_QUEUE_NAME = "MODELS_QUEUE";
+    protected final String SINK_TO_NODE_EXCHANGE_NAME = "NEW_MODEL_QUEUE";
 
     protected ConnectionFactory factory;
-    protected static Channel channelNodeSink;
-    protected static Channel channelSinkNode;
+    protected Channel channelNodeSink;
+    protected Channel channelSinkNode;
     protected Channel channelRPC;
     protected ModelReceiver receiver;
 

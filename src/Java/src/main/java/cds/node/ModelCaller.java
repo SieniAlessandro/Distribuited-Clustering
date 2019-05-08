@@ -6,6 +6,12 @@ import cds.node.NodeCommunicationModelHandler;
 
 public class ModelCaller implements Runnable{
 
+	private NodeCommunicationModelHandler communicationHandler;
+	
+	public ModelCaller(NodeCommunicationModelHandler nc) {
+		// TODO Auto-generated constructor stub
+		communicationHandler = nc;
+	}
 	@Override
 	public void run() {
 		try {
@@ -16,9 +22,11 @@ public class ModelCaller implements Runnable{
 			System.out.println(response.getBody());
 			//check della risposta
 			//chiamta alla funzione di rabbitMQ se necessario
-			if(response.getBody().equals("Model created")) {
-				NodeCommunicationModelHandler.sendModelToSink();
-			}
+			//if(response.getBody().equals("Model created")) {
+			//	System.out.println("Calling ch");
+				communicationHandler.sendModelToSink();
+				
+			//}
 		} catch (UnirestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -24,7 +24,7 @@ public class DataGenerator implements Runnable{
 		Random gaussianY = new Random();
 		
 		for (int i = 0; i < numberOfWrites; i++) {
-			double delay = getNextExponentialDelay();
+			double delay = getNextExponentialDelay()+1.0;
 			System.out.println(Thread.currentThread().getName() + " should wait " + (long)delay);
 
 			try

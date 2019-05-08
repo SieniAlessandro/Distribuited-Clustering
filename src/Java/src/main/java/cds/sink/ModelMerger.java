@@ -13,9 +13,11 @@ import java.nio.file.Paths;
 public class ModelMerger extends Thread {
 
     private int nodes;
-
-    public ModelMerger( int nodes ) {
+    private SinkCommunicationModelHandler sc;
+    
+    public ModelMerger( int nodes, SinkCommunicationModelHandler sc) {
         this.nodes = nodes;
+        this.sc = sc;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class ModelMerger extends Thread {
                     .body("{\n\t\"command\":\"Merge\"\n\t\"nodes\":\"" + nodes + "}")
                     .asString();
             System.out.println(response);
-            SinkCommunicationModelHandler.publishUpdatedModel( getMergedModel());
+            //sc.publishUpdatedModel( getMergedModel());
         } catch (UnirestException e) {
             e.printStackTrace();
         }
@@ -36,7 +38,7 @@ public class ModelMerger extends Thread {
     private Model getMergedModel() {
         String json = "";
         try {
-            json = new String ( Files.readAllBytes( Paths.get("local/MergedModel.json") ) );
+            json = new String ( Files.readAllBytes( Paths.get("src/data/sink/MergedModel.json") ) );
         } catch (IOException e) {
             e.printStackTrace();
         }

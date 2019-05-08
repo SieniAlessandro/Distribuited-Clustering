@@ -25,6 +25,7 @@ public class RepositoryHandler {
 	private Thread lockingThread = null;
 	private List<String> waitingThreads = new ArrayList<>();
 	//private List<QueueObject> waitingThreads = new ArrayList<QueueObject>();
+	private NodeCommunicationModelHandler communicationHandler;
 	
 	public RepositoryHandler(int threshold, int newValues) {
 		this.threshold = threshold;
@@ -44,6 +45,7 @@ public class RepositoryHandler {
 			System.out.println(e.getMessage());
 			return;
 		}
+		this.communicationHandler = new NodeCommunicationModelHandler("localhost");
 	}
 	
 	public void lock() throws InterruptedException{
@@ -143,10 +145,11 @@ public class RepositoryHandler {
 					else
 						fw.append(readyData);
 					//Call the function to send the data 
-					Runnable caller = new ModelCaller();
+					Runnable caller = new ModelCaller(this.communicationHandler);
 					new Thread(caller).start();
 					
-					numberOfReads--;
+					if(numberOfReads != -1)
+						numberOfReads--;
 					oldNumberOfSamples = instantNumberOfSamples;
 					
 					//We flush the file with the sample not ready to reduce redundancy of the data

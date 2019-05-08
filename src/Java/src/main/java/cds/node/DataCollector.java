@@ -3,16 +3,16 @@ package cds.node;
 public class DataCollector {
 
 	//Read Data variables
-	private final static int threshold = 10;
+	private final static int threshold = 20;
 	private final static int newValues = 5;
 	//Testing variables
-	private final static int numberOfThreads = 2; 
+	private final static int numberOfThreads = 10; 
 	private final static int numberOfWrites = 20;
-	private final static int numberOfReads = (numberOfThreads*numberOfWrites-threshold)/newValues;
+	private final static int numberOfReads = -1;//(numberOfThreads*numberOfWrites-threshold)/newValues;
 
 	public static void main(String[] args) {
 		RepositoryHandler repository = new RepositoryHandler(threshold, newValues);
-		
+
 		for(int i = 0; i < numberOfThreads; i++) {
 			Runnable r = new DataGenerator(repository, numberOfWrites);
 			new Thread(r).start();

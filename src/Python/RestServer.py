@@ -9,6 +9,8 @@ class Server(Resource):
         if(request.json['command'] == "Train"):
             return FCM().train()
         elif (request.json['command'] == "Update"):
+            with open("../data/sink/MergedModel.json","w") as f:
+                f.write("Ciao")
             return FCM().merge()
         else:
             return "Command not available",404

@@ -33,7 +33,7 @@ public class ModelReceiver implements Consumer {
     }
 
     public void handleRecoverOk(String s) {
-        System.out.println("[INFO] Receovery ok: " + s );
+        System.out.println("[INFO] Recovery ok: " + s );
     }
 
     public void handleDelivery(String s, Envelope envelope, AMQP.BasicProperties basicProperties, byte[] bytes) throws IOException {

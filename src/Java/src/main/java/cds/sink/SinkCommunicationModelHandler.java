@@ -54,11 +54,13 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
     @Override
     public void receiveModel(Model deliveredModel) {
-        deliveredModel.toFile("local/ModelNode" + deliveredModel.getNodeID() + ".json");
-
+        deliveredModel.toFile("src/data/sink/ModelNode" + deliveredModel.getNodeID() + ".json");
+        isNew.set(deliveredModel.getNodeID(), true);
+        
         if (areAllNew()) {
+        	System.out.println("[DEBUG] call to merge");
             // Start the merging of the models
-            ModelMerger mm = new ModelMerger( isNew.size());
+            ModelMerger mm = new ModelMerger( isNew.size(), this);
             mm.start();
         }
     }
@@ -70,10 +72,11 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
         return and;
     }
 
-    static void publishUpdatedModel(Model model) {
+    void publishUpdatedModel(Model model) {
         try {
             System.out.println("[INFO] Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE" );
             channelSinkNode.basicPublish(SINK_TO_NODE_EXCHANGE_NAME, "", null, model.getBytes());
+            isNew.forEach((e)->{e = false;});
         } catch (IOException e) {
             e.printStackTrace();
         }
