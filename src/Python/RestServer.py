@@ -8,8 +8,8 @@ class Server(Resource):
     def post(self):
         if(request.json['command'] == "Train"):
             return FCM().train()
-        elif (request.json['command'] == "Debug"):
-            return postHandler().debug()
+        elif (request.json['command'] == "Update"):
+            return FCM().merge()
         else:
             return "Command not available",404
 app = Flask(__name__)
