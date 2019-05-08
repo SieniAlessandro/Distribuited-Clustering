@@ -12,11 +12,9 @@ import java.nio.file.Paths;
 
 public class ModelMerger extends Thread {
 
-    private SinkCommunicationModelHandler sinkToNode;
     private int nodes;
 
-    public ModelMerger( SinkCommunicationModelHandler sinkToNode, int nodes ) {
-        this.sinkToNode = sinkToNode;
+    public ModelMerger( int nodes ) {
         this.nodes = nodes;
     }
 
@@ -29,7 +27,7 @@ public class ModelMerger extends Thread {
                     .body("{\n\t\"command\":\"Merge\"\n\t\"nodes\":\"" + nodes + "}")
                     .asString();
             System.out.println(response);
-            sinkToNode.publishNewModel( getMergedModel());
+            SinkCommunicationModelHandler.publishUpdatedModel( getMergedModel());
         } catch (UnirestException e) {
             e.printStackTrace();
         }

@@ -58,7 +58,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
         if (areAllNew()) {
             // Start the merging of the models
-            ModelMerger mm = new ModelMerger(this, isNew.size());
+            ModelMerger mm = new ModelMerger( isNew.size());
             mm.start();
         }
     }
@@ -70,7 +70,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
         return and;
     }
 
-    void publishNewModel(Model model) {
+    static void publishUpdatedModel(Model model) {
         try {
             System.out.println("[INFO] Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE" );
             channelSinkNode.basicPublish(SINK_TO_NODE_EXCHANGE_NAME, "", null, model.getBytes());

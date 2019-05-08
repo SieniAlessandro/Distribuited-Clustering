@@ -7,22 +7,6 @@ public class Model implements Serializable {
     private int nodeID;
     private String json;
 
-    public String getJson() {
-        return json;
-    }
-
-    public void setJson(String json) {
-        this.json = json;
-    }
-
-    public int getNodeID() {
-        return nodeID;
-    }
-
-    public void setNodeID(int nodeID) {
-        this.nodeID = nodeID;
-    }
-
     public Model(int id, String json) {
         this.nodeID = id;
         this.json = json;
@@ -41,6 +25,22 @@ public class Model implements Serializable {
         this.json = m.toString();
     }
 
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
+    }
+
+    public int getNodeID() {
+        return nodeID;
+    }
+
+    public void setNodeID(int nodeID) {
+        this.nodeID = nodeID;
+    }
+    
     public byte[] getBytes() {
         byte[] data = null;
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();

@@ -81,10 +81,10 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     }
 
     // Publish a model to the sink queue
-    static public void sendModelToSink() {
-        //Model model = readCurrentModel();
-        Model model = new Model(nodeID, "MODEL");
+    static void sendModelToSink() {
+//        Model model = new Model(nodeID, "MODEL");
         try {
+            Model model = readCurrentModel();
             System.out.println("[INFO] Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE" );
             channelNodeSink.basicPublish("", NODE_TO_SINK_QUEUE_NAME, null, model.getBytes());
         } catch (IOException e) {
@@ -92,14 +92,10 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
         }
     }
 
-    private static Model readCurrentModel() {
+    private static Model readCurrentModel() throws IOException {
         Model model = null;
-        try {
-            String json = new String(Files.readAllBytes( Paths.get("local/CurrentModel") ));
-            model = new Model(nodeID, json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String json = new String(Files.readAllBytes( Paths.get("local/CurrentModel") ));
+        model = new Model(nodeID, json);
         return model;
     }
 
