@@ -57,14 +57,12 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
     @Override
     public void receiveModel(Model deliveredModel) {
-        System.out.println("MODELLO RICEVUTO");
         deliveredModel.toFile("src/data/sink/ModelNode" + deliveredModel.getNodeID() + ".json");
-        isNew.set(deliveredModel.getNodeID()-1, true);
-        
+        isNew.set(deliveredModel.getNodeID() - 1, true);
+
         if (areAllNew()) {
-        	System.out.println("[DEBUG] call to merge");
             // Start the merging of the models
-            ModelMerger mm = new ModelMerger( isNew.size(), this);
+            ModelMerger mm = new ModelMerger(isNew.size(), this);
             mm.start();
         }
     }
@@ -72,20 +70,16 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void sendModel() {
         try {
-//            Model model = getMergedModel();
-            Model model = new Model(1, "CIAO");
-            System.out.println("[INFO] Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE, open? " +  channelSinkNode.isOpen() );
+            Model model = new Model(-1, new String ( Files.readAllBytes( Paths.get("src/data/sink/MergedModel.json"))));
+//            Model model = new Model(1, "CIAO");
+            System.out.println("[INFO] Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE, open? " + channelSinkNode.isOpen());
             channelSinkNode.basicPublish(SINK_TO_NODE_EXCHANGE_NAME, "", null, model.getBytes());
-            isNew.forEach((e)->{e = false;});
+            isNew.forEach((e) -> {
+                e = false;
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private Model getMergedModel() throws IOException {
-        String json = "";
-        json = new String ( Files.readAllBytes( Paths.get("src/data/sink/MergedModel.json") ) );
-        return new Model(-1, json);
     }
 
     private boolean areAllNew() {

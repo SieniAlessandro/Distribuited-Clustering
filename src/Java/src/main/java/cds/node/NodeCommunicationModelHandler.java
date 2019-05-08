@@ -3,7 +3,6 @@ package cds.node;
 import cds.CommunicationModelHandler;
 import cds.Model;
 import cds.ModelReceiver;
-import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.rabbitmq.client.AMQP;
@@ -74,7 +73,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
             receiver = new ModelReceiver(this);
             // Start listening to updated models
             System.out.println("[INFO] Starting consuming from " + queueName);
-            channelSinkNode.basicConsume(queueName, receiver);
+            channelSinkNode.basicConsume(queueName, true, receiver);
         } catch (TimeoutException | IOException e) {
             e.printStackTrace();
         }
@@ -84,11 +83,11 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void receiveModel(Model deliveredModel) {
         // Notify the new model to the ML Module
-        System.out.println("MODELLO RICEVUTO DAL SINK");
+        System.out.println("[INFO] Updated model received");
         deliveredModel.toFile("src/data/NewUpdatedModel.json");
         Runnable notifier = () -> {
             try {
-                HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
+                Unirest.post("http://127.0.0.1:5000/server")
                         .header("content-type", "application/json")
                         .body("{\n\t\"command\":\"Update\"\n")
                         .asString();
@@ -103,23 +102,16 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void sendModel() {
         try {
-            Model model = readCurrentModel();
-            System.out.println("[INFO] Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE" );
+            Model model = new Model(nodeID, new String(Files.readAllBytes(Paths.get("src/data/newModel.json"))));
+            System.out.println("[INFO] Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE");
             channelNodeSink.basicPublish("", NODE_TO_SINK_QUEUE_NAME, null, model.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private Model readCurrentModel() throws IOException {
-        Model model = null;
-        String json = new String(Files.readAllBytes( Paths.get("src/data/newModel.json") ));
-        model = new Model(nodeID, json);
-        return model;
-    }
-
     private String callRegistration(String message) throws IOException, InterruptedException {
-        System.out.println("[INFO] Calling Sink's registration function" );
+        System.out.println("[INFO] Calling Sink's registration function");
 
         final String corrId = UUID.randomUUID().toString();
 
@@ -150,10 +142,10 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     // JUST FOR TESTING
     public static void main(String[] args) {
         NodeCommunicationModelHandler node = new NodeCommunicationModelHandler("localhost");
-        while(true) {
-//            node.sendModelToSink();
+        while (true) {
+            node.sendModel();
             try {
-                Thread.sleep((long)Math.floor(Math.random()*200));
+                Thread.sleep((long) Math.floor(Math.random() * 200));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

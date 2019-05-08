@@ -33,4 +33,5 @@ public abstract class CommunicationModelHandler {
     public abstract void receiveModel(Model deliveredModel);
 
     public abstract void sendModel();
+
 }

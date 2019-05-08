@@ -9,8 +9,8 @@ public class ModelMerger extends Thread {
 
     private int nodes;
     private SinkCommunicationModelHandler sc;
-    
-    public ModelMerger( int nodes, SinkCommunicationModelHandler sc) {
+
+    public ModelMerger(int nodes, SinkCommunicationModelHandler sc) {
         this.nodes = nodes;
         this.sc = sc;
     }
@@ -18,13 +18,22 @@ public class ModelMerger extends Thread {
     @Override
     public void run() {
         try {
-            System.out.println("Model merger started!!");
+            System.out.println("[INFO] Model merger started");
             HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
                     .header("content-type", "application/json")
-                    .body("{\n\t\"command\":\"Merge\"\n}")
+                    .body("{\n\t\"command\":\"Merge\",\n\t\"nodes\":\""+nodes+"\"\n}")
                     .asString();
-            System.out.println(response.getBody());
-            sc.sendModel();
+            switch (response.getStatus()) {
+                case 201:
+                    sc.sendModel();
+                    break;
+                case 500:
+                    System.out.println("[ERROR] Merging failed");
+                    break;
+                default:
+                    System.out.println("[ERROR] Unsupported Response Status");
+                    break;
+            }
         } catch (UnirestException e) {
             e.printStackTrace();
         }
