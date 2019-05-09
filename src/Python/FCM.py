@@ -10,7 +10,9 @@ DISTANCE_THRESHOLD = 0
 VALUES_THRESHOLD = 2
 MAX_ITER = 1000
 NEW_VALUES = -5
+MAX_ACCEPTED_OUTLIERS = 1
 MODEL_PATH = "../data/newModel.json"
+DATA_PATH = "../data/readyData.txt"
 
 
 class FCM:
@@ -18,14 +20,18 @@ class FCM:
         return "Models merged",200
     def train(self):
         #Retriving the dataframe related to the generated file
-        df = pd.read_csv("../data/readyData.txt",names=["X","Y"],header=None,dtype={"X":float,"Y":float})
-        #Generating the numpy array from the dataframe in order to use it in the FCM
-        values = np.array(df.values)
+        df = pd.read_csv(DATA_PATH,names=["X","Y"],header=None,dtype={"X":float,"Y":float})
+        print("CSV ORIGINALE: "+str(df.shape))
         #Checking if the model must be computed
-        new_values = values[NEW_VALUES:]
-        if(self.isModelNeeded()):
+        newValues = df[NEW_VALUES:]
+        #Deleting from the original dataframe the new values
+        df = df[:NEW_VALUES]
+        print("[DEBUG] Old Dataframe shape :"+str(df.shape))
+        [df,result] = self.isModelNeeded(df,newValues)
+        print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
+        if(result):
             #Training the FCM with the array just obtained
-            cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(values.T,2,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
+            cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(np.array(df).T,2,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
             #Creating the JSON with the information of the created model
             model = {}
             model["centers"] = cntr.tolist()
@@ -37,19 +43,25 @@ class FCM:
             return "Model created",201
         else:
             return "",204
-    def isModelNeeded(self,values):
-        fileExists = os.path.isfile(MODEL_PATH)
-        if fileExists:
+    def isModelNeeded(self,df,df2):
+        if os.path.isfile(MODEL_PATH):
             with open(MODEL_PATH,"r") as modelFile:
+                #Load the centers from the model saved in the file
                 centers = np.array(json.load(modelFile)["centers"])
-                minDistances = np.amin(cdist(values,centers,metric='euclidean'),axis=1)
-                print(minDistances)
-                print(np.count_nonzero(minDistances[minDistances > DISTANCE_THRESHOLD]))
-            return False
+                #Compute the distance between the new point and each center and find
+                #the minimum distance for each new value
+                minDistances = np.amin(cdist(np.array(df2.values),centers,metric='euclidean'),axis=1)
+                #Finding the correct points and the outliers
+                correct = minDistances <= DISTANCE_THRESHOLD
+                outliers = minDistances > DISTANCE_THRESHOLD
+                #Creating a dataframe from that tuples
+                df = pd.concat([df,df2[correct]])
+                #Writing on file the new dataframe
+                df.to_csv(DATA_PATH,index = None,header = None)
+                #checking if the number of outliers is above the threshold
+                if(df2[outliers].shape[0] <= MAX_ACCEPTED_OUTLIERS ):
+                    return df,True
+                else:
+                    return df,False
         else:
-            return True
-
-
-if __name__ == "__main__":
-    print("Prova train")
-    FCM().isModelNeeded(np.array([[2,3],[1,2],[2,4]]))
+            return df,False
