@@ -1,10 +1,8 @@
 package cds.node;
 
 import java.io.*;
-import java.nio.*;
 import java.nio.file.*;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.*;
 
 public class RepositoryHandler {
@@ -121,26 +119,27 @@ public class RepositoryHandler {
 			FileWriter fw = new FileWriter(samplePath, true);
 				)
 		{
-			System.out.println(Thread.currentThread().getName() + " inserted its data in the repository");
+			//System.out.println(Thread.currentThread().getName() + " inserted its data in the repository");
 			fw.append(sensedDataX.toString() + "," + sensedDataY.toString() + "\n");
 		}catch(IOException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
 		
-		System.out.println("Number of data collected : " + numberOfSamples.get());
-		
-		if((oldNumberOfSamples == 0 && instantNumberOfSamples >= threshold) 
-				|| (oldNumberOfSamples > 0 && instantNumberOfSamples - oldNumberOfSamples >= newValues )
-		){
-			this.read();
-			oldNumberOfSamples = instantNumberOfSamples;
+		//System.out.println("Number of data collected : " + numberOfSamples.get());
+
+		if(!DataCollector.aModelIsBeingGeneretedNow) {
+			if((oldNumberOfSamples == 0 && instantNumberOfSamples >= threshold) 
+					|| (oldNumberOfSamples > 0 && instantNumberOfSamples - oldNumberOfSamples >= newValues )
+			){
+				this.read(instantNumberOfSamples - oldNumberOfSamples);
+				oldNumberOfSamples = instantNumberOfSamples;
+			}
 		}
-		
 		this.unlock();
 	}
 	
-	public void read() throws InterruptedException {
+	public void read(int valuesToRead) throws InterruptedException {
 		try(FileWriter fw = new FileWriter(readySamplesPath, true);
 				){
 	
@@ -153,7 +152,7 @@ public class RepositoryHandler {
 			else
 				fw.append(readyData);
 			//Call the function to send the data
-			Runnable caller = new ModelCaller(this.communicationHandler);
+			Runnable caller = new ModelCaller(this.communicationHandler, valuesToRead);
 			new Thread(caller).start();
 			
 			//We flush the file with the sample not ready to reduce redundancy of the data

@@ -22,10 +22,11 @@ public class DataGenerator implements Runnable{
 	public void run(){
 		Random gaussianX = new Random();
 		Random gaussianY = new Random();
-		
+		System.out.println("STARTED: " + Thread.currentThread().getName());
+				
 		for (int i = 0; i < numberOfWrites; i++) {
 			double delay = getNextExponentialDelay()+1.0;
-			System.out.println(Thread.currentThread().getName() + " should wait " + (long)delay);
+			//System.out.println(Thread.currentThread().getName() + " should wait " + (long)delay);
 
 			try
 			{

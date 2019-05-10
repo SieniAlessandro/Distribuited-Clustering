@@ -6,7 +6,7 @@ from scipy.spatial.distance import cdist
 import os
 
 ERROR_THRESHOLD = 0.005
-DISTANCE_THRESHOLD = 0
+DISTANCE_THRESHOLD = 100
 VALUES_THRESHOLD = 2
 MAX_ITER = 1000
 NEW_VALUES = -5
@@ -18,12 +18,13 @@ DATA_PATH = "../data/readyData.txt"
 
 class FCM:
     def merge(self):
-        return "Models merged",200
-    def train(self):
+        return "Models merged",201
+    def train(self, values):
         #Retriving the dataframe related to the generated file
         df = pd.read_csv(DATA_PATH,names=["X","Y"],header=None,dtype={"X":float,"Y":float})
         print("CSV ORIGINALE: "+str(df.shape))
         #Checking if the model must be computed
+        NEW_VALUES = -int(values)
         newValues = df[NEW_VALUES:]
         #Deleting from the original dataframe the new values
         df = df[:NEW_VALUES]

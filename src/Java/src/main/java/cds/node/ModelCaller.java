@@ -7,18 +7,22 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class ModelCaller implements Runnable{
 
 	private NodeCommunicationModelHandler communicationHandler;
+	int values;
 	
-	public ModelCaller(NodeCommunicationModelHandler nc) {
+	public ModelCaller(NodeCommunicationModelHandler nc, int valuesToRead) {
 		// TODO Auto-generated constructor stub
 		communicationHandler = nc;
+		values = valuesToRead;
 	}
 	@Override
 	public void run() {
 		try {
 			HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
 					  .header("content-type", "application/json")
-					  .body("{\n\t\"command\":\"Train\"\n}")
+					  .body("{\n\t\"command\":\"Train\",\n\t\"values\":\""+values+"\"\n}")
 					  .asString();
+			
+			DataCollector.aModelIsBeingGeneretedNow = true;
 			//System.out.println(response.getBody());
 			//check della risposta
 			//chiamta alla funzione di rabbitMQ se necessario
@@ -29,14 +33,16 @@ public class ModelCaller implements Runnable{
 				communicationHandler.sendModel();				
 				break;
 			
-			case 204: 
+			case 204:
 				//Correct response from the rest server but model not updated
 				System.out.println("No need to send the new model");
 				break;
 			default:
 				System.err.println("REST SERVER BUG!!");
-				break;
+				return;
 			}
+			
+			DataCollector.aModelIsBeingGeneretedNow = false;
 		} catch (UnirestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
