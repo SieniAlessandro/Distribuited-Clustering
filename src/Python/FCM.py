@@ -15,6 +15,7 @@ MODEL_PATH = "../data/newModel.json"
 DATA_PATH = "../data/readyData.txt"
 
 
+
 class FCM:
     def merge(self):
         return "Models merged",200
@@ -51,16 +52,17 @@ class FCM:
                 #Compute the distance between the new point and each center and find
                 #the minimum distance for each new value
                 minDistances = np.amin(cdist(np.array(df2.values),centers,metric='euclidean'),axis=1)
-                #Finding the correct points
+                #Finding the correct points and the outliers
                 correct = minDistances <= DISTANCE_THRESHOLD
+                outliers = np.invert(correct)
                 #Creating a dataframe from that tuples
                 df = pd.concat([df,df2[correct]])
                 #Writing on file the new dataframe
                 df.to_csv(DATA_PATH,index = None,header = None)
                 #checking if the number of outliers is above the threshold
-                if(df2[np.invert(correct)].shape[0] <= MAX_ACCEPTED_OUTLIERS ):
+                if(df2[outliers].shape[0] <= MAX_ACCEPTED_OUTLIERS ):
                     return df,True
                 else:
                     return df,False
         else:
-            return df,False
+            return df,True
