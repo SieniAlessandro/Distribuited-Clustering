@@ -100,7 +100,8 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        SinkCommunicationModelHandler sink = new SinkCommunicationModelHandler("localhost");
+        //SinkCommunicationModelHandler sink = 
+    	new SinkCommunicationModelHandler("localhost");
 
         // Uncomment for testing
 //        Thread.sleep(10000);
