@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/../..</output-path>
     <root id="archive" name="Sink.jar">
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/cds/sink/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="Java" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/json/json/20160212/json-20160212.jar" path-in-jar="/" />
