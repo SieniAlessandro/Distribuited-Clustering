@@ -1,25 +1,26 @@
 package cds.sink;
 
-import cds.CommunicationModelHandler;
-import cds.Model;
-import cds.ModelReceiver;
+import cds.*;
 import com.rabbitmq.client.Connection;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeoutException;
 
 public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
     private int currentPoolSize;
     private ArrayList<Boolean> isNew;
+    private boolean merging;
 
     public SinkCommunicationModelHandler(String hostname) {
         super(hostname);
-        currentPoolSize = 0;
-        isNew = new ArrayList<Boolean>();
+        this.currentPoolSize = 0;
+        this.isNew = new ArrayList<Boolean>();
+        this.merging = false;
     }
 
     @Override
@@ -28,7 +29,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             Connection connectionNodeSink = factory.newConnection();
             channelNodeSink = connectionNodeSink.createChannel();
             channelNodeSink.queueDeclare(NODE_TO_SINK_QUEUE_NAME, false, false, false, null);
-            System.out.println("[INFO] Waiting for models");
+            System.out.println("Waiting for models");
 
             receiver = new ModelReceiver(this);
             channelNodeSink.basicConsume(NODE_TO_SINK_QUEUE_NAME, true, receiver);
@@ -43,7 +44,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             Connection connectionSinkNode = factory.newConnection();
             channelSinkNode = connectionSinkNode.createChannel();
             channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout", true);
-            System.out.println("[INFO] Declaring SINK_TO_NODE_EXCHANGE");
+            Log.info("SinkCommunicationModelHandler","Declaring SINK_TO_NODE_EXCHANGE");
         } catch (TimeoutException | IOException e) {
             e.printStackTrace();
         }
@@ -57,11 +58,12 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
     @Override
     public void receiveModel(Model deliveredModel) {
-        deliveredModel.toFile("src/data/sink/ModelNode" + deliveredModel.getNodeID() + ".json");
+        deliveredModel.toFile(Config.PATH_SINK_RECEIVED_MODELS + deliveredModel.getNodeID() + ".json");
         isNew.set(deliveredModel.getNodeID() - 1, true);
 
-        if (areAllNew()) {
+        if (areAllNew() && !merging) {
             // Start the merging of the models
+            merging = true;
             ModelMerger mm = new ModelMerger(isNew.size(), this);
             mm.start();
         }
@@ -70,13 +72,13 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void sendModel() {
         try {
-            Model model = new Model(-1, new String ( Files.readAllBytes( Paths.get("src/data/sink/MergedModel.json"))));
+            Model model = new Model(-1, new String ( Files.readAllBytes( Paths.get(Config.PATH_SINK_MERGED_MODEL))));
 //            Model model = new Model(1, "CIAO");
-            System.out.println("[INFO] Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE, open? " + channelSinkNode.isOpen());
+            Log.info("Sink","Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE");
             channelSinkNode.basicPublish(SINK_TO_NODE_EXCHANGE_NAME, "", null, model.getBytes());
-            isNew.forEach((e) -> {
-                e = false;
-            });
+            Collections.fill(isNew, Boolean.FALSE);
+            Log.debug("Sink", isNew.toString());
+            merging = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +94,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     void increasePoolSize() {
         isNew.add(false);
         currentPoolSize++;
-        System.out.println("[INFO] Increasing pool size, current size: " + currentPoolSize);
+        Log.info("Sink","Increasing pool size, current size: " + currentPoolSize);
     }
 
     String getPoolSize() {
@@ -100,8 +102,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        //SinkCommunicationModelHandler sink = 
-    	new SinkCommunicationModelHandler("localhost");
+    	new SinkCommunicationModelHandler(Config.HOSTNAME_SINK);
 
         // Uncomment for testing
 //        Thread.sleep(10000);

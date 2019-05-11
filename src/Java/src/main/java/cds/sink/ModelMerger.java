@@ -1,5 +1,6 @@
 package cds.sink;
 
+import cds.Log;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -10,7 +11,7 @@ public class ModelMerger extends Thread {
     private int nodes;
     private SinkCommunicationModelHandler sc;
 
-    public ModelMerger(int nodes, SinkCommunicationModelHandler sc) {
+    ModelMerger(int nodes, SinkCommunicationModelHandler sc) {
         this.nodes = nodes;
         this.sc = sc;
     }
@@ -18,7 +19,7 @@ public class ModelMerger extends Thread {
     @Override
     public void run() {
         try {
-            System.out.println("[INFO] Model merger started");
+            Log.info("ModelMerger", "Model merger started");
             HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
                     .header("content-type", "application/json")
                     .body("{\n\t\"command\":\"Merge\",\n\t\"nodes\":\""+nodes+"\"\n}")
@@ -31,7 +32,7 @@ public class ModelMerger extends Thread {
                     System.out.println("[ERROR] Merging failed");
                     break;
                 default:
-                    System.out.println("[ERROR] Unsupported Response Status");
+                    System.out.println("[ERROR] Unsupported Response Status: " + response.getStatus());
                     break;
             }
         } catch (UnirestException e) {

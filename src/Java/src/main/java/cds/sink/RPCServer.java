@@ -1,5 +1,6 @@
 package cds.sink;
 
+import cds.Log;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -8,13 +9,11 @@ import java.util.concurrent.TimeoutException;
 
 public class RPCServer extends Thread {
 
-    private final String RPC_NODE_TO_SINK_QUEUE_NAME = "RPC_QUEUE";
-
     private Channel channelRPC;
     private SinkCommunicationModelHandler sink;
     private ConnectionFactory factory;
 
-    public RPCServer(SinkCommunicationModelHandler sink, Channel channelRPC, String hostname) {
+    RPCServer(SinkCommunicationModelHandler sink, Channel channelRPC, String hostname) {
         this.sink = sink;
         this.channelRPC = channelRPC;
 
@@ -26,7 +25,8 @@ public class RPCServer extends Thread {
         try (Connection connectionRPC = factory.newConnection()) {
             channelRPC = connectionRPC.createChannel();
 
-            System.out.println("[INFO] Starting RPC Server");
+            Log.info("RPCServer", "Starting RPC Server");
+            String RPC_NODE_TO_SINK_QUEUE_NAME = "RPC_QUEUE";
             channelRPC.queueDeclare(RPC_NODE_TO_SINK_QUEUE_NAME, false, false, false, null);
             channelRPC.queuePurge(RPC_NODE_TO_SINK_QUEUE_NAME);
             channelRPC.basicQos(1);
@@ -45,7 +45,7 @@ public class RPCServer extends Thread {
                     sink.increasePoolSize();
 
                     response += sink.getPoolSize();
-                    System.out.println("[INFO] New node requesting registration. New node id: " + response);
+                    Log.info("RPCServer", "New node requesting registration. New node id: " + response);
 
 
                 } catch (RuntimeException e) {
@@ -59,7 +59,7 @@ public class RPCServer extends Thread {
                     }
                 }
             };
-            System.out.println("[INFO] Starting consuming from RPC_QUEUE");
+            Log.info("RPCServer", "Starting consuming from RPC_QUEUE");
             channelRPC.basicConsume(RPC_NODE_TO_SINK_QUEUE_NAME, false, deliverCallback, (consumerTag -> {
             }));
 
