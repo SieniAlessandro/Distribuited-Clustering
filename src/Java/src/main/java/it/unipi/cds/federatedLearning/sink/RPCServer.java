@@ -36,8 +36,11 @@ public class RPCServer extends Thread {
     }
 
     /**
-     * Run a Remore Procedure Call Server that listen to node's call when they want to join
-     * the node pool. This server provides them a nodeID e increase by 1 the pool size.
+     * Run a Remore Procedure Call Server that listens to node's call
+     *  <ul>
+     *      <li>Registration: A Node wants to join the node pool, so this server provides it a nodeID</li>
+     *      <li>Leave: A Node wants to leave the node pool. It has to include also its nodeID in the request</li>
+     *  </ul>
      */
     public void run() {
         try (Connection connectionRPC = factory.newConnection()) {
@@ -61,7 +64,11 @@ public class RPCServer extends Thread {
                     String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
                     if (message.equals("Registration")) {
                         response += sink.registration();
+                    } else if (message.startsWith("Leave")) {
+                        int nodeID = Integer.parseInt(message.split(":")[1]);
+                        response += sink.removeNode(nodeID);
                     }
+
 
                 } catch (RuntimeException e) {
                     System.out.println(" [ERROR] " + e.toString());

@@ -6,12 +6,10 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class ModelCaller implements Runnable{
 
-	private NodeCommunicationModelHandler communicationHandler;
 	int values;
 	
-	public ModelCaller(NodeCommunicationModelHandler nc, int valuesToRead) {
+	public ModelCaller(int valuesToRead) {
 		// TODO Auto-generated constructor stub
-		communicationHandler = nc;
 		values = valuesToRead;
 	}
 	@Override
@@ -30,7 +28,7 @@ public class ModelCaller implements Runnable{
 			switch (response.getStatus()) {
 			case 201:
 				//Model created
-				communicationHandler.sendModel();				
+				DataCollector.nodeCommunicationHandler.sendModel();
 				break;
 			
 			case 204:

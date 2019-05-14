@@ -6,8 +6,7 @@ import it.unipi.cds.federatedLearning.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -15,8 +14,8 @@ import java.util.concurrent.TimeoutException;
  */
 public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
-    private int currentPoolSize;
-    private ArrayList<Boolean> isNew;
+    private int nextID;
+    private HashMap<Integer,Boolean> isNew;
     private boolean merging;
 
     /**
@@ -24,8 +23,8 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
      */
     public SinkCommunicationModelHandler(String hostname) {
         super(hostname);
-        this.currentPoolSize = 0;
-        this.isNew = new ArrayList<Boolean>();
+        this.nextID = 1;
+        this.isNew = new HashMap<>();
         this.merging = false;
     }
 
@@ -77,7 +76,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void receiveModel(Model deliveredModel) {
         deliveredModel.toFile(Config.PATH_SINK_RECEIVED_MODELS + deliveredModel.getNodeID() + ".json");
-        isNew.set(deliveredModel.getNodeID() - 1, true);
+        isNew.replace(deliveredModel.getNodeID(), true);
 
         if (areAllNew() && !merging) {
             // Start the merging of the models
@@ -96,8 +95,9 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 //            Model model = new Model(1, "CIAO");
             Log.info("Sink","Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE");
             channelSinkNode.basicPublish(SINK_TO_NODE_EXCHANGE_NAME, "", null, model.getBytes());
-            Collections.fill(isNew, Boolean.FALSE);
-            Log.debug("Sink", isNew.toString());
+
+            isNew.replaceAll((key, oldValue) -> Boolean.FALSE);
+
             merging = false;
         } catch (IOException e) {
             Log.error("Sink", e.toString());
@@ -110,7 +110,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
      */
     private boolean areAllNew() {
         boolean and = true;
-        for (Boolean b : isNew)
+        for (Boolean b : isNew.values())
             and = and && b;
         return and;
     }
@@ -119,28 +119,22 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
      * Registrate the new Node and provide its new nodeID
      * @return new nodeID
      */
-    String registration() {
-        increasePoolSize();
-        String nodeID = getPoolSize();
-        Log.info("Sink", "New node requesting registration. New node id: " + nodeID);
+    public String registration() {
+        isNew.put(nextID,false);
+        String nodeID = String.valueOf(nextID);
+        Log.info("Sink", "New node requesting registration. New node id: " + nodeID + " | Current nodes: " + isNew.size());
+        nextID++;
         return nodeID;
     }
 
-    /**
-     * Increase by 1 the pool size after a new node arrived
-     */
-    private void increasePoolSize() {
-        isNew.add(false);
-        currentPoolSize++;
-        Log.info("Sink","Increasing pool size, current size: " + currentPoolSize);
-    }
-
-    /**
-     * Get the current number of nodes that are provinding models
-     * @return  string of currentPoolSize
-     */
-    String getPoolSize() {
-        return String.valueOf(currentPoolSize);
+    public String removeNode(int nodeID) {
+        if (isNew.containsKey(nodeID)) {
+            isNew.remove(nodeID);
+            Log.info("Sink", "Node "+ nodeID + " is leaving. Current nodes: " + isNew.size());
+            return "OK";
+        }
+        Log.error("Sink", "Node "+ nodeID + " not found. Current nodes: " + isNew.size());
+        return "NOT FOUND";
     }
 
     /**
@@ -155,4 +149,6 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 //            sink.sendModel();
 //        }
     }
+
+
 }

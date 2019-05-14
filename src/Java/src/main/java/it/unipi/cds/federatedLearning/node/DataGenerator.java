@@ -13,6 +13,7 @@ public class DataGenerator implements Runnable{
 	//private int dataGenerated = 0;
 	//Used to have a fixed number of writes
 	private int numberOfWrites;
+	private NodeCommunicationModelHandler nc;
 	
 	public DataGenerator(RepositoryHandler repository, int numberOfWrites) {
 		this.repository = repository;
@@ -25,18 +26,15 @@ public class DataGenerator implements Runnable{
 		System.out.println("STARTED: " + Thread.currentThread().getName());
 				
 		for (int i = 0; i < numberOfWrites; i++) {
-			double delay = getNextExponentialDelay()+1.0;
+			double delay = getNextExponentialDelay() + 1.0;
 			//System.out.println(Thread.currentThread().getName() + " should wait " + (long)delay);
 
-			try
-			{
-			    //Thread.sleep((long)delay*1000);
+			try {
+				//Thread.sleep((long)delay*1000);
 				TimeUnit.SECONDS.sleep((long) delay);
-			}
-			catch(InterruptedException ex)
-			{
+			} catch (InterruptedException ex) {
 				System.err.println(Thread.currentThread().getName() + " has been interrupted!");
-			    Thread.currentThread().interrupt();
+				Thread.currentThread().interrupt();
 			}
 			Double sensedDataX = gaussianX.nextGaussian();
 			Double sensedDataY = gaussianY.nextGaussian();

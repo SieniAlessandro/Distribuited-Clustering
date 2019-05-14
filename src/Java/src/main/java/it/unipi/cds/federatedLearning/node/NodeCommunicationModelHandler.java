@@ -47,7 +47,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
             channelRPC = connectionRPC.createChannel();
             Log.info("NodeCommunicationHandler", "Creating RPC Client");
 
-            nodeID = Integer.parseInt(callRegistration());
+            nodeID = Integer.parseInt(callFunction("Registration"));
         } catch (IOException | TimeoutException | InterruptedException e) {
             Log.error("Node", e.toString());
         }
@@ -124,12 +124,11 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
         }
     }
     /**
-     * Call the Remote Procedure for registration implemented by the Sink
+     * Call a Remote Procedure implemented by the Sink
      */
-    private String callRegistration() throws IOException, InterruptedException {
+    public String callFunction(String function) throws IOException, InterruptedException {
         Log.info("Node", "Calling Sink's registration function");
 
-        final String message = "Registration";
         final String corrId = UUID.randomUUID().toString();
 
         String replyQueueName = channelRPC.queueDeclare().getQueue();
@@ -139,7 +138,10 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
                 .replyTo(replyQueueName)
                 .build();
 
-        channelRPC.basicPublish("", RPC_NODE_TO_SINK_QUEUE_NAME, props, message.getBytes(StandardCharsets.UTF_8));
+        if ( function.equals("Leave"))
+            function = function.concat(":" + nodeID);
+
+        channelRPC.basicPublish("", RPC_NODE_TO_SINK_QUEUE_NAME, props, function.getBytes(StandardCharsets.UTF_8));
 
         final BlockingQueue<String> response = new ArrayBlockingQueue<>(1);
 
