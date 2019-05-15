@@ -11,20 +11,20 @@ VALUES_THRESHOLD = 2
 MAX_ITER = 1000
 NEW_VALUES = -5
 MAX_ACCEPTED_OUTLIERS = 1
-MODEL_PATH = "../data/newModel.json"
-DATA_PATH = "../data/readyData.txt"
+BASE_MODEL_PATH = "../data/newModel"
+BASE_DATA_PATH = "../data/readyData"
 
 
 
 class FCM:
     def merge(self):
         return "Models merged",201
-    def train(self, values):
+    def train(self, id ,values):
         #Retriving the dataframe related to the generated file
-        df = pd.read_csv(DATA_PATH,names=["X","Y"],header=None,dtype={"X":float,"Y":float})
+        df = pd.read_csv(BASE_DATA_PATH+id+".txt",names=["X","Y"],header=None,dtype={"X":float,"Y":float})
         print("CSV ORIGINALE: "+str(df.shape))
         #Checking if the model must be computed
-        NEW_VALUES = -int(values)
+        NEW_VALUES = int(values) * -1
         newValues = df[NEW_VALUES:]
         #Deleting from the original dataframe the new values
         df = df[:NEW_VALUES]
@@ -39,14 +39,14 @@ class FCM:
             model["centers"] = cntr.tolist()
             model["coefficentsMatrix"] = u_orig.tolist()
             #Saving the JSON in the file
-            with open(MODEL_PATH,"w") as newModelFile:
+            with open(BASE_MODEL_PATH+id+".json","w") as newModelFile:
                 newModelFile.write(json.dumps(model))
             #Returning the OK code
             return "Model created",201
         else:
             return "",204
-    def isModelNeeded(self,df,df2):
-        if os.path.isfile(MODEL_PATH):
+    def isModelNeeded(self,id,df,df2):
+        if os.path.isfile(BASE_MODEL_PATH+id+".json"):
             with open(MODEL_PATH,"r") as modelFile:
                 #Load the centers from the model saved in the file
                 centers = np.array(json.load(modelFile)["centers"])
@@ -59,7 +59,7 @@ class FCM:
                 #Creating a dataframe from that tuples
                 df = pd.concat([df,df2[correct]])
                 #Writing on file the new dataframe
-                df.to_csv(DATA_PATH,index = None,header = None)
+                df.to_csv(BASE_DATA_PATH+id+".txt",index = None,header = None)
                 #checking if the number of outliers is above the threshold
                 if(df2[outliers].shape[0] <= MAX_ACCEPTED_OUTLIERS ):
                     return df,True
