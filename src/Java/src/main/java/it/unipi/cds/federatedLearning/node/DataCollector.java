@@ -16,7 +16,7 @@ public class DataCollector {
 	
 	public static boolean aModelIsBeingGeneretedNow = false;
 	public static NodeCommunicationModelHandler nodeCommunicationHandler = new NodeCommunicationModelHandler(Config.HOSTNAME_NODE);
-	
+
 	public static void main(String[] args) throws InterruptedException {
 		ArrayList<Thread> threads = new ArrayList<>();
 		RepositoryHandler repository = new RepositoryHandler(threshold, newValues);
