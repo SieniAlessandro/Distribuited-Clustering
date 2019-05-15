@@ -10,7 +10,7 @@ class Server(Resource):
         if(request.json['command'] == "Train"):
             return FCM().train(request.json['ID'],request.json['values'])
         elif (request.json['command'] == "Merge"):
-            with open("../data/sink/MergedModel.json","w") as f:
+            with open("../../dataSink/MergedModel.json","w") as f:
                 print(request.json['nodes'])
             return FCM().merge()
         else:

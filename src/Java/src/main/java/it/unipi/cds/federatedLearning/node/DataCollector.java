@@ -1,5 +1,7 @@
 package it.unipi.cds.federatedLearning.node;
 
+import it.unipi.cds.federatedLearning.Config;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,7 +15,7 @@ public class DataCollector {
 	public final static int numberOfWrites = 5;
 	
 	public static boolean aModelIsBeingGeneretedNow = false;
-	public static NodeCommunicationModelHandler nodeCommunicationHandler = new NodeCommunicationModelHandler("localhost");
+	public static NodeCommunicationModelHandler nodeCommunicationHandler = new NodeCommunicationModelHandler(Config.HOSTNAME_NODE);
 	
 	public static void main(String[] args) throws InterruptedException {
 		ArrayList<Thread> threads = new ArrayList<>();

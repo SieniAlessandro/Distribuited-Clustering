@@ -38,7 +38,8 @@ public class Model implements Serializable {
         Model m = (Model) obj;
         if (m != null) {
             this.nodeID = m.getNodeID();
-            this.json = m.toString();
+            this.json = m.getJson();
+            Log.debug("Model", json);
         }
     }
 

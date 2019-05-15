@@ -22,6 +22,9 @@ public abstract class CommunicationModelHandler {
     public CommunicationModelHandler(String hostname) {
         this.factory = new ConnectionFactory();
         factory.setHost(hostname);
+        factory.setVirtualHost("cds/");
+        factory.setUsername("cdsAdmin");
+        factory.setPassword("cds");
 
         initRPC();
         initSinkToNode();

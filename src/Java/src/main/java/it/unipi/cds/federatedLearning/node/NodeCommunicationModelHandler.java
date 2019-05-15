@@ -116,7 +116,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void sendModel() {
         try {
-            Model model = new Model(nodeID, new String(Files.readAllBytes(Paths.get(Config.PATH_NODE_NEW_MODEL + nodeID + ".json"))));
+            Model model = new Model(nodeID, new String(Files.readAllBytes(Paths.get(Config.PATH_NODE_NEW_MODEL+nodeID+".json"))));
             Log.info("Node-" + nodeID, "Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE");
             channelNodeSink.basicPublish("", NODE_TO_SINK_QUEUE_NAME, null, model.getBytes());
         } catch (IOException e) {

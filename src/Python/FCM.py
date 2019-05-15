@@ -11,8 +11,8 @@ VALUES_THRESHOLD = 2
 MAX_ITER = 1000
 NEW_VALUES = -5
 MAX_ACCEPTED_OUTLIERS = 1
-BASE_MODEL_PATH = "../data/newModel"
-BASE_DATA_PATH = "../data/readyData"
+BASE_MODEL_PATH = "../../dataNodes/newModel"
+BASE_DATA_PATH = "../../dataNodes/readyData"
 
 
 
@@ -29,7 +29,7 @@ class FCM:
         #Deleting from the original dataframe the new values
         df = df[:NEW_VALUES]
         print("[DEBUG] Old Dataframe shape :"+str(df.shape))
-        [df,result] = self.isModelNeeded(df,newValues)
+        [df,result] = self.isModelNeeded(id,df,newValues)
         print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
         if(result):
             #Training the FCM with the array just obtained
@@ -37,7 +37,7 @@ class FCM:
             #Creating the JSON with the information of the created model
             model = {}
             model["centers"] = cntr.tolist()
-            model["coefficentsMatrix"] = u_orig.tolist()
+            #model["coefficentsMatrix"] = u_orig.tolist()
             #Saving the JSON in the file
             with open(BASE_MODEL_PATH+id+".json","w") as newModelFile:
                 newModelFile.write(json.dumps(model))
@@ -47,7 +47,7 @@ class FCM:
             return "",204
     def isModelNeeded(self,id,df,df2):
         if os.path.isfile(BASE_MODEL_PATH+id+".json"):
-            with open(MODEL_PATH,"r") as modelFile:
+            with open(BASE_MODEL_PATH+id+".json","r") as modelFile:
                 #Load the centers from the model saved in the file
                 centers = np.array(json.load(modelFile)["centers"])
                 #Compute the distance between the new point and each center and find

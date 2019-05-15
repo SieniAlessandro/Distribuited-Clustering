@@ -33,6 +33,9 @@ public class RPCServer extends Thread {
 
         this.factory = new ConnectionFactory();
         factory.setHost(hostname);
+        factory.setVirtualHost("cds/");
+        factory.setUsername("cdsAdmin");
+        factory.setPassword("cds");
     }
 
     /**

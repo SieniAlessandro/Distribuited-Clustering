@@ -16,7 +16,7 @@ public class RepositoryHandler {
 	private int newValues; //When we have a number of data higher than the threshold, ML called when there are a certain number of new values
 	//Util constants
 	private final String samplePath = Config.PATH_NODE_COLLECTED_DATA+ DataCollector.nodeCommunicationHandler.getNodeID()+ ".txt";
-	private final String readySamplesPath = Config.PATH_NODE_COLLECTED_DATA+ DataCollector.nodeCommunicationHandler.getNodeID()+ ".txt";
+	private final String readySamplesPath = Config.PATH_NODE_READY_DATA+ DataCollector.nodeCommunicationHandler.getNodeID()+ ".txt";
 	private static AtomicInteger numberOfSamples = new AtomicInteger(0);
 	
 	//Variable used to manage concurrency like in a FairLock
