@@ -100,4 +100,15 @@ public class Model implements Serializable {
         }
     }
 
+    /**
+     * @return model name
+     */
+    @Override
+    public String toString() {
+        if ( this.nodeID == -1 )
+            return "UpdatedModel";
+        return "Model-" + nodeID;
+    }
+
+
 }

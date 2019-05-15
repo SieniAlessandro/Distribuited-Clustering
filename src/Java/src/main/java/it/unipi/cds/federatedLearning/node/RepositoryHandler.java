@@ -1,5 +1,7 @@
 package it.unipi.cds.federatedLearning.node;
 
+import it.unipi.cds.federatedLearning.Config;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -13,9 +15,8 @@ public class RepositoryHandler {
 
 	private int newValues; //When we have a number of data higher than the threshold, ML called when there are a certain number of new values
 	//Util constants
-	private final String dataFolder = "../data/";
-	private final String samplePath = dataFolder + "collectedData.txt";
-	private final String readySamplesPath = dataFolder + "readyData.txt";
+	private final String samplePath = Config.PATH_NODE_COLLECTED_DATA+ DataCollector.nodeCommunicationHandler.getNodeID()+ ".txt";
+	private final String readySamplesPath = Config.PATH_NODE_COLLECTED_DATA+ DataCollector.nodeCommunicationHandler.getNodeID()+ ".txt";
 	private static AtomicInteger numberOfSamples = new AtomicInteger(0);
 	
 	//Variable used to manage concurrency like in a FairLock
@@ -29,7 +30,7 @@ public class RepositoryHandler {
 		this.newValues = newValues;
 		this.oldNumberOfSamples = 0;
 		try {
-				File folder = new File(dataFolder);
+				File folder = new File(Config.PATH_NODE_BASEDIR);
 				if(!folder.exists())
 					folder.mkdir();
 				File cd = new File(samplePath);
@@ -143,7 +144,7 @@ public class RepositoryHandler {
 	
 			String readyData = new String (Files.readAllBytes(Paths.get(samplePath)));
 			
-			System.out.println(readyData);
+			// System.out.println(readyData);
 			
 			if(oldNumberOfSamples == 0)
 				fw.write(readyData);

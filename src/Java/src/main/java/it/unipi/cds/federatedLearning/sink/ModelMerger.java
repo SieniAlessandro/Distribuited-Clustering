@@ -37,6 +37,7 @@ public class ModelMerger extends Thread {
             switch (response.getStatus()) {
                 case 201:
                     sc.sendModel();
+                    Log.info("ModelMerger", "Model merger started");
                     break;
                 case 500:
                     Log.error("ModelMerger", "Merging failed");

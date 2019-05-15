@@ -16,8 +16,8 @@ public class DataCollector {
 	public static NodeCommunicationModelHandler nodeCommunicationHandler = new NodeCommunicationModelHandler("localhost");
 	
 	public static void main(String[] args) throws InterruptedException {
-		RepositoryHandler repository = new RepositoryHandler(threshold, newValues);
 		ArrayList<Thread> threads = new ArrayList<>();
+		RepositoryHandler repository = new RepositoryHandler(threshold, newValues);
 		for(int i = 0; i < numberOfThreads; i++) {
 			Runnable r = new DataGenerator(repository, numberOfWrites);
 			Thread t = new Thread(r);

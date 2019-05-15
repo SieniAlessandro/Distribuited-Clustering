@@ -116,7 +116,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void sendModel() {
         try {
-            Model model = new Model(nodeID, new String(Files.readAllBytes(Paths.get(Config.PATH_NODE_NEW_MODEL))));
+            Model model = new Model(nodeID, new String(Files.readAllBytes(Paths.get(Config.PATH_NODE_NEW_MODEL + nodeID + ".json"))));
             Log.info("Node-" + nodeID, "Publishing " + model.toString() + " on NODE_TO_SINK_QUEUE");
             channelNodeSink.basicPublish("", NODE_TO_SINK_QUEUE_NAME, null, model.getBytes());
         } catch (IOException e) {
@@ -127,7 +127,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
      * Call a Remote Procedure implemented by the Sink
      */
     public String callFunction(String function) throws IOException, InterruptedException {
-        Log.info("Node", "Calling Sink's registration function");
+        Log.info("Node", "Calling Sink's function: " + function);
 
         final String corrId = UUID.randomUUID().toString();
 
@@ -153,7 +153,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
         });
 
         String result = response.take();
-        Log.info("Node-" + result, "Registration done! Received Node ID: " + result);
+        Log.info("Node", "Function " + function + " executed. Response: " + result);
         channelRPC.basicCancel(ctag);
         return result;
     }
