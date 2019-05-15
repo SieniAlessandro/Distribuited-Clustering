@@ -8,8 +8,7 @@ class Server(Resource):
     def post(self):
         print("Gestione Post")
         if(request.json['command'] == "Train"):
-            print(request.json['ID'])
-            return FCM().train(request.json['values'])
+            return FCM().train(request.json['ID'],request.json['values'])
         elif (request.json['command'] == "Merge"):
             with open("../data/sink/MergedModel.json","w") as f:
                 print(request.json['nodes'])
