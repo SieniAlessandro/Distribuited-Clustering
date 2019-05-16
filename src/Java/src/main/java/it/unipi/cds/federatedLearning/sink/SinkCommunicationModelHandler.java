@@ -141,13 +141,11 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
      * Run a SinkCommunicationModelHandler
      */
     public static void main(String[] args) throws InterruptedException {
-    	new SinkCommunicationModelHandler(Config.HOSTNAME_SINK);
-
-        // Uncomment for testing
-//        Thread.sleep(10000);
-//        while(true) {
-//            sink.sendModel();
-//        }
+        try {
+            new SinkCommunicationModelHandler(args[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Log.error("Sink", "Provide RabbitMQ Server's ip address as argument");
+        }
     }
 
 

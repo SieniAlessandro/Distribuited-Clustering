@@ -1,6 +1,6 @@
 package it.unipi.cds.federatedLearning.node;
 
-import it.unipi.cds.federatedLearning.Config;
+import it.unipi.cds.federatedLearning.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,9 +15,14 @@ public class DataCollector {
 	public final static int numberOfWrites = 5;
 	
 	public static boolean aModelIsBeingGeneretedNow = false;
-	public static NodeCommunicationModelHandler nodeCommunicationHandler = new NodeCommunicationModelHandler(Config.HOSTNAME_NODE);
+	public static NodeCommunicationModelHandler nodeCommunicationHandler;
 
 	public static void main(String[] args) throws InterruptedException {
+		try {
+			nodeCommunicationHandler = new NodeCommunicationModelHandler(args[0]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			Log.error("Sink", "Provide RabbitMQ Server's ip address as argument");
+		}
 		ArrayList<Thread> threads = new ArrayList<>();
 		RepositoryHandler repository = new RepositoryHandler(threshold, newValues);
 		for(int i = 0; i < numberOfThreads; i++) {
