@@ -42,7 +42,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             receiver = new ModelReceiver(this);
             channelNodeSink.basicConsume(NODE_TO_SINK_QUEUE_NAME, true, receiver);
         } catch (IOException | TimeoutException e) {
-            Log.error("Sink", e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -57,7 +57,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout", true);
             Log.info("SinkCommunicationModelHandler","Declaring SINK_TO_NODE_EXCHANGE");
         } catch (TimeoutException | IOException e) {
-            Log.error("Sink", e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -100,7 +100,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
 
             merging = false;
         } catch (IOException e) {
-            Log.error("Sink", e.toString());
+            e.printStackTrace();
         }
     }
 

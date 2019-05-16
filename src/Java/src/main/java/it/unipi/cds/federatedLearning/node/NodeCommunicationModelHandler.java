@@ -167,7 +167,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
             try {
                 Thread.sleep((long) Math.floor(Math.random() * 200));
             } catch (InterruptedException e) {
-                Log.error("Node-" + nodeID, e.toString());
+                e.printStackTrace();
             }
         }
 

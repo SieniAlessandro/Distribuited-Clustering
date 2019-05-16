@@ -47,7 +47,7 @@ public class ModelMerger extends Thread {
                     break;
             }
         } catch (UnirestException e) {
-            Log.error("ModelMerger", e.toString());
+            e.printStackTrace();
         }
     }
 }

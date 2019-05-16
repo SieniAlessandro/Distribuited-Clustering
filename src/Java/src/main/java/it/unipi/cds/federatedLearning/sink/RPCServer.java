@@ -74,7 +74,7 @@ public class RPCServer extends Thread {
 
 
                 } catch (RuntimeException e) {
-                    System.out.println(" [ERROR] " + e.toString());
+                    e.printStackTrace();
                 } finally {
                     channelRPC.basicPublish("", delivery.getProperties().getReplyTo(), replyProps, response.getBytes(StandardCharsets.UTF_8));
                     channelRPC.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
@@ -93,12 +93,12 @@ public class RPCServer extends Thread {
                     try {
                         monitor.wait();
                     } catch (InterruptedException e) {
-                        Log.error("RPCServer", e.toString());
+                        e.printStackTrace();
                     }
                 }
             }
         } catch (TimeoutException | IOException e) {
-            Log.error("RPCServer", e.toString());
+            e.printStackTrace();
         }
     }
 }

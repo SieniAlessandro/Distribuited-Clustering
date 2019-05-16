@@ -84,7 +84,7 @@ public class Model implements Serializable {
             oos.flush();
             data = bos.toByteArray();
         } catch (IOException e) {
-            Log.error("Model", e.toString());
+            e.printStackTrace();
         }
         return data;
     }
