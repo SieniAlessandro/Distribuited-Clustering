@@ -150,4 +150,8 @@ class FCM:
         plt.savefig("plot"+str(id)+".png")
         plt.clf()
         #print(distances)
+        dict = {}
+        dict["centers"] = updatedPoint
+        with open(BASE_MODEL_PATH+str(id)+".json","r") as updatedModelFile:
+            json.dump(dict,updatedModelFile)
         return "Model updated",200
