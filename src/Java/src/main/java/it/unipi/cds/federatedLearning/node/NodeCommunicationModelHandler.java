@@ -126,6 +126,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     }
     /**
      * Call a Remote Procedure implemented by the Sink
+     * @return function's response
      */
     public String callFunction(String function) throws IOException, InterruptedException {
         Log.info("Node", "Calling Sink's function: " + function);

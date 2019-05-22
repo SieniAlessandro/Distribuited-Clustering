@@ -6,6 +6,8 @@ import it.unipi.cds.federatedLearning.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
@@ -76,6 +78,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     @Override
     public void receiveModel(Model deliveredModel) {
         deliveredModel.toFile(Config.PATH_SINK_RECEIVED_MODELS + deliveredModel.getNodeID() + ".json");
+        deliveredModel.toFile( Config.PATH_SINK_HISTORY + "Node-" + deliveredModel.getNodeID() + "/" + new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date()) + ".json" );
         isNew.replace(deliveredModel.getNodeID(), true);
 
         if (areAllNew() && !merging) {
@@ -92,7 +95,6 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     public void sendModel() {
         try {
             Model model = new Model(-1, new String ( Files.readAllBytes( Paths.get(Config.PATH_SINK_MERGED_MODEL))));
-//            Model model = new Model(1, "CIAO");
             Log.info("Sink","Publishing " + model.toString() + " on SINK_TO_NODE_EXCHANGE");
             channelSinkNode.basicPublish(SINK_TO_NODE_EXCHANGE_NAME, "", null, model.getBytes());
 
@@ -140,7 +142,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     /**
      * Run a SinkCommunicationModelHandler
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         try {
             new SinkCommunicationModelHandler(args[0]);
         } catch (ArrayIndexOutOfBoundsException e) {
