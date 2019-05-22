@@ -1,1 +1,10 @@
 \chapter{REST Server}
+Per integrare gli algoritmi di clustering realizzati in python con il core del progetto realizzato invece in Java è stato di scelto di far comunicare i due linguaggi
+mediante l'utilizzo di un serve REST in grado di fornire le funzioni realizzate in python tramite messaggi REST appositamente realizzati.
+\section{Implementazione}
+Dal punto di vista implementativo è stato scelto di realizzare il server REST mediante l'utilizzo della libreria Flask, in quanto offre un servizio completamente funzionante e
+modificabile seguendo le preferenze del programmatore.
+\subsection{Gestione delle richieste}
+Per poter chiamare i metodi messi a disposizione dal server REST vengono effettuate delle richieste REST nella quale si specifica, mediante un messaggio json, il metodo da richiamare ed gli argomenti necessari, rimanendo
+che il risultato venga processato e che un codice corrispondente allo stato d'esecuzione del metodo venga rispedito al mittente
+\lstinputlisting[language=Python]{../../src/Python/RestServer.py}
