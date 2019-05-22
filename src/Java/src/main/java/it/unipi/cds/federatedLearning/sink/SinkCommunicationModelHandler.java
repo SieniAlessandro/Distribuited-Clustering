@@ -118,7 +118,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     }
 
     /**
-     * Registrate the new Node and provide its new nodeID
+     * Register the new Node and provide its new nodeID
      * @return new nodeID
      */
     public String registration() {
