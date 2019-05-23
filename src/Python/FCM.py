@@ -6,7 +6,7 @@ from scipy.spatial.distance import cdist
 import os
 import time
 import matplotlib.pyplot as plt
-
+from utils import *
 
 ERROR_THRESHOLD = 0.005
 DISTANCE_THRESHOLD = 100
@@ -17,9 +17,8 @@ MAX_ACCEPTED_OUTLIERS = 1
 BASE_MODEL_PATH = "../../dataNodes/newModel"
 BASE_DATA_PATH = "../../dataNodes/readyData"
 MERGED_MODE_NODE_PATH =  "../../dataNodes/NewUpdatedModel.json"
-PREPARED_MODEL = "../../DataSink/preparedModel.json"
-MERGED_MODEL_PATH = "../../DataSink/mergedModel.json"
-BASE_MODEL_SINK_PATH = "../../DataSink/ModelNode"
+MERGED_MODEL_PATH = "../../dataSink/mergedModel.json"
+BASE_MODEL_SINK_PATH = "../../dataSink/ModelNode"
 CLUSTERS = 2
 
 class FCM:
@@ -65,7 +64,11 @@ class FCM:
             else:
                 mergedModel[str(i)] = 1
         #Scatterplot of the points merged and the new centroids
-       
+        jsonToSave = {}
+        jsonToSave["newcenters"] = cntr.tolist()
+        jsonToSave["oldcenters"] = centers.tolist()
+        save(1,int(id),"trainResult"+str(id)+"_"+str(time.time()),jsonToSave)
+
         #plt.scatter(centers[:,0],centers[:,1],color="blue")
         #plt.scatter(cntr[:,0],cntr[:,1],color="red")
         #plt.savefig("../../DataSink/plotSink_"+str(time.time())+".png")
@@ -87,7 +90,7 @@ class FCM:
             #Checking if the model must be computed
             NEW_VALUES = int(values) * -1
             newValues = df[NEW_VALUES:]
-            #Deleting from the original dataframe the new values and the previous window     
+            #Deleting from the original dataframe the new values and the previous window
             df = df[:NEW_VALUES]
             print("Index selected: "+str(NEW_VALUES))
             print("[DEBUG] Old Dataframe shape :"+str(df.shape))
@@ -95,7 +98,7 @@ class FCM:
             print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
         if(result):
             #Selecting only the desired window
-            if (START_WINDOW * -1) != df.shape[0]:
+            if (START_WINDOW * -1) >= df.shape[0]:
                 df = df[START_WINDOW:]
             print("DIMENSION OF THE DATASET ANALYZED: "+ str(df.shape))
             #Training the FCM with the array just obtained
@@ -105,7 +108,11 @@ class FCM:
             model = {}
             model["centers"] = cntr.tolist()
 
-         
+            jsonToSave = {}
+            jsonToSave["points"] = points.tolist()
+            jsonToSave["centers"] = cntr.tolist()
+            save(0,int(id),"trainResult"+str(id)+"_"+str(time.time()),jsonToSave)
+
             #plt.scatter(points[:,0],points[:,1],color="blue")
             #plt.scatter(cntr[:,0],cntr[:,1],color="red")
             #plt.savefig("../../dataNodes/plot"+str(id)+"_"+str(time.time())+".png")
@@ -161,13 +168,20 @@ class FCM:
         a = np.array(updatedPoint)
 
         #print("Point nearest 2:"+str(mergedModel[1])+"-"+str(oldModel[minDistancesIndex[1]]))
-        
+
         #plt.scatter(oldModel[:,0],oldModel[:,1], color="red")
         #plt.scatter(mergedModel[:,0],mergedModel[:,1],color="blue")
         #plt.scatter(a[:,0],a[:,1], color="green")
         #plt.savefig("../../dataNodes/plot"+str(id)+"update_"+str(time.time())+".png")
         #plt.clf
         #print(distances)
+
+        jsonToSave = {}
+        jsonToSave["oldModel"] = oldModel.tolist()
+        jsonToSave["mergedModel"] = mergedModel.tolist()
+        jsonToSave["updatedPoint"] = updatedPoint.tolist()
+        save(0,int(id),"updatedPoint"+str(id)+"_"+str(time.time()),jsonToSave)
+
         dict = {}
         dict["centers"] = updatedPoint
         with open(BASE_MODEL_PATH+str(id)+".json","w") as updatedModelFile:
