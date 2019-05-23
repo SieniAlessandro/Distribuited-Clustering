@@ -60,6 +60,17 @@ public class DataGenerator implements Runnable{
 			}
 			Double sensedDataX = gaussianX.nextGaussian();
 			Double sensedDataY = gaussianY.nextGaussian();
+			if(Thread.currentThread().getId()%2 == 0) {
+				sensedDataX *= delay;
+				sensedDataY *= delay;
+				sensedDataX += 30;
+				sensedDataY += 30;
+			}else {
+				sensedDataX *= delay;
+				sensedDataY *= delay;
+				sensedDataX -=30;
+				sensedDataY -= 30;
+			}
 			try {
 				repository.write(sensedDataX, sensedDataY);
 			} catch (InterruptedException e) {

@@ -19,8 +19,8 @@ public class DataCollector {
 	/*
 	 * Read Data variables
 	 */
-	public final static int threshold = 100;
-	public final static int newValues = 20;
+	public final static int threshold = 200;
+	public final static int newValues = 100;
 	/*
 	 * Testing variables
 	 */

@@ -29,7 +29,11 @@ public class ModelCaller implements Runnable{
 		try {
 			HttpResponse<String> response = Unirest.post("http://127.0.0.1:5000/server")
 					.header("content-type", "application/json")
-					.body("{\n\t\"ID\":\""+DataCollector.nodeCommunicationHandler.getNodeID()+"\",\n\t\"command\":\"Train\",\n\t\"values\":\""+values+"\"\n}")
+					.body("{\n\t\"ID\":\""+DataCollector.nodeCommunicationHandler.getNodeID()+
+							"\",\n\t\"command\":\"Train\""
+							+ ",\n\t\"values\":\""+values+"\","
+							+ "\n\t\"Window\": \""+values+"\""
+							+ ",\n\t\"Coeff\": \"0\"\n}")
 					.asString();
 			
 			DataCollector.aModelIsBeingGeneratedNow = true;

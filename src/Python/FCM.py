@@ -65,11 +65,11 @@ class FCM:
             else:
                 mergedModel[str(i)] = 1
         #Scatterplot of the points merged and the new centroids
-        plt.clf()
-        plt.scatter(centers[:,0],centers[:,1],color="blue")
-        plt.scatter(cntr[:,0],cntr[:,1],color="red")
-        plt.savefig("../../DataSink/plotSink_"+str(time.time())+".png")
-
+       
+        #plt.scatter(centers[:,0],centers[:,1],color="blue")
+        #plt.scatter(cntr[:,0],cntr[:,1],color="red")
+        #plt.savefig("../../DataSink/plotSink_"+str(time.time())+".png")
+        #plt.clf()
         #Saving the new Model
         with open(MERGED_MODEL_PATH,"w") as mergedModelFile:
             json.dump(mergedModel,mergedModelFile)
@@ -80,18 +80,23 @@ class FCM:
         df = pd.read_csv(BASE_DATA_PATH+id+".txt",names=["X","Y"],header=None,dtype={"X":float,"Y":float})
         print("CSV ORIGINALE: "+str(df.shape))
         dim = int(int(window)*(1+float(coeff)))
-        #Checking if the model must be computed
-        NEW_VALUES = int(values) * -1
-        newValues = df[NEW_VALUES:]
-        #Deleting from the original dataframe the new values and the previous window
         START_WINDOW = dim * (-1);
-        df = df[:NEW_VALUES]
-        print("[DEBUG] Old Dataframe shape :"+str(df.shape))
-        [df,result] = self.isModelNeeded(id,df,newValues)
-        print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
+        if df.shape[0] == int(values):
+            result = True
+        else:
+            #Checking if the model must be computed
+            NEW_VALUES = int(values) * -1
+            newValues = df[NEW_VALUES:]
+            #Deleting from the original dataframe the new values and the previous window     
+            df = df[:NEW_VALUES]
+            print("Index selected: "+str(NEW_VALUES))
+            print("[DEBUG] Old Dataframe shape :"+str(df.shape))
+            [df,result] = self.isModelNeeded(id,df,newValues)
+            print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
         if(result):
             #Selecting only the desired window
-            df = df[START_WINDOW:]
+            if (START_WINDOW * -1) != df.shape[0]:
+                df = df[START_WINDOW:]
             print("DIMENSION OF THE DATASET ANALYZED: "+ str(df.shape))
             #Training the FCM with the array just obtained
             points = np.array(df)
@@ -100,11 +105,11 @@ class FCM:
             model = {}
             model["centers"] = cntr.tolist()
 
-            plt.clf()
-            plt.scatter(points[:,0],points[:,1],color="blue")
-            plt.scatter(cntr[:,0],cntr[:,1],color="red")
-            plt.savefig("../../dataNodes/plot"+str(id)+"_"+str(time.time())+".png")
-
+         
+            #plt.scatter(points[:,0],points[:,1],color="blue")
+            #plt.scatter(cntr[:,0],cntr[:,1],color="red")
+            #plt.savefig("../../dataNodes/plot"+str(id)+"_"+str(time.time())+".png")
+            #plt.clf()
             #Saving the JSON in the file
             with open(BASE_MODEL_PATH+id+".json","w") as newModelFile:
                 newModelFile.write(json.dumps(model))
@@ -122,7 +127,7 @@ class FCM:
                 #the minimum distance for each new value
                 minDistances = np.amin(cdist(np.array(df2.values),centers,metric='euclidean'),axis=1)
                 #Finding the correct points and the outliers
-                correct = minDistances <= DISTANCE_THRESHOLD
+                correct = (minDistances <= DISTANCE_THRESHOLD)
                 outliers = np.invert(correct)
                 #Creating a dataframe from that tuples
                 df = pd.concat([df,df2[correct]])
@@ -156,12 +161,12 @@ class FCM:
         a = np.array(updatedPoint)
 
         #print("Point nearest 2:"+str(mergedModel[1])+"-"+str(oldModel[minDistancesIndex[1]]))
-        plt.clf()
-        plt.scatter(oldModel[:,0],oldModel[:,1], color="red")
-        plt.scatter(mergedModel[:,0],mergedModel[:,1],color="blue")
-        plt.scatter(a[:,0],a[:,1], color="green")
-        plt.savefig("../../dataNodes/plot"+str(id)+"update_"+str(time.time())+".png")
-
+        
+        #plt.scatter(oldModel[:,0],oldModel[:,1], color="red")
+        #plt.scatter(mergedModel[:,0],mergedModel[:,1],color="blue")
+        #plt.scatter(a[:,0],a[:,1], color="green")
+        #plt.savefig("../../dataNodes/plot"+str(id)+"update_"+str(time.time())+".png")
+        #plt.clf
         #print(distances)
         dict = {}
         dict["centers"] = updatedPoint
