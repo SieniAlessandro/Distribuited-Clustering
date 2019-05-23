@@ -10,19 +10,15 @@
     </artifacts-to-build>
   </component>
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Model.java" line="41" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Model.java" line="34" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce123069-bfbf-409e-9a0c-e4e13c14bfcb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../DataCollector.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../DataCollector.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Sink.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../Sink.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../dataNodes/collectedData1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataNodes/collectedData1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../dataNodes/newModel1.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataNodes/newModel1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../dataNodes/readyData1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataNodes/readyData1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../dataSink/ModelNode1.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../dataSink/ModelNode1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Java.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/NodeCommunicationModelHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/NodeCommunicationModelHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/SinkCommunicationModelHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/SinkCommunicationModelHandler.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/SinkCommunicationModelHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1819">
-              <caret line="114" column="19" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
+            <state relative-caret-position="1283">
+              <caret line="128" column="22" lean-forward="true" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -52,37 +48,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/RPCServer.java">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1156">
-              <caret line="77" selection-start-line="77" selection-end-line="77" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/DataCollector.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/ModelMerger.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="49" column="32" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="578">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
             </state>
           </provider>
         </entry>
@@ -90,8 +59,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Model.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1411">
-              <caret line="98" column="33" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
+            <state relative-caret-position="1360">
+              <caret line="88" column="41" selection-start-line="88" selection-start-column="41" selection-end-line="88" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Config.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="69" selection-start-line="8" selection-start-column="69" selection-end-line="8" selection-end-column="69" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Log.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -102,8 +89,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/ModelCaller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="19" column="93" selection-start-line="19" selection-start-column="93" selection-end-line="19" selection-end-column="93" />
+            <state relative-caret-position="459">
+              <caret line="31" column="93" selection-start-line="31" selection-start-column="93" selection-end-line="31" selection-end-column="93" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -114,10 +101,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/NodeCommunicationModelHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="158" column="67" selection-start-line="158" selection-start-column="67" selection-end-line="158" selection-end-column="67" />
+            <state relative-caret-position="357">
+              <caret line="104" column="32" lean-forward="true" selection-start-line="104" selection-start-column="32" selection-end-line="104" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1202#1203#0" expanded="true" />
+                <element signature="e#1231#1232#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -138,8 +127,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/DataGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="38" column="57" selection-start-line="38" selection-start-column="57" selection-end-line="38" selection-end-column="57" />
+            <state relative-caret-position="1003">
+              <caret line="60" column="57" selection-start-line="60" selection-start-column="57" selection-end-line="60" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -248,7 +237,6 @@
         <option value="$PROJECT_DIR$/src/main/java/cds/sink/RPCServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/cds/sink/SinkCommunicationModelHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/cds/node/NodeCommunicationModelHandler.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/FederatedLearning/node/NodeCommunicationModelHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/node/NodeCommunicationModelHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedlearning/node/NodeCommunicationModelHandler.java" />
@@ -258,11 +246,12 @@
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/ModelReceiver.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/CommunicationModelHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/DataCollector.java" />
-        <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Config.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/RPCServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/ModelMerger.java" />
-        <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/SinkCommunicationModelHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Model.java" />
+        <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Config.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/SinkCommunicationModelHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/NodeCommunicationModelHandler.java" />
       </list>
     </option>
@@ -287,8 +276,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -351,6 +340,10 @@
               <item name="federatedLearning" type="462c0819:PsiDirectoryNode" />
               <item name="sink" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Java" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -409,8 +402,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.NodeCommunicationModelHandler" />
         <item itemvalue="Application.SinkCommunicationModelHandler" />
+        <item itemvalue="Application.NodeCommunicationModelHandler" />
       </list>
     </recent_temporary>
   </component>
@@ -428,11 +421,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="1" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="3" visible="true" weight="0.21208054" />
+      <window_info active="true" content_ui="combo" id="Project" order="3" visible="true" weight="0.22751679" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32960895" />
       <window_info anchor="bottom" id="Debug" order="2" weight="0.39944133" />
@@ -452,6 +446,30 @@
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="1" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="3" visible="true" weight="0.22416107" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32960895" />
+      <window_info anchor="bottom" id="Debug" order="2" weight="0.39944133" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="5" weight="0.32960895" />
+      <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32960895" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32960895" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32960895" />
+      <window_info anchor="bottom" x="4" y="498" width="1490" height="236" id="Run" order="11" weight="0.36173186" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24966443" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+    </layout-to-restore>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Aggiunte Classi per la gestione della comunicazione in entrambi i sensi &#10;tra nodi e sink. Funzioni da richiamare per avviare il merging sul sink &#10;e il cambio del modello sui nodi." />
@@ -459,13 +477,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Implementazione della registrazione di un nodo sul sink, testing" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/RepositoryHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -475,33 +486,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/META-INF/MANIFEST.MF">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Log.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/SinkCommunicationModelHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1819">
-          <caret line="114" column="19" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/RPCServer.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -515,8 +499,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/DataCollector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+        <state relative-caret-position="578">
+          <caret line="37" column="9" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -533,10 +517,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/sink/SinkCommunicationModelHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1283">
+          <caret line="128" column="22" lean-forward="true" selection-start-line="128" selection-start-column="22" selection-end-line="128" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Model.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1411">
-          <caret line="98" column="33" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="33" />
+        <state relative-caret-position="1360">
+          <caret line="88" column="41" selection-start-line="88" selection-start-column="41" selection-end-line="88" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="69" selection-start-line="8" selection-start-column="69" selection-end-line="8" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/Log.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -545,8 +560,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/ModelCaller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="19" column="93" selection-start-line="19" selection-start-column="93" selection-end-line="19" selection-end-column="93" />
+        <state relative-caret-position="459">
+          <caret line="31" column="93" selection-start-line="31" selection-start-column="93" selection-end-line="31" selection-end-column="93" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -565,8 +580,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/DataGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="38" column="57" selection-start-line="38" selection-start-column="57" selection-end-line="38" selection-end-column="57" />
+        <state relative-caret-position="1003">
+          <caret line="60" column="57" selection-start-line="60" selection-start-column="57" selection-end-line="60" selection-end-column="57" />
         </state>
       </provider>
     </entry>
@@ -582,10 +597,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/it/unipi/cds/federatedLearning/node/NodeCommunicationModelHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="158" column="67" selection-start-line="158" selection-start-column="67" selection-end-line="158" selection-end-column="67" />
+        <state relative-caret-position="357">
+          <caret line="104" column="32" lean-forward="true" selection-start-line="104" selection-start-column="32" selection-end-line="104" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1202#1203#0" expanded="true" />
+            <element signature="e#1231#1232#0" expanded="true" />
           </folding>
         </state>
       </provider>

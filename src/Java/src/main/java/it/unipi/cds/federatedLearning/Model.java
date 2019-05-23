@@ -1,13 +1,6 @@
 package it.unipi.cds.federatedLearning;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * This class represents a Model produced by a Node or a Sink. It consists of the nodeID of the node that
@@ -94,6 +87,8 @@ public class Model implements Serializable {
      * @param filename Path to the filename
      */
     public void toFile(String filename) {
+        File file = new File(filename);
+        file.getParentFile().mkdirs();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write(json);
         } catch (IOException e) {

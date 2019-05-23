@@ -6,6 +6,7 @@ package it.unipi.cds.federatedLearning;
 public class Config {
     public static final String PATH_SINK_RECEIVED_MODELS = "dataSink/ModelNode";
     public static final String PATH_SINK_MERGED_MODEL = "dataSink/MergedModel.json";
+    public static final String PATH_SINK_HISTORY = "dataSink/history/";
 
     public static final String PATH_NODE_BASEDIR = "dataNodes/";
     public static final String PATH_NODE_UPDATED_MODEL = PATH_NODE_BASEDIR + "NewUpdatedModel.json";

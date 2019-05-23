@@ -103,7 +103,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
             try {
                 Unirest.post("http://127.0.0.1:5000/server")
                         .header("content-type", "application/json")
-                        .body("{\n\t\"command\":\"Update\"\n")
+                        .body("{\n\t\"command\":\"Update\",\n\t\"ID\":\""+ nodeID +"\"\n}")
                         .asString();
             } catch (UnirestException e) {
                 Log.error("Node-" + nodeID, e.toString());
@@ -126,6 +126,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     }
     /**
      * Call a Remote Procedure implemented by the Sink
+     * @return function's response
      */
     public String callFunction(String function) throws IOException, InterruptedException {
         Log.info("Node", "Calling Sink's function: " + function);
