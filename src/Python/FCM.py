@@ -6,7 +6,7 @@ from scipy.spatial.distance import cdist
 import os
 import time
 import matplotlib.pyplot as plt
-from utils import *
+from Utils import *
 
 ERROR_THRESHOLD = 0.005
 DISTANCE_THRESHOLD = 100
@@ -67,7 +67,7 @@ class FCM:
         jsonToSave = {}
         jsonToSave["newcenters"] = cntr.tolist()
         jsonToSave["oldcenters"] = centers.tolist()
-        save(1,int(id),"trainResult"+str(id)+"_"+str(time.time()),jsonToSave)
+        save(1,0,"MergedModel_"+str(time.time()),jsonToSave)
 
         #plt.scatter(centers[:,0],centers[:,1],color="blue")
         #plt.scatter(cntr[:,0],cntr[:,1],color="red")
@@ -150,21 +150,19 @@ class FCM:
     def update(self,id):
         with open(BASE_MODEL_PATH+str(id)+".json","r") as oldModelFile:
             oldModel = np.array(json.load(oldModelFile)['centers'])
-        print(oldModel)
         with open(MERGED_MODE_NODE_PATH,"r") as mergedModelFile:
             dict = json.load(mergedModelFile)
             mergedModel = np.array(dict['centers'])
             weight = float(dict[str(id)])
         distances = cdist(mergedModel,oldModel,metric="euclidean")
         minDistancesIndex = np.argmin(distances,axis=1)
-        print(minDistancesIndex)
         updatedPoint = []
-        print(mergedModel.shape)
         for i in range (0,mergedModel.shape[0]):
             print("Step: " +str(weight))
             IncrementX = float(mergedModel[i,0])*weight + float(oldModel[minDistancesIndex[i],0])*(1-weight)
             IncrementY = float(mergedModel[i,1])*weight + float(oldModel[minDistancesIndex[i],1])*(1-weight)
             updatedPoint.append([IncrementX,IncrementY])
+
         a = np.array(updatedPoint)
 
         #print("Point nearest 2:"+str(mergedModel[1])+"-"+str(oldModel[minDistancesIndex[1]]))
@@ -179,7 +177,7 @@ class FCM:
         jsonToSave = {}
         jsonToSave["oldModel"] = oldModel.tolist()
         jsonToSave["mergedModel"] = mergedModel.tolist()
-        jsonToSave["updatedPoint"] = updatedPoint.tolist()
+        jsonToSave["updatedPoint"] = a.tolist()
         save(0,int(id),"updatedPoint"+str(id)+"_"+str(time.time()),jsonToSave)
 
         dict = {}
