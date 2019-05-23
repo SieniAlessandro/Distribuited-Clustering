@@ -20,7 +20,7 @@ MERGED_MODE_NODE_PATH =  "../../dataNodes/NewUpdatedModel.json"
 PREPARED_MODEL = "../../DataSink/preparedModel.json"
 MERGED_MODEL_PATH = "../../DataSink/mergedModel.json"
 BASE_MODEL_SINK_PATH = "../../DataSink/ModelNode"
-
+CLUSTERS = 2
 
 class FCM:
     def associate(self,distance):
@@ -44,7 +44,7 @@ class FCM:
         #print(centers)
         #print(centers.shape)
 
-        cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(centers.T,2,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
+        cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(centers.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
         mergedModel = {}
         mergedModel["centers"] = cntr.tolist()
         #Computing the mean Minumum distance for the new centers from the old centers
@@ -86,7 +86,6 @@ class FCM:
         #Deleting from the original dataframe the new values and the previous window
         START_WINDOW = dim * (-1);
         df = df[:NEW_VALUES]
-        print("Dimensione Dataset senza nuovi valori con finestra: "+ str(df.shape))
         print("[DEBUG] Old Dataframe shape :"+str(df.shape))
         [df,result] = self.isModelNeeded(id,df,newValues)
         print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
@@ -96,7 +95,7 @@ class FCM:
             print("DIMENSION OF THE DATASET ANALYZED: "+ str(df.shape))
             #Training the FCM with the array just obtained
             points = np.array(df)
-            cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(points.T,2,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
+            cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(points.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
             #Creating the JSON with the information of the created model
             model = {}
             model["centers"] = cntr.tolist()
@@ -106,7 +105,6 @@ class FCM:
             plt.scatter(cntr[:,0],cntr[:,1],color="red")
             plt.savefig("../../dataNodes/plot"+str(id)+"_"+str(time.time())+".png")
 
-            #model["coefficentsMatrix"] = u_orig.tolist()
             #Saving the JSON in the file
             with open(BASE_MODEL_PATH+id+".json","w") as newModelFile:
                 newModelFile.write(json.dumps(model))
