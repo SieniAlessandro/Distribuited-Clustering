@@ -6,7 +6,8 @@ from scipy.spatial.distance import cdist
 import os
 import time
 import matplotlib.pyplot as plt
-import itertools
+
+
 ERROR_THRESHOLD = 0.005
 DISTANCE_THRESHOLD = 100
 VALUES_THRESHOLD = 2
@@ -40,8 +41,8 @@ class FCM:
             with open(BASE_MODEL_SINK_PATH+str(i)+".json","r") as model:
                 nodeCntrs = np.array(json.load(model)["centers"],dtype=float)
                 centers = np.vstack((centers,nodeCntrs))
-        print(centers)
-        print(centers.shape)
+        #print(centers)
+        #print(centers.shape)
 
         cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(centers.T,2,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
         mergedModel = {}
@@ -58,12 +59,18 @@ class FCM:
             minDistancesIndex =  np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
             #Check if there are at least a repetition
             if(np.unique(minDistancesIndex).shape[0] == minDistancesIndex.shape[0]):
-            #Compute the mean of the distances
+                #Compute the mean of the distances
                 meanDistance = np.mean(minDistances)
                 mergedModel[str(i)] = self.associate(meanDistance)
             else:
-                mergedModel[str(i)] = 0
+                mergedModel[str(i)] = 1
+        #Scatterplot of the points merged and the new centroids
+        plt.clf()
+        plt.scatter(centers[:,0],centers[:,1],color="blue")
+        plt.scatter(cntr[:,0],cntr[:,1],color="red")
+        plt.savefig("../../DataSink/plotSink_"+str(time.time())+".png")
 
+        #Saving the new Model
         with open(MERGED_MODEL_PATH,"w") as mergedModelFile:
             json.dump(mergedModel,mergedModelFile)
         return "Models merged",201
@@ -88,15 +95,22 @@ class FCM:
             df = df[START_WINDOW:]
             print("DIMENSION OF THE DATASET ANALYZED: "+ str(df.shape))
             #Training the FCM with the array just obtained
-            cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(np.array(df).T,2,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
+            points = np.array(df)
+            cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(points.T,2,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
             #Creating the JSON with the information of the created model
             model = {}
             model["centers"] = cntr.tolist()
-            model["timestamp"] = time.time()
+
+            plt.clf()
+            plt.scatter(points[:,0],points[:,1],color="blue")
+            plt.scatter(cntr[:,0],cntr[:,1],color="red")
+            plt.savefig("../../dataNodes/plot"+str(id)+"_"+str(time.time())+".png")
+
             #model["coefficentsMatrix"] = u_orig.tolist()
             #Saving the JSON in the file
             with open(BASE_MODEL_PATH+id+".json","w") as newModelFile:
                 newModelFile.write(json.dumps(model))
+
             #Returning the OK code
             return "Model created",201
         else:
@@ -144,14 +158,15 @@ class FCM:
         a = np.array(updatedPoint)
 
         #print("Point nearest 2:"+str(mergedModel[1])+"-"+str(oldModel[minDistancesIndex[1]]))
+        plt.clf()
         plt.scatter(oldModel[:,0],oldModel[:,1], color="red")
         plt.scatter(mergedModel[:,0],mergedModel[:,1],color="blue")
         plt.scatter(a[:,0],a[:,1], color="green")
-        plt.savefig("plot"+str(id)+".png")
-        plt.clf()
+        plt.savefig("../../dataNodes/plot"+str(id)+"update_"+str(time.time())+".png")
+
         #print(distances)
         dict = {}
         dict["centers"] = updatedPoint
-        with open(BASE_MODEL_PATH+str(id)+".json","r") as updatedModelFile:
+        with open(BASE_MODEL_PATH+str(id)+".json","w") as updatedModelFile:
             json.dump(dict,updatedModelFile)
         return "Model updated",200
