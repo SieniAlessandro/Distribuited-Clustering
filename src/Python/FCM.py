@@ -86,7 +86,8 @@ class FCM:
             newValues = df[NEW_VALUES:]
             #Deleting from the original dataframe the new values and the previous window
             df = df[:NEW_VALUES]
-            print("Index selected: "+str(NEW_VALUES))
+            print("[DEBUG] Index selected: "+str(NEW_VALUES))
+            print("[DEBUG] Window dimension: "+str(dim))
             print("[DEBUG] Old Dataframe shape :"+str(df.shape))
             [df,result] = self.isModelNeeded(id,df,newValues)
             print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
@@ -94,7 +95,7 @@ class FCM:
             #Selecting only the desired window
             if (START_WINDOW * (-1)) < df.shape[0]:
                 df = df[START_WINDOW:]
-            print("DIMENSION OF THE DATASET ANALYZED: "+ str(df.shape))
+            print("[DEBUG] Dimension of the dataset to be analyze: "+ str(df.shape))
             #Training the FCM with the array just obtained
             points = np.array(df)
             cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(points.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
