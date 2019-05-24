@@ -19,8 +19,9 @@ if os.path.exists("dataNodes"):
                 #This is a trining result
                 points = np.array(dict["points"])
                 centers = np.array(dict["centers"])
-                plt.scatter(points[:,0],points[:,1],color="blue")
-                plt.scatter(centers[:,0],centers[:,1],color="red")
+                plt.scatter(points[:,0],points[:,1],color="blue",label="Training points")
+                plt.scatter(centers[:,0],centers[:,1],color="red",label="Centroids")
+                plt.legend(loc='upper left')
                 plt.savefig(completeName+"/Plot_"+filename+".png")
                 plt.clf()
             elif "updatedPoint" in filename and "Plot" not in filename:
@@ -29,9 +30,10 @@ if os.path.exists("dataNodes"):
                 mergedModel = np.array(dict["mergedModel"])
                 updatedModel = np.array(dict["updatedPoint"])
 
-                plt.scatter(oldModel[:,0],oldModel[:,1],color="blue")
-                plt.scatter(mergedModel[:,0],mergedModel[:,1],color="red")
-                plt.scatter(updatedModel[:,0],updatedModel[:,1],color="red")
+                plt.scatter(oldModel[:,0],oldModel[:,1],color="blue",label="Old centroids")
+                plt.scatter(mergedModel[:,0],mergedModel[:,1],color="red",label="Merged centroids")
+                plt.scatter(updatedModel[:,0],updatedModel[:,1],color="red",label="Updated centroids")
+                plt.legend(loc='upper left')
                 plt.savefig(completeName+"/Plot_"+filename+".png")
                 plt.clf()
 if os.path.exists("dataSink"):
@@ -48,7 +50,8 @@ if os.path.exists("dataSink"):
                 #This is a trining result
                 newcenters = np.array(dict["newcenters"])
                 oldcenters = np.array(dict["oldcenters"])
-                plt.scatter(oldcenters[:,0],oldcenters[:,1],color="blue")
-                plt.scatter(newcenters[:,0],newcenters[:,1],color="red")
+                plt.scatter(oldcenters[:,0],oldcenters[:,1],color="blue",label="Training centers")
+                plt.scatter(newcenters[:,0],newcenters[:,1],color="red",label="Merged centers")
+                plt.legend(loc='upper left')
                 plt.savefig(completeName+"/Plot_"+filename+".png")
                 plt.clf()
