@@ -21,11 +21,11 @@ public class RepositoryHandler {
 	/*
 	 * Used to know how many values were stored when the ML was called the last time
 	 */
-	private int oldNumberOfSamples; 
+	private int oldNumberOfSamples = 0; 
 	/*
 	 * When we have a number of data higher than the threshold, ML called when there are a certain number of new values
 	 */
-	private int newValues; 
+	private AtomicInteger newValues = new AtomicInteger(0); 
 	/*
 	 * Used to store the actual number of values
 	 */
@@ -53,7 +53,7 @@ public class RepositoryHandler {
 	 */
 	public RepositoryHandler(int threshold, int newValues) {
 		this.threshold = threshold;
-		this.newValues = newValues;
+		this.newValues.set(newValues);
 		this.oldNumberOfSamples = 0;
 		try {
 				File folder = new File(Config.PATH_NODE_BASEDIR);
@@ -143,10 +143,17 @@ public class RepositoryHandler {
 		}
 		
 		if(!DataCollector.aModelIsBeingGeneratedNow) {
+			int value = newValues.get();
 			if((oldNumberOfSamples == 0 && instantNumberOfSamples >= threshold) 
-					|| (oldNumberOfSamples > 0 && instantNumberOfSamples - oldNumberOfSamples >= newValues )
+					|| (oldNumberOfSamples > 0 && instantNumberOfSamples - oldNumberOfSamples >= value)
 			){
-				this.read(instantNumberOfSamples - oldNumberOfSamples);
+				DataCollector.aModelIsBeingGeneratedNow = true;
+				if(oldNumberOfSamples == 0) {
+					this.read(threshold);
+				}
+				else {
+					this.read(value);
+				}
 				oldNumberOfSamples = instantNumberOfSamples;
 			}
 		}
@@ -176,7 +183,7 @@ public class RepositoryHandler {
 			 */
 			Runnable caller = new ModelCaller(valuesToRead);
 			new Thread(caller).start();
-			
+			newValues.set((int) (numberOfSamples.get()*Config.PERCENTAGE_OLD_VALUES));
 			//We flush the file with the sample not ready to reduce redundancy of the data
 			try(FileWriter fw2 = new FileWriter(samplePath);){
 				fw2.write("");

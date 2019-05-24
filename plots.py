@@ -19,6 +19,7 @@ if os.path.exists("dataNodes"):
                 #This is a trining result
                 points = np.array(dict["points"])
                 centers = np.array(dict["centers"])
+                plt.axis([-60,60,-60,60])
                 plt.scatter(points[:,0],points[:,1],color="blue",label="Training points")
                 plt.scatter(centers[:,0],centers[:,1],color="red",label="Centroids")
                 plt.legend(loc='upper left')
@@ -29,7 +30,7 @@ if os.path.exists("dataNodes"):
                 oldModel = np.array(dict["oldModel"])
                 mergedModel = np.array(dict["mergedModel"])
                 updatedModel = np.array(dict["updatedPoint"])
-
+                plt.axis([-60,60,-60,60])
                 plt.scatter(oldModel[:,0],oldModel[:,1],color="blue",label="Old centroids")
                 plt.scatter(mergedModel[:,0],mergedModel[:,1],color="red",label="Merged centroids")
                 plt.scatter(updatedModel[:,0],updatedModel[:,1],color="green",label="Updated centroids")
@@ -50,6 +51,7 @@ if os.path.exists("dataSink"):
                 #This is a trining result
                 newcenters = np.array(dict["newcenters"])
                 oldcenters = np.array(dict["oldcenters"])
+                plt.axis([-60,60,-60,60])
                 plt.scatter(oldcenters[:,0],oldcenters[:,1],color="blue",label="Training centers")
                 plt.scatter(newcenters[:,0],newcenters[:,1],color="red",label="Merged centers")
                 plt.legend(loc='upper left')

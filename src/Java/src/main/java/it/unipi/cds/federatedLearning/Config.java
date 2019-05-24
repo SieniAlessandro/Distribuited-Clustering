@@ -13,4 +13,13 @@ public class Config {
     public static final String PATH_NODE_NEW_MODEL = PATH_NODE_BASEDIR + "newModel";
     public static final String PATH_NODE_COLLECTED_DATA = PATH_NODE_BASEDIR + "collectedData";
     public static final String PATH_NODE_READY_DATA = PATH_NODE_BASEDIR + "readyData";
+    
+    public static final Double PERCENTAGE_OLD_VALUES = 0.5;
+    public static final int SIZE_WINDOW = 200;
+    
+    /*
+     * Generating parameters
+     */
+    public static final int MEAN = 30;
+    public static final int ST_DEV = 5;
 }

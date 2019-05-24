@@ -1,5 +1,6 @@
 package it.unipi.cds.federatedLearning.node;
 
+import it.unipi.cds.federatedLearning.Config;
 import it.unipi.cds.federatedLearning.Log;
 
 import java.io.IOException;
@@ -19,13 +20,13 @@ public class DataCollector {
 	/*
 	 * Read Data variables
 	 */
-	public final static int threshold = 200;
-	public final static int newValues = 100;
+	public final static int THRESHOLD = Config.SIZE_WINDOW;
+	public static int newValuesThreshold = (int) (THRESHOLD*Config.PERCENTAGE_OLD_VALUES);
 	/*
 	 * Testing variables
 	 */
 	public final static int numberOfThreads = 100; 
-	public final static int numberOfWrites = 10;
+	public final static int numberOfWrites = 1000;
 	
 	public static boolean aModelIsBeingGeneratedNow = false;
 	public static NodeCommunicationModelHandler nodeCommunicationHandler;
@@ -37,7 +38,7 @@ public class DataCollector {
 			Log.error("Sink", "Provide RabbitMQ Server's ip address as argument");
 		}
 		ArrayList<Thread> threads = new ArrayList<>();
-		RepositoryHandler repository = new RepositoryHandler(threshold, newValues);
+		RepositoryHandler repository = new RepositoryHandler(THRESHOLD, newValuesThreshold);
 		for(int i = 0; i < numberOfThreads; i++) {
 			/*
 			 * the last parameter is used for to specify if there is an infinite number of writes or not
