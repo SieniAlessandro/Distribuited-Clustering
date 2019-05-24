@@ -1,7 +1,7 @@
 from flask import Flask,request, jsonify
 from flask_restful import Api,Resource,reqparse
 from FCM import FCM
-from Utils import *
+from Utils import removeOldFiles
 
 class Server(Resource):
     def post(self):
@@ -13,6 +13,7 @@ class Server(Resource):
             return FCM().update(int(request.json["ID"]))
         else:
             return "Command not available",200
+
 removeOldFiles()
 app = Flask(__name__)
 api = Api(app)

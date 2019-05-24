@@ -6,10 +6,10 @@ from scipy.spatial.distance import cdist
 import os
 import time
 import matplotlib.pyplot as plt
-from Utils import *
+from Utils import save
 
 ERROR_THRESHOLD = 0.005
-DISTANCE_THRESHOLD = 100
+DISTANCE_THRESHOLD = 10
 VALUES_THRESHOLD = 2
 MAX_ITER = 1000
 NEW_VALUES = -5
@@ -40,19 +40,16 @@ class FCM:
             with open(BASE_MODEL_SINK_PATH+str(i)+".json","r") as model:
                 nodeCntrs = np.array(json.load(model)["centers"],dtype=float)
                 centers = np.vstack((centers,nodeCntrs))
-        #print(centers)
-        #print(centers.shape)
 
         cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(centers.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
         mergedModel = {}
         mergedModel["centers"] = cntr.tolist()
         #Computing the mean Minumum distance for the new centers from the old centers
         for i in range(1,nodes+1):
-            print("------------- NODO "+str(i)+"--------------------------")
             with open(BASE_MODEL_SINK_PATH+str(i)+".json","r") as model:
                 oldcntrs = np.array(json.load(model)["centers"])
+
             indexes = np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
-            print(cdist(cntr,oldcntrs,metric='euclidean'))
             #Calculating the minimum value along the row
             minDistances = np.amin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
             minDistancesIndex =  np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
@@ -63,16 +60,13 @@ class FCM:
                 mergedModel[str(i)] = self.associate(meanDistance)
             else:
                 mergedModel[str(i)] = 1
-        #Scatterplot of the points merged and the new centroids
+
         jsonToSave = {}
         jsonToSave["newcenters"] = cntr.tolist()
         jsonToSave["oldcenters"] = centers.tolist()
         save(1,0,"MergedModel_"+str(time.time()),jsonToSave)
 
-        #plt.scatter(centers[:,0],centers[:,1],color="blue")
-        #plt.scatter(cntr[:,0],cntr[:,1],color="red")
-        #plt.savefig("../../DataSink/plotSink_"+str(time.time())+".png")
-        #plt.clf()
+
         #Saving the new Model
         with open(MERGED_MODEL_PATH,"w") as mergedModelFile:
             json.dump(mergedModel,mergedModelFile)
@@ -98,7 +92,7 @@ class FCM:
             print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
         if(result):
             #Selecting only the desired window
-            if (START_WINDOW * -1) >= df.shape[0]:
+            if (START_WINDOW * (-1)) < df.shape[0]:
                 df = df[START_WINDOW:]
             print("DIMENSION OF THE DATASET ANALYZED: "+ str(df.shape))
             #Training the FCM with the array just obtained
@@ -113,10 +107,7 @@ class FCM:
             jsonToSave["centers"] = cntr.tolist()
             save(0,int(id),"trainResult"+str(id)+"_"+str(time.time()),jsonToSave)
 
-            #plt.scatter(points[:,0],points[:,1],color="blue")
-            #plt.scatter(cntr[:,0],cntr[:,1],color="red")
-            #plt.savefig("../../dataNodes/plot"+str(id)+"_"+str(time.time())+".png")
-            #plt.clf()
+
             #Saving the JSON in the file
             with open(BASE_MODEL_PATH+id+".json","w") as newModelFile:
                 newModelFile.write(json.dumps(model))
@@ -141,7 +132,7 @@ class FCM:
                 #Writing on file the new dataframe
                 df.to_csv(BASE_DATA_PATH+id+".txt",index = None,header = None)
                 #checking if the number of outliers is above the threshold
-                if(df2[outliers].shape[0] <= MAX_ACCEPTED_OUTLIERS ):
+                if df2[outliers].shape[0] <= int(df.shape[0] * 0.75):
                     return df,True
                 else:
                     return df,False
@@ -158,26 +149,14 @@ class FCM:
         minDistancesIndex = np.argmin(distances,axis=1)
         updatedPoint = []
         for i in range (0,mergedModel.shape[0]):
-            print("Step: " +str(weight))
             IncrementX = float(mergedModel[i,0])*weight + float(oldModel[minDistancesIndex[i],0])*(1-weight)
             IncrementY = float(mergedModel[i,1])*weight + float(oldModel[minDistancesIndex[i],1])*(1-weight)
             updatedPoint.append([IncrementX,IncrementY])
 
-        a = np.array(updatedPoint)
-
-        #print("Point nearest 2:"+str(mergedModel[1])+"-"+str(oldModel[minDistancesIndex[1]]))
-
-        #plt.scatter(oldModel[:,0],oldModel[:,1], color="red")
-        #plt.scatter(mergedModel[:,0],mergedModel[:,1],color="blue")
-        #plt.scatter(a[:,0],a[:,1], color="green")
-        #plt.savefig("../../dataNodes/plot"+str(id)+"update_"+str(time.time())+".png")
-        #plt.clf
-        #print(distances)
-
         jsonToSave = {}
         jsonToSave["oldModel"] = oldModel.tolist()
         jsonToSave["mergedModel"] = mergedModel.tolist()
-        jsonToSave["updatedPoint"] = a.tolist()
+        jsonToSave["updatedPoint"] = updatedPoint
         save(0,int(id),"updatedPoint"+str(id)+"_"+str(time.time()),jsonToSave)
 
         dict = {}

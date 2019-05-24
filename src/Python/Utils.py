@@ -19,8 +19,8 @@ def removeOldFiles():
         #Deleting the directory
         for dirname in dirnames:
             shutil.rmtree(DATA_NODES_FOLDER+"/"+dirname)
-    #Removing the old file in the folder dataSink:
 
+    #Removing the old file in the folder dataSink:
     if os.path.exists(DATA_SINK_FOLDER):
         #Getting all the files
         filenames = [f for f in listdir(DATA_SINK_FOLDER) if isfile(join(DATA_SINK_FOLDER, f))]
