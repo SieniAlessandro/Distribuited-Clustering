@@ -32,7 +32,7 @@ if os.path.exists("dataNodes"):
 
                 plt.scatter(oldModel[:,0],oldModel[:,1],color="blue",label="Old centroids")
                 plt.scatter(mergedModel[:,0],mergedModel[:,1],color="red",label="Merged centroids")
-                plt.scatter(updatedModel[:,0],updatedModel[:,1],color="red",label="Updated centroids")
+                plt.scatter(updatedModel[:,0],updatedModel[:,1],color="green",label="Updated centroids")
                 plt.legend(loc='upper left')
                 plt.savefig(completeName+"/Plot_"+filename+".png")
                 plt.clf()
