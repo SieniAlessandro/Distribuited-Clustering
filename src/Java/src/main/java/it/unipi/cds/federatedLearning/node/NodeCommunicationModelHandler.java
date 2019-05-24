@@ -24,8 +24,8 @@ import java.util.concurrent.TimeoutException;
  */
 public class NodeCommunicationModelHandler extends CommunicationModelHandler {
 
-    private static int nodeID;
-    private static String queueName;
+    private int nodeID;
+
     /**
      * {@inheritDoc}
      */
@@ -79,8 +79,7 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
             Log.info("Node-" + nodeID, "Declaring SINK_TO_NODE_EXCHANGE");
             channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout", true);
 
-            queueName = channelSinkNode.queueDeclare().getQueue();
-            System.out.println("[DEBUG] Temporary queueName: " + queueName);
+            String queueName = channelSinkNode.queueDeclare().getQueue();
             channelSinkNode.queueBind(queueName, SINK_TO_NODE_EXCHANGE_NAME, "");
 
             receiver = new ModelReceiver(this);

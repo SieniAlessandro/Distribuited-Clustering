@@ -1,1 +1,21 @@
-\chapter{Communication Handler}
+\chapter{Comunicazione tra i Nodi e il Sink}
+
+
+  \section{Implementazione}
+    \subsection{abstract class CommunicationModelHandler}
+      Il software creato si appoggia sulle Java API di \textit{RabbitMQ} che permette una facile gestione di message queueing e per via delle somiglianza tra le azioni da svolgere sia sul Sink che sui Nodi, è stata implementata una classe astratta \textit{CommunicationModelHandler} \ref{CommunicationHandler} che mantiene delle informazioni utilizzati nelle interazioni con il server di RabbitMQ e i nomi delle \textit{Queue}, comuni a tutti i nodi. Inoltre, il costruttore inizializza una connessione che il Server di RabbitMQ configurato sulla porta di default 5672 e richiama le 3 funzioni per l'inizializzazione delle strutture su cui verrano scambiati i dati:
+      \begin{itemize}
+        \item \textit{initRPC()}
+        \item \textit{initSinkToNode()}
+        \item \textit{initNodeToSink()}
+      \end{itemize}
+      Ognuna di queste verrà definita dal Nodo e dal Sink in modo da rispettare il proprio ruolo rispetto alla struttura in questione.
+      \lstinputlisting[label={CommunicationHandler}, language=Java, caption={CommunicationModelHandler},captionpos=b]{../Codice/CommunicationModelHandler.java}
+
+    \subsection{NodeCommunicationModelHandler}
+      Questa classe è l'implementazione della \textit{CommunicationModelHandler} utilizzata su ogni Nodo per la gestione della communicazione con il Sink. Ai campi membri della super classe viene aggiunto un intero \textit{NodeID} che contiene l'identificativo del nodo. La classe definisce le funzioni astratte nel seguente modo:
+      \subsubsection{initRPC()}
+        Questa funzione crea un canale per comunicare con il Server RPC presente sul Sink attraverso cui si chiama la Remote Procedure per <<registrare>> il Nodo nel sistema, il quale ottiene un identificativo univoco come risposta. Tale ID è usato per distinguere i nodi tra di loro e i loro relativi modelli.
+        \lstinputlisting[label={Node:initRPC}, language=Java, firstline=32, lastline=43,  caption={NodeCommunicationModelHandler.initRPC()},captionpos=b]{../Codice/NodeCommunicationModelHandler.java}
+
+      \subsubsection{initNodeToSink()}
