@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.28)  24 MAY 2019 11:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.28)  24 MAY 2019 11:58
 entering extended mode
 **"./Progetto Federated Learning.tex"
 ("Progetto Federated Learning.tex"
@@ -705,8 +705,7 @@ File: lstlang1.sty 2019/02/27 1.8b listings language file
 ("C:\Users\nabow\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\lstlang1.
 sty"
 File: lstlang1.sty 2019/02/27 1.8b listings language file
-) ("Progetto Federated Learning.aux" (specifiche.aux) (DataCollector.aux)
-(CommunicationHandler.aux) (PythonRestServer.aux) (Testing.aux))
+) ("Progetto Federated Learning.aux")
 \openout1 = `"Progetto Federated Learning.aux"'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
@@ -978,11 +977,13 @@ Package microtype Info: Character `029' is missing
 
 
 {C:/Users/nabow/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-("Progetto Federated Learning.toc")
+
+Package hyperref Warning: old toc file detected, not used; run LaTeX again.
+
 \tf@toc=\write4
 \openout4 = `"Progetto Federated Learning.toc"'.
 
- [1
+[1
 
 
 ]
@@ -1022,6 +1023,10 @@ Capitolo 2.
 
  (CommunicationHandler.tex
 Capitolo 3.
+
+LaTeX Warning: Reference `CommunicationHandler' on page 5 undefined on input li
+ne 6.
+
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 13.
 (../Codice/CommunicationModelHandler.java [5
@@ -1054,19 +1059,29 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 85.
 (CommunicationHandler.aux) (PythonRestServer.aux) (Testing.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 85.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 85.
-Package rerunfilecheck Info: File `"Progetto Federated Learning".out' has not c
-hanged.
-(rerunfilecheck)             Checksum: C1F6A51FCE78100B0EEFCED1B42E07E3;850.
+
+
+Package rerunfilecheck Warning: File `"Progetto Federated Learning".out' has ch
+anged.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `"Progetto Federated Learning".out':
+
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  C1F6A51FCE78100B0EEFCED1B42E07E3;850.
+
+LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 24051 strings out of 492945
- 446565 string characters out of 3126252
+ 24020 strings out of 492945
+ 445267 string characters out of 3126252
  814441 words of memory out of 3000000
- 27494 multiletter control sequences out of 15000+200000
+ 27475 multiletter control sequences out of 15000+200000
  608831 words of font info for 94 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  45i,6n,63p,817b,2461s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1082,9 +1097,9 @@ s/type1/public/lm/lmr9.pfb><C:/Users/nabow/AppData/Local/Programs/MiKTeX 2.9/fo
 nts/type1/public/lm/lmri10.pfb><C:/Users/nabow/AppData/Local/Programs/MiKTeX 2.
 9/fonts/type1/public/lm/lmro10.pfb><C:/Users/nabow/AppData/Local/Programs/MiKTe
 X 2.9/fonts/type1/public/lm/lmsy10.pfb>
-Output written on "Progetto Federated Learning.pdf" (12 pages, 268887 bytes).
+Output written on "Progetto Federated Learning.pdf" (12 pages, 259413 bytes).
 PDF statistics:
- 257 PDF objects out of 1000 (max. 8388607)
+ 203 PDF objects out of 1000 (max. 8388607)
  101 named destinations out of 1000 (max. 500000)
- 25705 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 25601 words of extra memory for PDF output out of 29859 (max. 10000000)
 
