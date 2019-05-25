@@ -51,9 +51,8 @@ public class RepositoryHandler {
 	 * @param newValues integer used after threshold, it represents the number of new values, from the 
 	 * moment the machine learning has being called, necessary to start again the machine learning
 	 */
-	public RepositoryHandler(int threshold, int newValues) {
+	public RepositoryHandler(int threshold) {
 		this.threshold = threshold;
-		this.newValues.set(newValues);
 		this.oldNumberOfSamples = 0;
 		try {
 				File folder = new File(Config.PATH_NODE_BASEDIR);

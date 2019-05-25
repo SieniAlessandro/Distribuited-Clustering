@@ -21,7 +21,6 @@ public class DataCollector {
 	 * Read Data variables
 	 */
 	public final static int THRESHOLD = Config.SIZE_WINDOW;
-	public static int newValuesThreshold = (int) (THRESHOLD*Config.PERCENTAGE_OLD_VALUES);
 	/*
 	 * Testing variables
 	 */
@@ -38,7 +37,7 @@ public class DataCollector {
 			Log.error("Sink", "Provide RabbitMQ Server's ip address as argument");
 		}
 		ArrayList<Thread> threads = new ArrayList<>();
-		RepositoryHandler repository = new RepositoryHandler(THRESHOLD, newValuesThreshold);
+		RepositoryHandler repository = new RepositoryHandler(THRESHOLD);
 		for(int i = 0; i < numberOfThreads; i++) {
 			/*
 			 * the last parameter is used for to specify if there is an infinite number of writes or not
