@@ -1,1 +1,23 @@
-\chapter{Data Collector}
+\chapter{Gestione dei Dati}
+  \section{Concorrenza in Scrittura}
+    I nodi ricevono dati da una o più sorgenti, andandoli a salvare all'interno della stessa \textit{Repository}. Questo aspetto ha come problema l'accesso concorrente in scrittura.\newline
+    Per risolvere questo problema è stato deciso di utilizzare un meccanismo di locking, in particolare è stato usato il Fair Lock, dato che permette di concedere il lock con una politica di tipo FIFO ai thread che devono inserire il valore generato dal sensore, in questo modo, utilizziamo i dati con lo stesso ordine in cui arrivano e inoltre evitiamo la \textit{Starvation} dei Thread.
+
+  \section{Implementazione}
+    Per avere una migliore gestione della concorrenza dei Thread è stato deciso di utilizzare come linguaggio implementativo Java
+    \subsection{Data Collector}
+      Modulo usato per avviare i Thread che simulano la generazione dei dati dei sensori e avvia anche il modulo che si occupa del protocollo di comunicazione con il Sink. Si occupa anche di creare un'istanza di \textbf{RepositoryHandler}, la quale si occupa della gestione della Repository.
+      \lstinputlisting[language=Java]{../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/DataCollector.java}
+
+    \subsection{Data Generator}
+      Componente con il compito di generare i dati e di scriverli all'interno della Repository, simulando il comportamento dei dati generati dai sensori. Per fare questo vengono simulate sia la frequenza di arrivo dei vari valori, ossia ogni quanto viene rilevato e ricevuto da un sensore un valore, che il valore che può assumere la risorsa rilevata dal sensore.\newline
+      Nel nostro caso abbiamo simulato:
+      \begin{itemize}
+        \item la frequenza di arrivo dei valori come un esponenziale con una frequenza di interarrivo pari a \textbf{lambda}, per simulare questa \textit{attesa} si utilizza la \textbf{Thread.sleep(delay)}, con delay$=$valore successivo della sequenza esponenziale.
+        \item il valore delle risorse, rappresentato da una coppia di valori e per generare valori separati è stato deciso di usare due Gaussiane con valor medio una di $+$\textbf{Config.MEAN}, l'altra $-$\textbf{Config.MEAN} ed entrambe con una deviazione standard pari a \textbf{Config.ST\_DEV}.
+      \end{itemize}
+      \lstinputlisting[language=Java]{../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/DataGenerator.java}
+
+    \subsection{Repository Handler}
+      Modulo delegato a gestire l'accesso concorrente in scrittura alla repository, implementa il Fair Lock, e decide anche se chiamare il modulo \textbf{ModelCaller}, per richiedere la generazione di un nuovo modello. Per prendere questa decisione sono usate delle soglie \textbf{threshold} all'inizio e \textbf{newValues} successivamente.
+      \lstinputlisting[language=Java]{../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/RepositoryHandler.java}

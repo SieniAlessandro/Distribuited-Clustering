@@ -23,11 +23,11 @@ CLUSTERS = 2
 
 class FCM:
     def associate(self,distance):
-        if distance <= 0.5:
+        if distance <= 3:
             return 1
-        elif 0.5 < distance <= 1 :
+        elif 3 < distance <= 5 :
             return 0.75
-        elif 1 < distance <= 2 :
+        elif 5 < distance <= 7 :
             return 0.5
         else:
             return 0
@@ -59,7 +59,7 @@ class FCM:
                 meanDistance = np.mean(minDistances)
                 mergedModel[str(i)] = self.associate(meanDistance)
             else:
-                mergedModel[str(i)] = 1
+                mergedModel[str(i)] = 0
 
         jsonToSave = {}
         jsonToSave["newcenters"] = cntr.tolist()
@@ -75,7 +75,7 @@ class FCM:
     def train(self, id,coeff,window,values):
         #Retriving the dataframe related to the generated file
         df = pd.read_csv(BASE_DATA_PATH+id+".txt",names=["X","Y"],header=None,dtype={"X":float,"Y":float})
-        print("CSV ORIGINALE: "+str(df.shape))
+        #Computing the effective dimension of the window
         dim = int(int(window)*(1+float(coeff)))
         START_WINDOW = dim * (-1);
         if df.shape[0] == int(values):
@@ -86,16 +86,11 @@ class FCM:
             newValues = df[NEW_VALUES:]
             #Deleting from the original dataframe the new values and the previous window
             df = df[:NEW_VALUES]
-            print("[DEBUG] Index selected: "+str(NEW_VALUES))
-            print("[DEBUG] Window dimension: "+str(dim))
-            print("[DEBUG] Old Dataframe shape :"+str(df.shape))
             [df,result] = self.isModelNeeded(id,df,newValues)
-            print("[DEBUG] New Dataframe shape without outliers: "+str(df.shape))
         if(result):
             #Selecting only the desired window
             if (START_WINDOW * (-1)) < df.shape[0]:
                 df = df[START_WINDOW:]
-            print("[DEBUG] Dimension of the dataset to be analyze: "+ str(df.shape))
             #Training the FCM with the array just obtained
             points = np.array(df)
             cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(points.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
@@ -129,11 +124,11 @@ class FCM:
                 correct = (minDistances <= DISTANCE_THRESHOLD)
                 outliers = np.invert(correct)
                 #Creating a dataframe from that tuples
-                df = pd.concat([df,df2[correct]])
+                df = pd.concat([df,df2.loc[correct]])
                 #Writing on file the new dataframe
                 df.to_csv(BASE_DATA_PATH+id+".txt",index = None,header = None)
                 #checking if the number of outliers is above the threshold
-                if df2[outliers].shape[0] <= int(df.shape[0] * 0.75):
+                if df2.loc[outliers].shape[0] <= int(df2.shape[0] * 0.5):
                     return df,True
                 else:
                     return df,False
