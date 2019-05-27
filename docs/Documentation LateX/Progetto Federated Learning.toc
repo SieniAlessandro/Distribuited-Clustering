@@ -36,7 +36,7 @@
 \contentsline {subsubsection}{\numberline {3.2.3.7}removeNode(int nodeID)}{27}{subsubsection.3.2.3.7}% 
 \contentsline {subsection}{\numberline {3.2.4}ModelMerger}{28}{subsection.3.2.4}% 
 \contentsline {subsection}{\numberline {3.2.5}RPCServer}{29}{subsection.3.2.5}% 
-\contentsline {subsection}{\numberline {3.2.6}Classi comuni}{31}{subsection.3.2.6}% 
+\contentsline {subsection}{\numberline {3.2.6}Classi comuni tra Nodo e Sink}{31}{subsection.3.2.6}% 
 \contentsline {subsubsection}{\numberline {3.2.6.1}Model}{31}{subsubsection.3.2.6.1}% 
 \contentsline {subsubsection}{\numberline {3.2.6.2}ModelReceiver}{33}{subsubsection.3.2.6.2}% 
 \contentsline {subsubsection}{\numberline {3.2.6.3}Config}{34}{subsubsection.3.2.6.3}% 

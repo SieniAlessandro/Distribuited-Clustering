@@ -19,7 +19,7 @@
       \lstinputlisting[language=Java]{../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/DataGenerator.java}
 
     \subsection{Repository Handler}
-      Modulo delegato a gestire l'accesso concorrente in scrittura alla repository, implementa il Fair Lock, e decide anche se chiamare il modulo \textbf{ModelCaller}, per richiedere la generazione di un nuovo modello. Per prendere questa decisione sono usate delle soglie \textbf{threshold} all'inizio e \textbf{newValues} successivamente, nello specifico la prima è pari ad alla dimensione di partenza della finestra di valori su cui calcolare un nuovo modello \textbf{Config.SIZE\_WINDOW}, invece la seconda assume un valore variabile pari ad una percentuale (\textbf{Config.PERCENTAGE\_OLD\_VALUES}) del numero di campioni totali raccolti attualmente
+      Modulo delegato a gestire l'accesso concorrente in scrittura alla repository, implementa il Fair Lock, e decide anche se chiamare il modulo \textbf{ModelCaller}, per richiedere la generazione di un nuovo modello. Per prendere questa decisione sono usate delle soglie \textbf{threshold} all'inizio e \textbf{newValues} successivamente, nello specifico la prima è pari ad alla dimensione di partenza della finestra di valori su cui calcolare un nuovo modello \textbf{Config.SIZE\_WINDOW}, invece la seconda assume un valore variabile pari ad una percentuale (\textbf{Config.PERCENTAGE\_OLD\_VALUES}) del numero di campioni totali raccolti attualmente.
       \lstinputlisting[language=Java]{../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/RepositoryHandler.java}
 
     \subsection{Model Caller}

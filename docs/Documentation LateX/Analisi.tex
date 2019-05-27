@@ -1,14 +1,14 @@
 \chapter{Analisi dei Dati}
 I dati prodotti sul nodo vengono analizzati localmente in modo da non dover inviare le informazioni raccolte attraverso la rete, in modo da ridurre il carico di informazioni sul nodo centrale
-e di preservare la privacy dell'utente, in quanto le unica informazione resa pubbblica sarà il modello generato, ma non i dati necessari a generare tale modello.
+e di preservare la privacy dell'utente, in quanto l'unica informazione resa pubbblica sarà il modello generato, ma non i dati necessari a generare tale modello.
 
 In particolare lo scopo delle nostre analisi è stato quello di effettuare il clustering di una serie di punti generati casualmente, e per ottenere questo risultato ci siamo affidati ad un Fuzzy C-Means, in modo
-non solo da individuare per ciascun dato a quale cluster appartenesse, me anche il suo grado di appartenenza a tale cluster, al fine di effettuare future analisi ulteriormente più precise.
+non solo da individuare per ciascun dato a quale cluster appartenesse, ma anche il suo grado di appartenenza a tale cluster, al fine di effettuare future analisi ulteriormente più precise.
 
 In aggiunta abbiamo inserito alcuni meccanismi atti a migliorare la creazione dei cluster, in particolare:
 \begin{itemize}
   \item E' stato realizzato un meccanismo di finestra scorrevole utile ad analizzare solo una porzione dei dati complessivi, in modo da dare un'importanza relativa (che può essere scelta dall'utente) ai valori storici rispetto a quelli appena ottenuti.
-  \item E' stato anche inserito un controllo riguardo la posizione dei punti stessi rispetto ai precedenti centri dei cluster, in modo da accertatci prima di rigenerare un modello che i punti che si andranno ad analizzare siano validi e non delle outlier che sporcherebbero il modello finale.
+  \item E' stato anche inserito un controllo riguardo la posizione dei punti stessi rispetto ai precedenti centri dei cluster, in modo da accertarci prima di rigenerare un modello che i punti che si andranno ad analizzare siano validi e non degli outlier che sporcherebbero il modello finale.
 \end{itemize}
 
 \section{Implementazione}
@@ -30,13 +30,13 @@ Questo processo ovviamente non si applica alla generazione del primo modello, in
 
 Il sink invece ha il compito di unire tutti i modelli ricevuti in un unico generico, che sia in grado di migliorare (qualora fosse possibile) la precisione dei modelli generati singolarmenti dai nodi ai bordi della rete.
 
-Per effettuare questa unione è stato di deciso di riapplicare un Fuzzy C-Means avendo come dati in input i centri stessi ricevuti, al fine di ottenere dei nuovi centroidi che siano migliori, sfruttando le informazioni ricevute. In aggiunta per garantire un'accuretezza migliore nei confronti dei nodi, dopo aver generato questo nuovo modello, si andrà a calcolare quando differisce da ciascun modello di partenza, in quanto ci possono essere dei modelli che sono totalmente differenti dalla maggior parte, in quanto i valori possono essere stati generati in diverse condizioni. Per garantire anche a questi nodi di aver il miglior modello possibile viene inviato, insieme al modello unito, anche un peso per ciascun nodo - che varia tra 0 e 1 - indicante la rilevanza del modello unito rispetto a quello di partenza.
+Per effettuare questa unione è stato deciso di riapplicare un Fuzzy C-Means avendo come dati in input i centri stessi ricevuti, al fine di ottenere dei nuovi centroidi che siano migliori, sfruttando le informazioni ricevute. In aggiunta per garantire un'accuretezza migliore nei confronti dei nodi, dopo aver generato questo nuovo modello, si andrà a calcolare quanto differisce da ciascun modello di partenza, in quanto ci possono essere dei modelli che sono totalmente differenti dalla maggior parte, in quanto i valori possono essere stati generati in diverse condizioni. Per garantire anche a questi nodi di aver il miglior modello possibile viene inviato, insieme al modello unito, anche un peso per ciascun nodo - che varia tra 0 e 1 - indicante la rilevanza del modello unito rispetto a quello di partenza.
 
 \lstinputlisting[language=Python,firstline=34, lastline=73]{../../src/Python/FCM.py}
 
 \subsection{Updating}
 
-Infine, una volta che ciascun nodo ha ricevuto il modello unito dal sink, avrà il compito di aggiornare il proprio modello in base alle informazioni appena ricevute, in particolare la discrimante è il peso che il sink stesso ha associato al suo modello che indica:
+Infine, una volta che ciascun nodo ha ricevuto il modello unito dal sink, il nodo avrà il compito di aggiornare il proprio modello in base alle informazioni appena ricevute, in particolare la discriminante è il peso che il sink stesso ha associato al suo modello che indica:
 \begin{itemize}
   \item 0: Il nodo deve usare il proprio modello invece che quello unito, in quanto è troppo differente
   \item 0.5: Il nodo deve usare un modello che è la media aritmetica tra il proprio e quello ricevuto

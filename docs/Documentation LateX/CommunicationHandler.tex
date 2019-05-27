@@ -4,9 +4,9 @@
 
     Per rispettare questi requisiti è necessario addottare tecniche di comunicazioni asincrone, in grado di gestire la trasmissione e l'arrivo dei dati in un qualunque istante nel tempo. Un protocollo che si presta bene a queste esigenze è il Protocollo \textbf{AMQP} (\textit{Advanced Message Queueing Protocol}), il quale garantisce funzionalità di messaggistica, accodamento, routing ( con paradigmi Point-to-Point e Public\&Subscribe). \newline
 
-    Nel caso considerato, la comunicazione è bidirezionale in quanto da un lato i nodi inviano i modelli locali al Sink, dall'altro il Sink invia il modello Unificato a tutti i nodi, i quali aggiornano il proprio modello locale con quello Unificato, se considerato più accurato. Visto che entrambe le parti interpretano il ruolo sia di mittente che di destinatario, si è scelto di gestire le due comunicazioni con tecniche differenti, come spiegato nei seguenti paragrafi.
+    Nel caso considerato, la comunicazione è bidirezionale in quanto da un lato i nodi inviano i modelli locali al Sink, dall'altro il Sink invia il modello Unificato a tutti i nodi, i quali aggiornano il proprio modello locale con quello Unificato, se considerato più accurato. Visto che entrambe le parti interpretano il ruolo sia di mittente che di destinatario, si è scelto di gestire le due comunicazioni con tecniche differenti, come spiegato nei paragrafi seguenti.
     \subsection{Comunicazione da Nodo a Sink}
-      Un modello è prodotto da un Nodo (\textit{Producer}) e inviati al Sink (\textit{Consumer}), che rappresenta l'unico ricevitore. In uno scenario del genere è sufficiente adottare una communicazione del tipo mostrata in figura \ref{fig:ProducerConsumer} nella quale un produttore invia i propri dati sulla coda, successivamente consumati dal consumatore. Questa tipologia di comunicazione è adottata da ogni Nodo, quindi, dal punto di vista del Sink, ci saranno \textit{N} produttori che riempiranno la sua coda.
+      Un modello è prodotto da un Nodo (\textit{Producer}) e inviato al Sink (\textit{Consumer}), che rappresenta l'unico ricevitore. In uno scenario del genere è sufficiente adottare una communicazione del tipo mostrata in figura \ref{fig:ProducerConsumer} nella quale un produttore invia i propri dati sulla coda, successivamente consumati dal consumatore. Questa tipologia di comunicazione è usata da ogni Nodo, quindi, dal punto di vista del Sink, ci saranno \textit{N} produttori che riempiranno la sua coda.
       \begin{figure}[h!]
         \centering
         \includegraphics[scale=0.7]{../Immagini/ProducerConsumer.png}
@@ -27,13 +27,13 @@
       Per rendere l'architettura dinamica e flessibile è stato sviluppato un meccanismo per incrementare o diminuire il numero dei Nodi nel sistema. A questo scopo, quando un nodo vuole unirsi alla pool, deve necessariamente informare il Sink in modo tale che quest'ultimo tenga costantemente traccia del numero di Nodi presenti, necessario per l'operazione di Merging dei modelli. \newline
       La soluzione migliore in questo caso è quella di sfruttare un sistema di \textbf{RPC} (\textit{Remote Procedure Call}) che permette al Nodo di effettuare delle chiamate di funzioni eseguite sul Sink. Come mostrato in figura \ref{fig:RPC}, questo meccanismo si compone di 2 code:
       \begin{itemize}
-        \item rpc\_queue: coda delle chiamate di funzioni
-        \item reply\_to: coda dei risultati delle funzioni
+        \item \textit{rpc\_queue}: coda delle chiamate di funzioni
+        \item \textit{reply\_to}: coda dei risultati delle funzioni
       \end{itemize}
       Nel caso considerato, le funzioni disponibili sono le seguenti:
       \begin{itemize}
-        \item Registration: un nodo richiede l'accesso alla pool e ottiene un identificativo univoco come risposta
-        \item Leave: un nodo richiede l'uscita dalla pool specificando il proprio identificativo nella richiesta
+        \item \textit{Registration}: un nodo richiede l'accesso alla pool e ottiene un identificativo univoco come risposta
+        \item \textit{Leave}: un nodo richiede l'uscita dalla pool specificando il proprio identificativo nella richiesta
       \end{itemize}
       \begin{figure}[h!]
         \centering
@@ -45,7 +45,7 @@
 
   \section{Implementazione}
     \subsection{abstract class CommunicationModelHandler}
-      Il software creato si appoggia sulle Java API di \textit{RabbitMQ} che permette una facile gestione di message queueing e per via delle somiglianza tra le azioni da svolgere sia sul Sink che sui Nodi, è stata implementata una classe astratta \textit{CommunicationModelHandler} \ref{CommunicationHandler} che mantiene delle informazioni utilizzati nelle interazioni con il server di RabbitMQ e i nomi delle \textit{Queue}, comuni a tutti i nodi. Inoltre, il costruttore inizializza una connessione che il Server di RabbitMQ configurato sulla porta di default 5672 e richiama le 3 funzioni per l'inizializzazione delle strutture su cui verrano scambiati i dati:
+      Il software creato si appoggia sulle Java API di \textit{RabbitMQ} che permette una facile gestione di message queueing e per via delle somiglianza tra le azioni da svolgere sia sul Sink che sui Nodi, è stata implementata una classe astratta \textit{CommunicationModelHandler} \ref{CommunicationHandler} che mantiene delle informazioni utilizzati nelle interazioni con il server di RabbitMQ e i nomi delle \textit{Queue}, comuni a tutti i nodi. Inoltre, il costruttore inizializza una connessione con il Server di RabbitMQ configurato sulla porta di default 5672 e richiama le 3 funzioni per l'inizializzazione delle strutture su cui verrano scambiati i dati:
       \begin{itemize}
         \item \textit{initRPC()}
         \item \textit{initSinkToNode()}
@@ -78,7 +78,7 @@
         \lstinputlisting[label={Node:receiveModel}, language=Java, firstline=74, lastline=89,  caption={NodeCommunicationModelHandler.receiveModel()},captionpos=b]{../Codice/NodeCommunicationModelHandler.java}
 
       \subsubsection{sendModel()}
-        Per inviare un modello al Sink è sufficiente leggerlo dal file creato da modulo di ML ed effettuare la funzione \textit{basicPublish(...)} specificando la coda in cui inserire il modello e i byte da inviare.
+        Per inviare un modello al Sink è sufficiente leggerlo dal file creato dal modulo di ML ed effettuare la funzione \textit{basicPublish(...)} specificando la coda in cui inserire il modello e i byte da inviare.
         \lstinputlisting[label={Node:sendModel}, language=Java, firstline=90, lastline=99,  caption={NodeCommunicationModelHandler.sendModel()},captionpos=b]{../Codice/NodeCommunicationModelHandler.java}
 
     \subsection{SinkCommunicationModelHandler}
@@ -119,23 +119,23 @@
         \lstinputlisting[label={Sink:registration}, language=Java, firstline=88, lastline=93, caption={SinkCommunicationModelHandler.registration()},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
 
       \subsubsection{removeNode(int nodeID)}
-        Funzione chiamata da RPCServer quando riceve una richiesta di uscita dal sistema dal nodo. Rimuove il nodo con l'ID specificato dalla mappa isNew e ritorna \"OK\" se l'operazione è avvenuta con successo.
+        Funzione chiamata da RPCServer quando riceve una richiesta di uscita dal sistema dal nodo. Rimuove il nodo con l'ID specificato dalla mappa isNew e ritorna \textbf{OK} se l'operazione è avvenuta con successo, altrimenti \textbf{NOT FOUND}.
         \lstinputlisting[label={Sink:removeNode}, language=Java, firstline=95, lastline=103, caption={SinkCommunicationModelHandler.removeNode()},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
 
     \subsection{ModelMerger}\label{ModelMerger}
       Effettua una richiesta al server Rest con il comando \textit{Merge}, specificando il numero di nodi presenti nel sistema, e sta in attesa della risposta. La risposta può contenere i seguenti codici:
       \begin{itemize}
-        \item 201: il modello è stato unificato con successo, quindi è possibili inviarlo ai nodi tramite la \textit{SinkCommunicationModelHandler.sendModel()}
+        \item 201: il modello è stato unificato con successo, quindi è possibile inviarlo ai nodi tramite la \textit{SinkCommunicationModelHandler.sendModel()}
         \item 500: si è verificato un errore nel modulo ML
         \item altrimenti: codice non supportato
       \end{itemize}
       \lstinputlisting[language=Java, firstline=8, lastline=41, caption={ModelMerger},captionpos=b]{../Codice/ModelMerger.java}
 
-    \subsection{RPCServer}
+    \subsection{RPCServer}\label{RPCServer}
       RPCServer è un thread che sta continuamente in ascolto di richeste dei nodi in arrivo sulla coda \textbf{RPC\_NODE\_TO\_SINK\_QUEUE\_NAME}. Le richieste vengono processate dal \textit{DeliverCallback}, definito nella funzione run del thread, che richiama l'oppurtuna funzione del Sink ( \ref{Sink:registration} oppure \ref{Sink:removeNode} ) e risponde alla richiesta tramite la \textit{basicPublish(...)}.
       \lstinputlisting[language=Java, firstline=14, lastline=87, caption={ModelMerger},captionpos=b]{../Codice/RPCServer.java}
 
-    \subsection{Classi comuni}
+    \subsection{Classi comuni tra Nodo e Sink}
       \subsubsection{Model}
         Contiene l'ID del nodo che ha generato il modello e una stringa che contiene la rappresentazione json del modello. In caso in cui il modello sia quello unificato prodotto dal Sink, il nodeID contiene -1.
         \lstinputlisting[language=Java, firstline=6, caption={Model},captionpos=b]{../Codice/Model.java}
