@@ -29,7 +29,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             Connection connectionNodeSink = factory.newConnection();
             channelNodeSink = connectionNodeSink.createChannel();
             channelNodeSink.queueDeclare(NODE_TO_SINK_QUEUE_NAME, false, false, false, null);
-            System.out.println("Waiting for models");
+            Log.info("Sink", "Waiting for models");
 
             receiver = new ModelReceiver(this);
             channelNodeSink.basicConsume(NODE_TO_SINK_QUEUE_NAME, true, receiver);
@@ -60,7 +60,6 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
         isNew.replace(deliveredModel.getNodeID(), true);
 
         if (areAllNew() && !merging) {
-            // Start the merging of the models
             merging = true;
             ModelMerger mm = new ModelMerger(isNew.size(), this);
             mm.start();
@@ -93,7 +92,6 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
         nextID++;
         return nodeID;
     }
-
     public String removeNode(int nodeID) {
         if (isNew.containsKey(nodeID)) {
             isNew.remove(nodeID);

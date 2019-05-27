@@ -62,11 +62,9 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
             channelSinkNode.exchangeDeclare(SINK_TO_NODE_EXCHANGE_NAME, "fanout", true);
 
             String queueName = channelSinkNode.queueDeclare().getQueue();
-            System.out.println("[DEBUG] Temporary queueName: " + queueName);
             channelSinkNode.queueBind(queueName, SINK_TO_NODE_EXCHANGE_NAME, "");
 
             receiver = new ModelReceiver(this);
-            // Start listening to updated models
             Log.info("Node-" + nodeID, "Starting consuming from " + queueName);
             channelSinkNode.basicConsume(queueName, true, receiver);
         } catch (TimeoutException | IOException e) {
@@ -75,7 +73,6 @@ public class NodeCommunicationModelHandler extends CommunicationModelHandler {
     }
     @Override
     public void receiveModel(Model deliveredModel) {
-        // Notify the new model to the ML Module
         Log.info("Node-" + nodeID, "Updated model received");
         deliveredModel.toFile(Config.PATH_NODE_UPDATED_MODEL);
         Runnable notifier = () -> {

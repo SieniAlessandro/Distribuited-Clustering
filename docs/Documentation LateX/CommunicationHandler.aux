@@ -1,19 +1,76 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Comunicazione tra i Nodi e il Sink}{15}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Comunicazione tra i Nodi e il Sink}{14}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Implementazione}{15}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}abstract class CommunicationModelHandler}{15}{subsection.3.1.1}\protected@file@percent }
-\newlabel{CommunicationHandler}{{3.1}{15}{CommunicationModelHandler}{lstlisting.3.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}CommunicationModelHandler}{15}{lstlisting.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}NodeCommunicationModelHandler}{16}{subsection.3.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.1}initRPC()}{16}{subsubsection.3.1.2.1}\protected@file@percent }
-\newlabel{Node:initRPC}{{3.2}{17}{NodeCommunicationModelHandler.initRPC()}{lstlisting.3.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}NodeCommunicationModelHandler.initRPC()}{17}{lstlisting.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.2}initNodeToSink()}{17}{subsubsection.3.1.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Descrizione del Problema}{14}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Comunicazione da Nodo a Sink}{15}{subsection.3.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Comunicazione con un Producer e un Consumer\relax }}{15}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:ProducerConsumer}{{3.1}{15}{Comunicazione con un Producer e un Consumer\relax }{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Comunicazione da Sink a Nodo}{15}{subsection.3.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Comunicazione Public\&Subscribe\relax }}{15}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:PublicSubscribe}{{3.2}{15}{Comunicazione Public\&Subscribe\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Registrazione di un nuovo Nodo}{15}{subsection.3.1.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Remote Procedure Call\relax }}{16}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:RPC}{{3.3}{16}{Remote Procedure Call\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Implementazione}{16}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}abstract class CommunicationModelHandler}{16}{subsection.3.2.1}\protected@file@percent }
+\newlabel{CommunicationHandler}{{3.1}{17}{CommunicationModelHandler}{lstlisting.3.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}CommunicationModelHandler}{17}{lstlisting.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}NodeCommunicationModelHandler}{18}{subsection.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2.1}initRPC()}{18}{subsubsection.3.2.2.1}\protected@file@percent }
+\newlabel{Node:initRPC}{{3.2}{18}{NodeCommunicationModelHandler.initRPC()}{lstlisting.3.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}NodeCommunicationModelHandler.initRPC()}{18}{lstlisting.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2.2}initNodeToSink()}{18}{subsubsection.3.2.2.2}\protected@file@percent }
+\newlabel{Node:initNodeToSink}{{3.3}{18}{NodeCommunicationModelHandler.initNodeToSink()}{lstlisting.3.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.3}NodeCommunicationModelHandler.initNodeToSink()}{18}{lstlisting.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2.3}initSinkToNode()}{19}{subsubsection.3.2.2.3}\protected@file@percent }
+\newlabel{Node:initSinkToNode}{{3.4}{19}{NodeCommunicationModelHandler.initSinkToNode()}{lstlisting.3.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.4}NodeCommunicationModelHandler.initSinkToNode()}{19}{lstlisting.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2.4}receiveModel(Model deliveredModel)}{20}{subsubsection.3.2.2.4}\protected@file@percent }
+\newlabel{Node:receiveModel}{{3.5}{20}{NodeCommunicationModelHandler.receiveModel()}{lstlisting.3.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.5}NodeCommunicationModelHandler.receiveModel()}{20}{lstlisting.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2.5}sendModel()}{20}{subsubsection.3.2.2.5}\protected@file@percent }
+\newlabel{Node:sendModel}{{3.6}{20}{NodeCommunicationModelHandler.sendModel()}{lstlisting.3.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.6}NodeCommunicationModelHandler.sendModel()}{20}{lstlisting.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}SinkCommunicationModelHandler}{21}{subsection.3.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.1}initRPC()}{21}{subsubsection.3.2.3.1}\protected@file@percent }
+\newlabel{Sink:initRPC}{{3.7}{21}{SinkCommunicationModelHandler.initRPC()}{lstlisting.3.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.7}SinkCommunicationModelHandler.initRPC()}{21}{lstlisting.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.2}initNodeToSink()}{21}{subsubsection.3.2.3.2}\protected@file@percent }
+\newlabel{Sink:initNodeToSink}{{3.8}{22}{SinkCommunicationModelHandler.initNodeToSink()}{lstlisting.3.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.8}SinkCommunicationModelHandler.initNodeToSink()}{22}{lstlisting.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.3}initSinkToNode()}{22}{subsubsection.3.2.3.3}\protected@file@percent }
+\newlabel{Sink:initSinkToNode}{{3.9}{22}{SinkCommunicationModelHandler.initSinkToNode()}{lstlisting.3.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.9}SinkCommunicationModelHandler.initSinkToNode()}{22}{lstlisting.3.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.4}receiveModel(Model deliveredModel)}{22}{subsubsection.3.2.3.4}\protected@file@percent }
+\newlabel{Sink:receiveModel}{{3.10}{23}{SinkCommunicationModelHandler.receiveModel(...)}{lstlisting.3.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.10}SinkCommunicationModelHandler.receiveModel(...)}{23}{lstlisting.3.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.5}sendModel()}{23}{subsubsection.3.2.3.5}\protected@file@percent }
+\newlabel{Sink:sendModel}{{3.11}{23}{SinkCommunicationModelHandler.sendModel()}{lstlisting.3.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.11}SinkCommunicationModelHandler.sendModel()}{23}{lstlisting.3.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.6}registration()}{24}{subsubsection.3.2.3.6}\protected@file@percent }
+\newlabel{Sink:registration}{{3.12}{24}{SinkCommunicationModelHandler.registration()}{lstlisting.3.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.12}SinkCommunicationModelHandler.registration()}{24}{lstlisting.3.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.7}removeNode(int nodeID)}{24}{subsubsection.3.2.3.7}\protected@file@percent }
+\newlabel{Sink:removeNode}{{3.13}{24}{SinkCommunicationModelHandler.removeNode()}{lstlisting.3.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.13}SinkCommunicationModelHandler.removeNode()}{24}{lstlisting.3.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}ModelMerger}{25}{subsection.3.2.4}\protected@file@percent }
+\newlabel{ModelMerger}{{3.2.4}{25}{ModelMerger}{subsection.3.2.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.14}ModelMerger}{25}{lstlisting.3.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.5}RPCServer}{26}{subsection.3.2.5}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.15}ModelMerger}{26}{lstlisting.3.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.6}Classi comuni}{28}{subsection.3.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6.1}Model}{28}{subsubsection.3.2.6.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.16}Model}{28}{lstlisting.3.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6.2}ModelReceiver}{30}{subsubsection.3.2.6.2}\protected@file@percent }
+\newlabel{ModelReceiver}{{3.2.6.2}{30}{ModelReceiver}{subsubsection.3.2.6.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.17}ModelReceiver}{30}{lstlisting.3.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6.3}Config}{31}{subsubsection.3.2.6.3}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.18}Config}{31}{lstlisting.3.18}\protected@file@percent }
 \@setckpt{CommunicationHandler}{
-\setcounter{page}{18}
+\setcounter{page}{32}
 \setcounter{equation}{0}
 \setcounter{enumi}{0}
 \setcounter{enumii}{0}
@@ -23,12 +80,12 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{chapter}{3}
-\setcounter{section}{1}
-\setcounter{subsection}{2}
-\setcounter{subsubsection}{2}
+\setcounter{section}{2}
+\setcounter{subsection}{6}
+\setcounter{subsubsection}{3}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{0}
+\setcounter{figure}{3}
 \setcounter{table}{0}
 \setcounter{caption@flags}{0}
 \setcounter{ContinuedFloat}{0}
@@ -42,7 +99,7 @@
 \setcounter{Item}{0}
 \setcounter{Hfootnote}{0}
 \setcounter{bookmark@seq@number}{12}
-\setcounter{lstnumber}{13}
+\setcounter{lstnumber}{21}
 \setcounter{section@level}{0}
-\setcounter{lstlisting}{2}
+\setcounter{lstlisting}{18}
 }

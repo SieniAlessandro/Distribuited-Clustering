@@ -39,7 +39,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             Connection connectionNodeSink = factory.newConnection();
             channelNodeSink = connectionNodeSink.createChannel();
             channelNodeSink.queueDeclare(NODE_TO_SINK_QUEUE_NAME, false, false, false, null);
-            System.out.println("Waiting for models");
+            Log.info("Sink", "Waiting for models");
 
             receiver = new ModelReceiver(this);
             channelNodeSink.basicConsume(NODE_TO_SINK_QUEUE_NAME, true, receiver);
