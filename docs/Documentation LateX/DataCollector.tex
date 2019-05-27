@@ -19,5 +19,18 @@
       \lstinputlisting[language=Java]{../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/DataGenerator.java}
 
     \subsection{Repository Handler}
-      Modulo delegato a gestire l'accesso concorrente in scrittura alla repository, implementa il Fair Lock, e decide anche se chiamare il modulo \textbf{ModelCaller}, per richiedere la generazione di un nuovo modello. Per prendere questa decisione sono usate delle soglie \textbf{threshold} all'inizio e \textbf{newValues} successivamente.
+      Modulo delegato a gestire l'accesso concorrente in scrittura alla repository, implementa il Fair Lock, e decide anche se chiamare il modulo \textbf{ModelCaller}, per richiedere la generazione di un nuovo modello. Per prendere questa decisione sono usate delle soglie \textbf{threshold} all'inizio e \textbf{newValues} successivamente, nello specifico la prima è pari ad alla dimensione di partenza della finestra di valori su cui calcolare un nuovo modello \textbf{Config.SIZE\_WINDOW}, invece la seconda assume un valore variabile pari ad una percentuale (\textbf{Config.PERCENTAGE\_OLD\_VALUES}) del numero di campioni totali raccolti attualmente
       \lstinputlisting[language=Java]{../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/RepositoryHandler.java}
+
+    \subsection{Model Caller}
+      Modulo incaricato di richiedere la creazione del nuovo modello, tramite una chiamata sincrona di tipo REST. Si occupa di decidere sia la dimensione della finestra dei valori su cui ricalcolare il modello, che del \textit{coefficiente di Fading}. A questo punto possiamo distinguere due casi:
+      \begin{enumerate}
+        \item Numero di nuovi valori inseriti è inferiore alla dimensione di partenza della finestra:\newline
+          La dimensione della finestra sarà pari a \textbf{Config.SIZE\_WINDOW} e il \textit{coefficiente di fading} sarà pari a 0
+        \item Numero di nuovi valori inseriti maggiore della dimensione di partenza della finestra:\newline
+          La dimensione della finestra sarà pari al numero di valori nuovi inseriti ed entrerà in gioco il \textit{coefficiente di Fading} che assumerà un valore compreso in un intervallo tra $[0,1]$, col quale verranno presi in considerazione una percentuale di valori al di fuori della finestra
+          \begin{math}
+            \textbf{fadingCoefficent} = \frac{(nuovi\_valori\_inseriti - Config.SIZE\_WINDOW)}{nuovi\_valori\_inseriti}
+          \end{math}
+      \end{enumerate}
+      \lstinputlisting[language=Java]{../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/ModelCaller.java}

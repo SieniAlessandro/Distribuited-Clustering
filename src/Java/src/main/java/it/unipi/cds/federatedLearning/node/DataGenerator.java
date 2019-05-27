@@ -33,9 +33,9 @@ public class DataGenerator implements Runnable{
 	
 	/**
 	 * Constructor initializes the basic attributes and generate and create the exponentialSeed with a unique seed each time that is called
-	 * @param repository
-	 * @param numberOfWrites
-	 * @param infiniteWrites
+	 * @param repository The object used to write in a concurrent way in the repository
+	 * @param numberOfWrites The max number of write cycles that the thread have to do
+	 * @param infiniteWrites Parameter used to perform an infinite cycle
 	 */
 	public DataGenerator(RepositoryHandler repository, int numberOfWrites, Boolean infiniteWrites) {
 		this.repository = repository;
