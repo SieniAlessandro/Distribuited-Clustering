@@ -49,7 +49,7 @@ class FCM:
         print(nodeList)
         #Computing the mean Minumum distance for the new centers from the old centers
         for i in range(0,len(nodeList)):
-            with open(BASE_MODEL_SINK_PATH+str(i)+".json","r") as model:
+            with open(BASE_MODEL_SINK_PATH+str(nodeList[i])+".json","r") as model:
                 oldcntrs = np.array(json.load(model)["centers"])
 
             indexes = np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
