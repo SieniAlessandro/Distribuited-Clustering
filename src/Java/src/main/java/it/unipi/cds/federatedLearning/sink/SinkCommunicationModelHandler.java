@@ -133,6 +133,10 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
         return nodeID;
     }
 
+    /**
+     * Remove the Node and provide its new nodeID
+     * @return OK or NOT FOUND
+     */
     public String removeNode(int nodeID) {
         if (isNew.containsKey(nodeID)) {
             isNew.remove(nodeID);

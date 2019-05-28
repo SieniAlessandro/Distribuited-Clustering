@@ -108,24 +108,25 @@
           \item \textit{dataSink/history/Node-ID/} e come nome del file si usa il timestamp di ricezione del modello. In questa cartella è conservato uno storico dei modelli inviati da nodo con quel determinato ID.
         \end{itemize}
         Si aggiorna la freschezza del modello nella mappa isNew e si controlla se avviare il processo di merging o meno, avviato solo se i modelli di tutti i nodi risultano essere freschi e se non vi è un merging già in corso. In caso positivo, si avvia il thread \textit{ModelMerger} di cui si parla in \ref{ModelMerger}.
-        \lstinputlisting[label={Sink:receiveModel}, language=Java, firstline=56, lastline=67, caption={SinkCommunicationModelHandler.receiveModel(...)},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
+        \lstinputlisting[label={Sink:receiveModel}, language=Java, firstline=56, lastline=68, caption={SinkCommunicationModelHandler.receiveModel(...)},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
 
       \subsubsection{sendModel()}
         Legge il modello Unificato creato dal modulo ML e lo pubblica sull'\textit{Exchange} \textbf{SINK\_TO\_NODE\_EXCHANGE}, resetta la freschezza di tutti i modelli nella mappa isNew e dichiara concluso il merging.
-        \lstinputlisting[label={Sink:sendModel}, language=Java, firstline=68, lastline=80, caption={SinkCommunicationModelHandler.sendModel()},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
+        \lstinputlisting[label={Sink:sendModel}, language=Java, firstline=69, lastline=82, caption={SinkCommunicationModelHandler.sendModel()},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
 
       \subsubsection{registration()}
         Funzione chiamata da RPCServer quando quest'ultimo riceve una richiesta di registrazione da un nodo. La risposta alla richiesta contiene il valore ritornato da questa funzione, corrispondente all'ID assegnato al nodo entrante.
-        \lstinputlisting[label={Sink:registration}, language=Java, firstline=88, lastline=93, caption={SinkCommunicationModelHandler.registration()},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
+        \lstinputlisting[label={Sink:registration}, language=Java, firstline=89, lastline=96, caption={SinkCommunicationModelHandler.registration()},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
 
       \subsubsection{removeNode(int nodeID)}
         Funzione chiamata da RPCServer quando riceve una richiesta di uscita dal sistema dal nodo. Rimuove il nodo con l'ID specificato dalla mappa isNew e ritorna \textbf{OK} se l'operazione è avvenuta con successo, altrimenti \textbf{NOT FOUND}.
-        \lstinputlisting[label={Sink:removeNode}, language=Java, firstline=95, lastline=103, caption={SinkCommunicationModelHandler.removeNode()},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
+        \lstinputlisting[label={Sink:removeNode}, language=Java, firstline=97, lastline=106, caption={SinkCommunicationModelHandler.removeNode()},captionpos=b]{../Codice/SinkCommunicationModelHandler.java}
 
     \subsection{ModelMerger}\label{ModelMerger}
-      Effettua una richiesta al server Rest con il comando \textit{Merge}, specificando il numero di nodi presenti nel sistema, e sta in attesa della risposta. La risposta può contenere i seguenti codici:
+      Effettua una richiesta al server Rest con il comando \textit{Merge} e sta in attesa della risposta. La risposta può contenere i seguenti codici:
       \begin{itemize}
         \item 201: il modello è stato unificato con successo, quindi è possibile inviarlo ai nodi tramite la \textit{SinkCommunicationModelHandler.sendModel()}
+        \item 204: attualmente esiste solo un modello, quindi è inutile effettuare il merging
         \item 500: si è verificato un errore nel modulo ML
         \item altrimenti: codice non supportato
       \end{itemize}

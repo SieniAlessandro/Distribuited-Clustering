@@ -29,7 +29,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             Connection connectionNodeSink = factory.newConnection();
             channelNodeSink = connectionNodeSink.createChannel();
             channelNodeSink.queueDeclare(NODE_TO_SINK_QUEUE_NAME, false, false, false, null);
-            Log.info("Sink", "Waiting for models");
+            System.out.println("Waiting for models");
 
             receiver = new ModelReceiver(this);
             channelNodeSink.basicConsume(NODE_TO_SINK_QUEUE_NAME, true, receiver);
@@ -60,6 +60,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
         isNew.replace(deliveredModel.getNodeID(), true);
 
         if (areAllNew() && !merging) {
+            // Start the merging of the models
             merging = true;
             ModelMerger mm = new ModelMerger(isNew.size(), this);
             mm.start();
@@ -87,6 +88,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     }
     public String registration() {
         isNew.put(nextID,false);
+        updateFileSizePool();
         String nodeID = String.valueOf(nextID);
         Log.info("Sink", "New node requesting registration. New node id: " + nodeID + " | Current nodes: " + isNew.size());
         nextID++;
@@ -95,11 +97,33 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     public String removeNode(int nodeID) {
         if (isNew.containsKey(nodeID)) {
             isNew.remove(nodeID);
+            updateFileSizePool();
             Log.info("Sink", "Node "+ nodeID + " is leaving. Current nodes: " + isNew.size());
             return "OK";
         }
         Log.error("Sink", "Node "+ nodeID + " not found. Current nodes: " + isNew.size());
         return "NOT FOUND";
+    }
+    private void updateFileSizePool() {
+        String nodeList = "";
+
+        for ( int i : isNew.keySet()) {
+            nodeList += Integer.valueOf(i);
+            nodeList += ',';
+        }
+        if (!nodeList.equals(""))
+            nodeList = nodeList.substring(0, nodeList.length() - 1);
+
+        String filename = Config.PATH_SINK_POOL_SIZE + "nodeList.txt";
+        File file = new File(filename);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            if (!file.exists())
+                file.createNewFile();
+            writer.flush();
+            writer.write(nodeList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public static void main(String[] args) {
         try {
@@ -108,4 +132,6 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             Log.error("Sink", "Provide RabbitMQ Server's ip address as argument");
         }
     }
+
+
 }

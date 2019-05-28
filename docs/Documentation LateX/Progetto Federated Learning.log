@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.28)  27 MAY 2019 16:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.28)  28 MAY 2019 10:48
 entering extended mode
 **"./Progetto Federated Learning.tex"
 ("Progetto Federated Learning.tex"
@@ -705,8 +705,8 @@ File: lstlang1.sty 2019/02/27 1.8b listings language file
 ("C:\Users\nabow\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\lstlang1.
 sty"
 File: lstlang1.sty 2019/02/27 1.8b listings language file
-) ("Progetto Federated Learning.aux" (specifiche.aux) (DataCollector.aux)
-(CommunicationHandler.aux) (PythonRestServer.aux) (Analisi.aux) (Testing.aux))
+)
+No file "Progetto Federated Learning".aux.
 \openout1 = `"Progetto Federated Learning.aux"'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
@@ -724,7 +724,6 @@ LaTeX Font Info:    ... okay on input line 63.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 63.
 LaTeX Font Info:    ... okay on input line 63.
 LaTeX Font Info:    Try loading font information for T1+lmr on input line 63.
-
 ("C:\Users\nabow\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
@@ -832,8 +831,6 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 63.
 LaTeX Info: Redefining \pageref on input line 63.
 LaTeX Info: Redefining \nameref on input line 63.
- ("Progetto Federated Learning.out")
-("Progetto Federated Learning.out")
 \@outlinefile=\write3
 \openout3 = `"Progetto Federated Learning.out"'.
 
@@ -978,7 +975,6 @@ Package microtype Info: Character `029' is missing
 
 
 {C:/Users/nabow/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-("Progetto Federated Learning.toc")
 \tf@toc=\write4
 \openout4 = `"Progetto Federated Learning.toc"'.
 
@@ -988,7 +984,8 @@ Package microtype Info: Character `029' is missing
 ]
 \openout2 = `specifiche.aux'.
 
- (specifiche.tex
+
+(specifiche.tex
 Capitolo 1.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
@@ -1013,29 +1010,29 @@ nput line 10.
 
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 9.
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 11.
 
 ("C:\Users\nabow\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmr.fd"
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 9.
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 11.
 
-[4])
+[4]) [5]
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 16.
 
 (../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/DataGenerator
-.java [5] [6]
+.java [6] [7]
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 71.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 71.
- [7])
+) [8]
 (../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/RepositoryHan
-dler.java [8] [9] [10] [11] [12] [13])
+dler.java [9] [10] [11] [12] [13])
 (../../src/Java/src/main/java/it/unipi/cds/federatedLearning/node/ModelCaller.j
-ava [14] [15])) [16]
+ava [14] [15]) [16]) [17]
 \openout2 = `CommunicationHandler.aux'.
 
  (CommunicationHandler.tex
@@ -1050,143 +1047,226 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--6
 
  []
 
-<../Immagini/ProducerConsumer.png, id=639, 393.47pt x 59.22125pt>
+
+LaTeX Warning: Reference `fig:ProducerConsumer' on page 18 undefined on input l
+ine 9.
+
+<../Immagini/ProducerConsumer.png, id=577, 393.47pt x 59.22125pt>
 File: ../Immagini/ProducerConsumer.png Graphic file (type png)
 <use ../Immagini/ProducerConsumer.png>
 Package pdftex.def Info: ../Immagini/ProducerConsumer.png  used on input line 1
 2.
 (pdftex.def)             Requested size: 275.42711pt x 41.45457pt.
-[17
+[18
 
 
 
 ]
-<../Immagini/PublicSubscribe.png, id=648, 435.6275pt x 111.41624pt>
+
+LaTeX Warning: Reference `fig:PublicSubscribe' on page 19 undefined on input li
+ne 18.
+
+<../Immagini/PublicSubscribe.png, id=586, 435.6275pt x 111.41624pt>
 File: ../Immagini/PublicSubscribe.png Graphic file (type png)
 <use ../Immagini/PublicSubscribe.png>
 Package pdftex.def Info: ../Immagini/PublicSubscribe.png  used on input line 21
 .
 (pdftex.def)             Requested size: 304.93716pt x 77.99083pt.
- [18 <../Immagini/ProducerConsumer.png> <../Immagini/PublicSubscribe.png>]
-<../Immagini/RPC.png, id=660, 578.16pt x 200.75pt>
+
+LaTeX Warning: Reference `fig:RPC' on page 19 undefined on input line 28.
+
+[19 <../Immagini/ProducerConsumer.png> <../Immagini/PublicSubscribe.png>]
+<../Immagini/RPC.png, id=597, 578.16pt x 200.75pt>
 File: ../Immagini/RPC.png Graphic file (type png)
 <use ../Immagini/RPC.png>
 Package pdftex.def Info: ../Immagini/RPC.png  used on input line 40.
 (pdftex.def)             Requested size: 404.70924pt x 140.52403pt.
 
-[19 <../Immagini/RPC.png>] (../Codice/CommunicationModelHandler.java) [20]
+
+LaTeX Warning: Reference `CommunicationHandler' on page 20 undefined on input l
+ine 48.
+
+[20 <../Immagini/RPC.png>] (../Codice/CommunicationModelHandler.java) [21]
 (../Codice/NodeCommunicationModelHandler.java)
-(../Codice/NodeCommunicationModelHandler.java [21])
-(../Codice/NodeCommunicationModelHandler.java) [22]
+(../Codice/NodeCommunicationModelHandler.java [22])
+
+LaTeX Warning: Reference `ModelReceiver' on page 23 undefined on input line 73.
+
+
+(../Codice/NodeCommunicationModelHandler.java) [23]
 (../Codice/NodeCommunicationModelHandler.java)
-(../Codice/NodeCommunicationModelHandler.java [23])
+(../Codice/NodeCommunicationModelHandler.java [24])
+
+LaTeX Warning: Reference `RPCServer' on page 25 undefined on input line 93.
+
 (../Codice/SinkCommunicationModelHandler.java)
-(../Codice/SinkCommunicationModelHandler.java [24])
-(../Codice/SinkCommunicationModelHandler.java) [25]
+
+LaTeX Warning: Reference `Node:initNodeToSink' on page 25 undefined on input li
+ne 97.
+
+(../Codice/SinkCommunicationModelHandler.java [25])
+
+LaTeX Warning: Reference `Node:initSinkToNode' on page 26 undefined on input li
+ne 101.
+
+(../Codice/SinkCommunicationModelHandler.java) [26]
+
+LaTeX Warning: Reference `ModelMerger' on page 27 undefined on input line 110.
+
 (../Codice/SinkCommunicationModelHandler.java)
-(../Codice/SinkCommunicationModelHandler.java [26])
+(../Codice/SinkCommunicationModelHandler.java [27])
 (../Codice/SinkCommunicationModelHandler.java)
-(../Codice/SinkCommunicationModelHandler.java) [27] (../Codice/ModelMerger.java
-[28]) (../Codice/RPCServer.java [29] [30]) (../Codice/Model.java [31]) [32]
-(../Codice/ModelReceiver.java) [33] (../Codice/Config.java)) [34]
+(../Codice/SinkCommunicationModelHandler.java [28]) (../Codice/ModelMerger.java
+[29])
+
+LaTeX Warning: Reference `Sink:registration' on page 30 undefined on input line
+ 136.
+
+
+LaTeX Warning: Reference `Sink:removeNode' on page 30 undefined on input line 1
+36.
+
+(../Codice/RPCServer.java [30] [31]) (../Codice/Model.java [32] [33])
+(../Codice/ModelReceiver.java [34]) (../Codice/Config.java)) [35]
 \openout2 = `PythonRestServer.aux'.
 
 
 (PythonRestServer.tex
 Capitolo 4.
-(../../src/Python/RestServer.py [35
+(../../src/Python/RestServer.py [36
 
 
 
-])) [36]
+])) [37]
 \openout2 = `Analisi.aux'.
 
  (Analisi.tex
 Capitolo 5.
-[37
+[38
 
 
 
-] (../../src/Python/FCM.py [38]) (../../src/Python/FCM.py) [39]
-(../../src/Python/FCM.py [40]) (../../src/Python/FCM.py [41])) [42]
+] (../../src/Python/FCM.py [39]) (../../src/Python/FCM.py) [40]
+(../../src/Python/FCM.py [41]) (../../src/Python/FCM.py [42])) [43]
 \openout2 = `Testing.aux'.
 
 
 (Testing.tex
 Capitolo 6.
-[43
+[44
 
 
 
 ]
-<../Immagini/train1.png, id=1367, 462.528pt x 346.896pt>
+
+LaTeX Warning: Reference `fig:train1' on page 45 undefined on input line 29.
+
+
+LaTeX Warning: Reference `fig:train5' on page 45 undefined on input line 29.
+
+
+LaTeX Warning: Reference `fig:train11' on page 45 undefined on input line 29.
+
+<../Immagini/train1.png, id=1305, 462.528pt x 346.896pt>
 File: ../Immagini/train1.png Graphic file (type png)
 <use ../Immagini/train1.png>
 Package pdftex.def Info: ../Immagini/train1.png  used on input line 32.
 (pdftex.def)             Requested size: 323.76738pt x 242.82553pt.
-<../Immagini/train5.png, id=1368, 462.528pt x 346.896pt>
+<../Immagini/train5.png, id=1306, 462.528pt x 346.896pt>
 File: ../Immagini/train5.png Graphic file (type png)
 <use ../Immagini/train5.png>
 Package pdftex.def Info: ../Immagini/train5.png  used on input line 38.
 (pdftex.def)             Requested size: 323.76738pt x 242.82553pt.
-<../Immagini/train11.png, id=1369, 462.528pt x 346.896pt>
+<../Immagini/train11.png, id=1307, 462.528pt x 346.896pt>
 File: ../Immagini/train11.png Graphic file (type png)
 <use ../Immagini/train11.png>
 Package pdftex.def Info: ../Immagini/train11.png  used on input line 44.
 (pdftex.def)             Requested size: 323.76738pt x 242.82553pt.
- [44]
-<../Immagini/merge1.png, id=1381, 462.528pt x 346.896pt>
+[45]
+
+LaTeX Warning: Reference `fig:merge1' on page 46 undefined on input line 50.
+
+
+LaTeX Warning: Reference `fig:merge5' on page 46 undefined on input line 50.
+
+
+LaTeX Warning: Reference `fig:merge11' on page 46 undefined on input line 50.
+
+<../Immagini/merge1.png, id=1314, 462.528pt x 346.896pt>
 File: ../Immagini/merge1.png Graphic file (type png)
 <use ../Immagini/merge1.png>
 Package pdftex.def Info: ../Immagini/merge1.png  used on input line 53.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
-<../Immagini/merge5.png, id=1382, 462.528pt x 346.896pt>
+<../Immagini/merge5.png, id=1315, 462.528pt x 346.896pt>
 File: ../Immagini/merge5.png Graphic file (type png)
 <use ../Immagini/merge5.png>
 Package pdftex.def Info: ../Immagini/merge5.png  used on input line 59.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
-<../Immagini/merge11.png, id=1383, 462.528pt x 346.896pt>
+<../Immagini/merge11.png, id=1316, 462.528pt x 346.896pt>
 File: ../Immagini/merge11.png Graphic file (type png)
 <use ../Immagini/merge11.png>
 Package pdftex.def Info: ../Immagini/merge11.png  used on input line 65.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
- [45 <../Immagini/train1.png> <../Immagini/train5.png>] [46 <../Immagini/train1
-1.png> <../Immagini/merge1.png>] [47 <../Immagini/merge5.png> <../Immagini/merg
-e11.png>]
-<../Immagini/update1.png, id=1410, 462.528pt x 346.896pt>
+[46 <../Immagini/train1.png> <../Immagini/train5.png>] [47 <../Immagini/train11
+.png> <../Immagini/merge1.png>] [48 <../Immagini/merge5.png> <../Immagini/merge
+11.png>]
+
+LaTeX Warning: Reference `fig:update1' on page 49 undefined on input line 74.
+
+
+LaTeX Warning: Reference `fig:update5' on page 49 undefined on input line 74.
+
+
+LaTeX Warning: Reference `fig:update9' on page 49 undefined on input line 74.
+
+<../Immagini/update1.png, id=1343, 462.528pt x 346.896pt>
 File: ../Immagini/update1.png Graphic file (type png)
 <use ../Immagini/update1.png>
 Package pdftex.def Info: ../Immagini/update1.png  used on input line 77.
 (pdftex.def)             Requested size: 323.76738pt x 242.82553pt.
-<../Immagini/update5.png, id=1411, 462.528pt x 346.896pt>
+<../Immagini/update5.png, id=1344, 462.528pt x 346.896pt>
 File: ../Immagini/update5.png Graphic file (type png)
 <use ../Immagini/update5.png>
 Package pdftex.def Info: ../Immagini/update5.png  used on input line 83.
 (pdftex.def)             Requested size: 323.76738pt x 242.82553pt.
-<../Immagini/update9.png, id=1412, 462.528pt x 346.896pt>
+<../Immagini/update9.png, id=1345, 462.528pt x 346.896pt>
 File: ../Immagini/update9.png Graphic file (type png)
 <use ../Immagini/update9.png>
 Package pdftex.def Info: ../Immagini/update9.png  used on input line 89.
 (pdftex.def)             Requested size: 323.76738pt x 242.82553pt.
- [48 <../Immagini/update1.png>]) [49 <../Immagini/update5.png> <../Immagini/upd
-ate9.png>] [50]
+[49 <../Immagini/update1.png>]) [50 <../Immagini/update5.png> <../Immagini/upda
+te9.png>] [51]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 86.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 86.
- ("Progetto Federated Learning.aux"
-(specifiche.aux) (DataCollector.aux) (CommunicationHandler.aux)
-(PythonRestServer.aux) (Analisi.aux) (Testing.aux))
+ ("Progetto Federated Learning.aux" (specifiche.aux)
+(DataCollector.aux) (CommunicationHandler.aux) (PythonRestServer.aux)
+(Analisi.aux) (Testing.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 86.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 86.
-Package rerunfilecheck Info: File `"Progetto Federated Learning".out' has not c
-hanged.
-(rerunfilecheck)             Checksum: F40302133EDF53E8AF902EF2C30E2C06;1232.
+
+
+Package rerunfilecheck Warning: File `"Progetto Federated Learning".out' has ch
+anged.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `"Progetto Federated Learning".out':
+
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  F40302133EDF53E8AF902EF2C30E2C06;1232.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 25682 strings out of 492945
- 475880 string characters out of 3126252
- 1005441 words of memory out of 3000000
- 27935 multiletter control sequences out of 15000+200000
- 637670 words of font info for 143 fonts, out of 3000000 for 9000
+ 25671 strings out of 492945
+ 474304 string characters out of 3126252
+ 1008441 words of memory out of 3000000
+ 27920 multiletter control sequences out of 15000+200000
+ 637540 words of font info for 142 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  44i,8n,63p,881b,2461s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/nabow/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-maths
@@ -1208,9 +1288,9 @@ ams/MiKTeX 2.9/fonts/type1/public/lm/lmro10.pfb><C:/Users/nabow/AppData/Local/P
 rograms/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Users/nabow/AppData/Loc
 al/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmsy8.pfb><C:/Users/nabow/AppData/
 Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmsy9.pfb>
-Output written on "Progetto Federated Learning.pdf" (52 pages, 752841 bytes).
+Output written on "Progetto Federated Learning.pdf" (53 pages, 746402 bytes).
 PDF statistics:
- 1713 PDF objects out of 1728 (max. 8388607)
- 1128 named destinations out of 1200 (max. 500000)
- 34005 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 1651 PDF objects out of 1728 (max. 8388607)
+ 1154 named destinations out of 1200 (max. 500000)
+ 33853 words of extra memory for PDF output out of 35830 (max. 10000000)
 

@@ -10,48 +10,48 @@
 \contentsline {section}{\numberline {2.1}Concorrenza in Scrittura}{3}{section.2.1}% 
 \contentsline {section}{\numberline {2.2}Implementazione}{3}{section.2.2}% 
 \contentsline {subsection}{\numberline {2.2.1}Data Collector}{3}{subsection.2.2.1}% 
-\contentsline {subsection}{\numberline {2.2.2}Data Generator}{5}{subsection.2.2.2}% 
-\contentsline {subsection}{\numberline {2.2.3}Repository Handler}{8}{subsection.2.2.3}% 
+\contentsline {subsection}{\numberline {2.2.2}Data Generator}{6}{subsection.2.2.2}% 
+\contentsline {subsection}{\numberline {2.2.3}Repository Handler}{9}{subsection.2.2.3}% 
 \contentsline {subsection}{\numberline {2.2.4}Model Caller}{14}{subsection.2.2.4}% 
-\contentsline {chapter}{\numberline {3}Comunicazione tra i Nodi e il Sink}{17}{chapter.3}% 
-\contentsline {section}{\numberline {3.1}Descrizione del Problema}{17}{section.3.1}% 
-\contentsline {subsection}{\numberline {3.1.1}Comunicazione da Nodo a Sink}{18}{subsection.3.1.1}% 
-\contentsline {subsection}{\numberline {3.1.2}Comunicazione da Sink a Nodo}{18}{subsection.3.1.2}% 
-\contentsline {subsection}{\numberline {3.1.3}Registrazione di un nuovo Nodo}{18}{subsection.3.1.3}% 
-\contentsline {section}{\numberline {3.2}Implementazione}{19}{section.3.2}% 
-\contentsline {subsection}{\numberline {3.2.1}abstract class CommunicationModelHandler}{19}{subsection.3.2.1}% 
-\contentsline {subsection}{\numberline {3.2.2}NodeCommunicationModelHandler}{21}{subsection.3.2.2}% 
-\contentsline {subsubsection}{\numberline {3.2.2.1}initRPC()}{21}{subsubsection.3.2.2.1}% 
-\contentsline {subsubsection}{\numberline {3.2.2.2}initNodeToSink()}{21}{subsubsection.3.2.2.2}% 
-\contentsline {subsubsection}{\numberline {3.2.2.3}initSinkToNode()}{22}{subsubsection.3.2.2.3}% 
-\contentsline {subsubsection}{\numberline {3.2.2.4}receiveModel(Model deliveredModel)}{23}{subsubsection.3.2.2.4}% 
-\contentsline {subsubsection}{\numberline {3.2.2.5}sendModel()}{23}{subsubsection.3.2.2.5}% 
-\contentsline {subsection}{\numberline {3.2.3}SinkCommunicationModelHandler}{24}{subsection.3.2.3}% 
-\contentsline {subsubsection}{\numberline {3.2.3.1}initRPC()}{24}{subsubsection.3.2.3.1}% 
-\contentsline {subsubsection}{\numberline {3.2.3.2}initNodeToSink()}{24}{subsubsection.3.2.3.2}% 
-\contentsline {subsubsection}{\numberline {3.2.3.3}initSinkToNode()}{25}{subsubsection.3.2.3.3}% 
-\contentsline {subsubsection}{\numberline {3.2.3.4}receiveModel(Model deliveredModel)}{25}{subsubsection.3.2.3.4}% 
-\contentsline {subsubsection}{\numberline {3.2.3.5}sendModel()}{26}{subsubsection.3.2.3.5}% 
-\contentsline {subsubsection}{\numberline {3.2.3.6}registration()}{27}{subsubsection.3.2.3.6}% 
-\contentsline {subsubsection}{\numberline {3.2.3.7}removeNode(int nodeID)}{27}{subsubsection.3.2.3.7}% 
-\contentsline {subsection}{\numberline {3.2.4}ModelMerger}{28}{subsection.3.2.4}% 
-\contentsline {subsection}{\numberline {3.2.5}RPCServer}{29}{subsection.3.2.5}% 
-\contentsline {subsection}{\numberline {3.2.6}Classi comuni tra Nodo e Sink}{31}{subsection.3.2.6}% 
-\contentsline {subsubsection}{\numberline {3.2.6.1}Model}{31}{subsubsection.3.2.6.1}% 
-\contentsline {subsubsection}{\numberline {3.2.6.2}ModelReceiver}{33}{subsubsection.3.2.6.2}% 
-\contentsline {subsubsection}{\numberline {3.2.6.3}Config}{34}{subsubsection.3.2.6.3}% 
-\contentsline {chapter}{\numberline {4}REST Server}{35}{chapter.4}% 
-\contentsline {section}{\numberline {4.1}Implementazione}{35}{section.4.1}% 
-\contentsline {subsection}{\numberline {4.1.1}Gestione delle richieste}{35}{subsection.4.1.1}% 
-\contentsline {chapter}{\numberline {5}Analisi dei Dati}{37}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Implementazione}{37}{section.5.1}% 
-\contentsline {subsection}{\numberline {5.1.1}Training}{38}{subsection.5.1.1}% 
-\contentsline {subsection}{\numberline {5.1.2}Validazione dei punti}{39}{subsection.5.1.2}% 
-\contentsline {subsection}{\numberline {5.1.3}Merging}{40}{subsection.5.1.3}% 
-\contentsline {subsection}{\numberline {5.1.4}Updating}{41}{subsection.5.1.4}% 
-\contentsline {chapter}{\numberline {6}Testing}{43}{chapter.6}% 
-\contentsline {section}{\numberline {6.1}Scenario}{43}{section.6.1}% 
-\contentsline {section}{\numberline {6.2}Risultati ottenuti}{44}{section.6.2}% 
-\contentsline {subsection}{\numberline {6.2.1}Generazione dei punti}{44}{subsection.6.2.1}% 
-\contentsline {subsection}{\numberline {6.2.2}Unione dei modelli}{46}{subsection.6.2.2}% 
-\contentsline {subsection}{\numberline {6.2.3}Aggiornamento dei modelli}{48}{subsection.6.2.3}% 
+\contentsline {chapter}{\numberline {3}Comunicazione tra i Nodi e il Sink}{18}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Descrizione del Problema}{18}{section.3.1}% 
+\contentsline {subsection}{\numberline {3.1.1}Comunicazione da Nodo a Sink}{19}{subsection.3.1.1}% 
+\contentsline {subsection}{\numberline {3.1.2}Comunicazione da Sink a Nodo}{19}{subsection.3.1.2}% 
+\contentsline {subsection}{\numberline {3.1.3}Registrazione di un nuovo Nodo}{19}{subsection.3.1.3}% 
+\contentsline {section}{\numberline {3.2}Implementazione}{20}{section.3.2}% 
+\contentsline {subsection}{\numberline {3.2.1}abstract class CommunicationModelHandler}{20}{subsection.3.2.1}% 
+\contentsline {subsection}{\numberline {3.2.2}NodeCommunicationModelHandler}{22}{subsection.3.2.2}% 
+\contentsline {subsubsection}{\numberline {3.2.2.1}initRPC()}{22}{subsubsection.3.2.2.1}% 
+\contentsline {subsubsection}{\numberline {3.2.2.2}initNodeToSink()}{22}{subsubsection.3.2.2.2}% 
+\contentsline {subsubsection}{\numberline {3.2.2.3}initSinkToNode()}{23}{subsubsection.3.2.2.3}% 
+\contentsline {subsubsection}{\numberline {3.2.2.4}receiveModel(Model deliveredModel)}{24}{subsubsection.3.2.2.4}% 
+\contentsline {subsubsection}{\numberline {3.2.2.5}sendModel()}{24}{subsubsection.3.2.2.5}% 
+\contentsline {subsection}{\numberline {3.2.3}SinkCommunicationModelHandler}{25}{subsection.3.2.3}% 
+\contentsline {subsubsection}{\numberline {3.2.3.1}initRPC()}{25}{subsubsection.3.2.3.1}% 
+\contentsline {subsubsection}{\numberline {3.2.3.2}initNodeToSink()}{25}{subsubsection.3.2.3.2}% 
+\contentsline {subsubsection}{\numberline {3.2.3.3}initSinkToNode()}{26}{subsubsection.3.2.3.3}% 
+\contentsline {subsubsection}{\numberline {3.2.3.4}receiveModel(Model deliveredModel)}{26}{subsubsection.3.2.3.4}% 
+\contentsline {subsubsection}{\numberline {3.2.3.5}sendModel()}{27}{subsubsection.3.2.3.5}% 
+\contentsline {subsubsection}{\numberline {3.2.3.6}registration()}{28}{subsubsection.3.2.3.6}% 
+\contentsline {subsubsection}{\numberline {3.2.3.7}removeNode(int nodeID)}{28}{subsubsection.3.2.3.7}% 
+\contentsline {subsection}{\numberline {3.2.4}ModelMerger}{29}{subsection.3.2.4}% 
+\contentsline {subsection}{\numberline {3.2.5}RPCServer}{30}{subsection.3.2.5}% 
+\contentsline {subsection}{\numberline {3.2.6}Classi comuni tra Nodo e Sink}{32}{subsection.3.2.6}% 
+\contentsline {subsubsection}{\numberline {3.2.6.1}Model}{32}{subsubsection.3.2.6.1}% 
+\contentsline {subsubsection}{\numberline {3.2.6.2}ModelReceiver}{34}{subsubsection.3.2.6.2}% 
+\contentsline {subsubsection}{\numberline {3.2.6.3}Config}{35}{subsubsection.3.2.6.3}% 
+\contentsline {chapter}{\numberline {4}REST Server}{36}{chapter.4}% 
+\contentsline {section}{\numberline {4.1}Implementazione}{36}{section.4.1}% 
+\contentsline {subsection}{\numberline {4.1.1}Gestione delle richieste}{36}{subsection.4.1.1}% 
+\contentsline {chapter}{\numberline {5}Analisi dei Dati}{38}{chapter.5}% 
+\contentsline {section}{\numberline {5.1}Implementazione}{38}{section.5.1}% 
+\contentsline {subsection}{\numberline {5.1.1}Training}{39}{subsection.5.1.1}% 
+\contentsline {subsection}{\numberline {5.1.2}Validazione dei punti}{40}{subsection.5.1.2}% 
+\contentsline {subsection}{\numberline {5.1.3}Merging}{41}{subsection.5.1.3}% 
+\contentsline {subsection}{\numberline {5.1.4}Updating}{42}{subsection.5.1.4}% 
+\contentsline {chapter}{\numberline {6}Testing}{44}{chapter.6}% 
+\contentsline {section}{\numberline {6.1}Scenario}{44}{section.6.1}% 
+\contentsline {section}{\numberline {6.2}Risultati ottenuti}{45}{section.6.2}% 
+\contentsline {subsection}{\numberline {6.2.1}Generazione dei punti}{45}{subsection.6.2.1}% 
+\contentsline {subsection}{\numberline {6.2.2}Unione dei modelli}{47}{subsection.6.2.2}% 
+\contentsline {subsection}{\numberline {6.2.3}Aggiornamento dei modelli}{49}{subsection.6.2.3}% 
