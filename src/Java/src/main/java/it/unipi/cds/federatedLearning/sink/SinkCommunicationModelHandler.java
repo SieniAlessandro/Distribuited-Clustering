@@ -4,6 +4,7 @@ import com.rabbitmq.client.Connection;
 import it.unipi.cds.federatedLearning.*;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -150,10 +151,14 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
             nodeList += Integer.valueOf(i);
             nodeList += ',';
         }
-        nodeList = nodeList.substring(0, nodeList.length() - 1);
+        if (!nodeList.equals(""))
+            nodeList = nodeList.substring(0, nodeList.length() - 1);
 
         String filename = Config.PATH_SINK_POOL_SIZE + "nodeList.txt";
+        File file = new File(filename);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            if (!file.exists())
+                file.createNewFile();
             writer.flush();
             writer.write(nodeList);
         } catch (IOException e) {
