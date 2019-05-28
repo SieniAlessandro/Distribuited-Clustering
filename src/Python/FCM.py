@@ -44,9 +44,12 @@ class FCM:
         cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(centers.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
         mergedModel = {}
         mergedModel["centers"] = cntr.tolist()
+        with open("../../dataSink/nodeList.txt","r") as nodeListFile:
+            nodeList = nodeListFile.readline(0).split(",")
+        print(nodeList)
         #Computing the mean Minumum distance for the new centers from the old centers
-        for i in range(1,nodes+1):
-            with open(BASE_MODEL_SINK_PATH+str(i)+".json","r") as model:
+        for i in range(0,len(nodeList)):
+            with open(BASE_MODEL_SINK_PATH+str(nodeList[i])+".json","r") as model:
                 oldcntrs = np.array(json.load(model)["centers"])
 
             indexes = np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
@@ -57,9 +60,9 @@ class FCM:
             if(np.unique(minDistancesIndex).shape[0] == minDistancesIndex.shape[0]):
                 #Compute the mean of the distances
                 meanDistance = np.mean(minDistances)
-                mergedModel[str(i)] = self.associate(meanDistance)
+                mergedModel[str(nodeList[i])] = self.associate(meanDistance)
             else:
-                mergedModel[str(i)] = 0
+                mergedModel[str(nodeList[i])] = 0
 
         jsonToSave = {}
         jsonToSave["newcenters"] = cntr.tolist()
