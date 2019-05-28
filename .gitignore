@@ -1,2 +1,3 @@
-src/data
-src/Python/__pycache__/
+src/data/newModel.json
+src/Python/__pycache__/Utils.cpython-37.pyc
+src/Python/__pycache__/FCM.cpython-37.pyc
