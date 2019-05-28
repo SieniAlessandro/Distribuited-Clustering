@@ -3,6 +3,8 @@ package it.unipi.cds.federatedLearning.sink;
 import com.rabbitmq.client.Connection;
 import it.unipi.cds.federatedLearning.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -123,6 +125,7 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
      */
     public String registration() {
         isNew.put(nextID,false);
+        updateFileSizePool();
         String nodeID = String.valueOf(nextID);
         Log.info("Sink", "New node requesting registration. New node id: " + nodeID + " | Current nodes: " + isNew.size());
         nextID++;
@@ -132,11 +135,30 @@ public class SinkCommunicationModelHandler extends CommunicationModelHandler {
     public String removeNode(int nodeID) {
         if (isNew.containsKey(nodeID)) {
             isNew.remove(nodeID);
+            updateFileSizePool();
             Log.info("Sink", "Node "+ nodeID + " is leaving. Current nodes: " + isNew.size());
             return "OK";
         }
         Log.error("Sink", "Node "+ nodeID + " not found. Current nodes: " + isNew.size());
         return "NOT FOUND";
+    }
+
+    private void updateFileSizePool() {
+        String nodeList = "";
+
+        for ( int i : isNew.keySet()) {
+            nodeList += Integer.valueOf(i);
+            nodeList += ',';
+        }
+        nodeList = nodeList.substring(0, nodeList.length() - 1);
+
+        String filename = Config.PATH_SINK_POOL_SIZE + "nodeList.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            writer.flush();
+            writer.write(nodeList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
