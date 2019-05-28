@@ -31,50 +31,52 @@ class FCM:
             return 0.5
         else:
             return 0
-    def merge(self,nodes):
+    def merge(self):
         with open("../../dataSink/nodeList.txt","r") as nodeListFile:
             nodeList = nodeListFile.readline().split(",")
-        print(nodeList)
-        #Obtaining the centers
-        with open(BASE_MODEL_SINK_PATH+str(nodeList[0])+".json","r") as model:
-            centers = np.array(json.load(model)["centers"],dtype=float)
-        for i in range(1,len(nodeList)):
-            #Opening the file and concatenating the centers
-            with open(BASE_MODEL_SINK_PATH+str(nodeList[i])+".json","r") as model:
-                nodeCntrs = np.array(json.load(model)["centers"],dtype=float)
-                centers = np.vstack((centers,nodeCntrs))
+        if len(nodeList) > 1:
+            #Obtaining the centers
+            with open(BASE_MODEL_SINK_PATH+str(nodeList[0])+".json","r") as model:
+                centers = np.array(json.load(model)["centers"],dtype=float)
+            for i in range(1,len(nodeList)):
+                #Opening the file and concatenating the centers
+                with open(BASE_MODEL_SINK_PATH+str(nodeList[i])+".json","r") as model:
+                    nodeCntrs = np.array(json.load(model)["centers"],dtype=float)
+                    centers = np.vstack((centers,nodeCntrs))
 
-        cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(centers.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
-        mergedModel = {}
-        mergedModel["centers"] = cntr.tolist()
-      
-        #Computing the mean Minumum distance for the new centers from the old centers
-        for i in range(0,len(nodeList)):
-            with open(BASE_MODEL_SINK_PATH+str(nodeList[i])+".json","r") as model:
-                oldcntrs = np.array(json.load(model)["centers"])
+            cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(centers.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
+            mergedModel = {}
+            mergedModel["centers"] = cntr.tolist()
+        
+            #Computing the mean Minumum distance for the new centers from the old centers
+            for i in range(0,len(nodeList)):
+                with open(BASE_MODEL_SINK_PATH+str(nodeList[i])+".json","r") as model:
+                    oldcntrs = np.array(json.load(model)["centers"])
 
-            indexes = np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
-            #Calculating the minimum value along the row
-            minDistances = np.amin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
-            minDistancesIndex =  np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
-            #Check if there are at least a repetition
-            if(np.unique(minDistancesIndex).shape[0] == minDistancesIndex.shape[0]):
-                #Compute the mean of the distances
-                meanDistance = np.mean(minDistances)
-                mergedModel[str(nodeList[i])] = self.associate(meanDistance)
-            else:
-                mergedModel[str(nodeList[i])] = 0
+                indexes = np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
+                #Calculating the minimum value along the row
+                minDistances = np.amin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
+                minDistancesIndex =  np.argmin(cdist(cntr,oldcntrs,metric='euclidean'),axis=1)
+                #Check if there are at least a repetition
+                if(np.unique(minDistancesIndex).shape[0] == minDistancesIndex.shape[0]):
+                    #Compute the mean of the distances
+                    meanDistance = np.mean(minDistances)
+                    mergedModel[str(nodeList[i])] = self.associate(meanDistance)
+                else:
+                    mergedModel[str(nodeList[i])] = 0
 
-        jsonToSave = {}
-        jsonToSave["newcenters"] = cntr.tolist()
-        jsonToSave["oldcenters"] = centers.tolist()
-        save(1,0,"MergedModel_"+str(time.time()),jsonToSave)
+            jsonToSave = {}
+            jsonToSave["newcenters"] = cntr.tolist()
+            jsonToSave["oldcenters"] = centers.tolist()
+            save(1,0,"MergedModel_"+str(time.time()),jsonToSave)
 
 
-        #Saving the new Model
-        with open(MERGED_MODEL_PATH,"w") as mergedModelFile:
-            json.dump(mergedModel,mergedModelFile)
-        return "Models merged",201
+            #Saving the new Model
+            with open(MERGED_MODEL_PATH,"w") as mergedModelFile:
+                json.dump(mergedModel,mergedModelFile)
+            return "Models merged",201
+        else:
+            return "not sufficient files",204
 
     def train(self, id,coeff,window,values):
         #Retriving the dataframe related to the generated file

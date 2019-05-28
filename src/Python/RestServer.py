@@ -8,7 +8,7 @@ class Server(Resource):
         if(request.json['command'] == "Train"):
             return FCM().train(request.json['ID'],request.json["Coeff"],request.json["Window"],request.json['values'])
         elif (request.json['command'] == "Merge"):
-            return FCM().merge(int(request.json['nodes']))
+            return FCM().merge()
         elif (request.json["command"] == "Update"):
             return FCM().update(int(request.json["ID"]))
         else:
