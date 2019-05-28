@@ -32,21 +32,22 @@ class FCM:
         else:
             return 0
     def merge(self,nodes):
+        with open("../../dataSink/nodeList.txt","r") as nodeListFile:
+            nodeList = nodeListFile.readline(0).split(",")
+        print(nodeList)
         #Obtaining the centers
-        with open(BASE_MODEL_SINK_PATH+"1.json","r") as model:
+        with open(BASE_MODEL_SINK_PATH+str(nodeList[0])+".json","r") as model:
             centers = np.array(json.load(model)["centers"],dtype=float)
-        for i in range(2,nodes+1):
+        for i in range(1,len(nodeList)):
             #Opening the file and concatenating the centers
-            with open(BASE_MODEL_SINK_PATH+str(i)+".json","r") as model:
+            with open(BASE_MODEL_SINK_PATH+str(nodeList[i])+".json","r") as model:
                 nodeCntrs = np.array(json.load(model)["centers"],dtype=float)
                 centers = np.vstack((centers,nodeCntrs))
 
         cntr,u_orig, _, _, _, _, _ = fuzz.cluster.cmeans(centers.T,CLUSTERS,2,error=ERROR_THRESHOLD,maxiter = MAX_ITER)
         mergedModel = {}
         mergedModel["centers"] = cntr.tolist()
-        with open("../../dataSink/nodeList.txt","r") as nodeListFile:
-            nodeList = nodeListFile.readline(0).split(",")
-        print(nodeList)
+      
         #Computing the mean Minumum distance for the new centers from the old centers
         for i in range(0,len(nodeList)):
             with open(BASE_MODEL_SINK_PATH+str(nodeList[i])+".json","r") as model:
