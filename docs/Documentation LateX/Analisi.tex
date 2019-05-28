@@ -19,12 +19,12 @@ Per realizzare queste analisi ci siamo avvalsi del linguaggio Python e di una li
 
 Una volta generati i valori sul nodo verrà calcolato il modello come specificato nel seguente codice:
 
-\lstinputlisting[language=Python,firstline=75, lastline=114]{../../src/Python/FCM.py}
+\lstinputlisting[language=Python,firstline=81, lastline=120]{../../src/Python/FCM.py}
 \subsection{Validazione dei punti}
 Come spiegato precedentemente però non sempre un modello deve essere ricalcolato, in quanto ci possono essere dei punti appena generati che sono outlier e che quindi possono sporcare il modello (nelle analisi abbiamo considerato come limite di outlier accettabile un quarto dei nuovi valori inseriti).
 Questo processo ovviamente non si applica alla generazione del primo modello, in quanto non avendo un base di partenza, tutti i punti vengono considerati buoni.
 
-\lstinputlisting[language=Python,firstline=115, lastline= 138]{../../src/Python/FCM.py}
+\lstinputlisting[language=Python,firstline=121, lastline= 142]{../../src/Python/FCM.py}
 
 \subsection{Merging}
 
@@ -32,7 +32,7 @@ Il sink invece ha il compito di unire tutti i modelli ricevuti in un unico gener
 
 Per effettuare questa unione è stato deciso di riapplicare un Fuzzy C-Means avendo come dati in input i centri stessi ricevuti, al fine di ottenere dei nuovi centroidi che siano migliori, sfruttando le informazioni ricevute. In aggiunta per garantire un'accuretezza migliore nei confronti dei nodi, dopo aver generato questo nuovo modello, si andrà a calcolare quanto differisce da ciascun modello di partenza, in quanto ci possono essere dei modelli che sono totalmente differenti dalla maggior parte, in quanto i valori possono essere stati generati in diverse condizioni. Per garantire anche a questi nodi di aver il miglior modello possibile viene inviato, insieme al modello unito, anche un peso per ciascun nodo - che varia tra 0 e 1 - indicante la rilevanza del modello unito rispetto a quello di partenza.
 
-\lstinputlisting[language=Python,firstline=34, lastline=73]{../../src/Python/FCM.py}
+\lstinputlisting[language=Python,firstline=34, lastline=79]{../../src/Python/FCM.py}
 
 \subsection{Updating}
 
@@ -44,4 +44,4 @@ Infine, una volta che ciascun nodo ha ricevuto il modello unito dal sink, il nod
   \item 1 :  Il nodo deve usare solo il modello ricevuto dal sink, e scartare il proprio.
 \end{itemize}
 
-\lstinputlisting[language=Python,firstline=139, lastline= 164]{../../src/Python/FCM.py}
+\lstinputlisting[language=Python,firstline=143, lastline= 168]{../../src/Python/FCM.py}
