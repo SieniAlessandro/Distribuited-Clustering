@@ -27,8 +27,8 @@ public class DataCollector {
 	/*
 	 * Testing variables
 	 */
-	public final static int numberOfThreads = 100; 
-	public final static int numberOfWrites = 10;
+	public final static int numberOfThreads = 200; 
+	public final static int numberOfWrites = 20;
 	
 	public static boolean aModelIsBeingGeneratedNow = false;
 	public static NodeCommunicationModelHandler nodeCommunicationHandler;
