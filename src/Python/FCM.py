@@ -33,7 +33,7 @@ class FCM:
             return 0
     def merge(self,nodes):
         with open("../../dataSink/nodeList.txt","r") as nodeListFile:
-            nodeList = nodeListFile.readline(0).split(",")
+            nodeList = nodeListFile.readline().split(",")
         print(nodeList)
         #Obtaining the centers
         with open(BASE_MODEL_SINK_PATH+str(nodeList[0])+".json","r") as model:
