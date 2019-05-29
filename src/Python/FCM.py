@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from Utils import save
 
 ERROR_THRESHOLD = 0.005
-DISTANCE_THRESHOLD = 30
+DISTANCE_THRESHOLD = 50
 VALUES_THRESHOLD = 2
 MAX_ITER = 1000
 NEW_VALUES = -5
