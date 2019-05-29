@@ -22,5 +22,5 @@ public class Config {
      * Generating parameters
      */
     public static final int MEAN = 30;
-    public static final int ST_DEV = 5;
+    public static final int ST_DEV = 15;
 }
